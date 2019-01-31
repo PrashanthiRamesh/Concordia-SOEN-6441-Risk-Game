@@ -7,6 +7,8 @@ public class Main {
 		GameMenu gameMenu=new GameMenu();
 		gameMenu.display();
 		gameMenu.select();
+		
+	    System.out.println("testting");
 	}
 	
 	
