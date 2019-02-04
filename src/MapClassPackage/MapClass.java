@@ -1,7 +1,9 @@
 package MapClassPackage;
 
+import java.io.BufferedReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,39 +36,51 @@ public class MapClass {
 	 */
 	private HashMap<String,Integer> noofcountries;
 	
+	
+	public MapClass()
+	{
+		continents=new HashMap<String,Integer>();
+		adj_countries=new HashMap<String,ArrayList<String>>();
+		noofcountries=new HashMap<String,Integer>();
+	}
 	/**
 	 * populateMap loads the map form the console.
+	 * @throws IOException 
 	 */
-	public void populateMap()
+	public void populateMap() throws IOException
 	{
-		Scanner sc=new Scanner(System.in);
+		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Enter the number of Continents");
-		noofcontinents=sc.nextInt();
+		noofcontinents=Integer.parseInt(br.readLine());
 		System.out.println("Enter each Continent along with its control Value seperated with a space");
 	    for(int i=0;i<noofcontinents;i++)
 	    {
-	    	String[] temp=sc.nextLine().split(" ");
+	    
+	    	String temp_str=br.readLine();
+	    	System.out.println(temp_str);
+	    	String[] temp=temp_str.split(" ");
+	    	System.out.println(temp.length);
 	    	continents.put(temp[0], Integer.parseInt(temp[1]));
 	    }
 		for(String continent:continents.keySet())
 		{
 			System.out.println("Enter the Number of countries in "+ continent);
-			noofcountries.put(continent, sc.nextInt());
+			noofcountries.put(continent, Integer.parseInt(br.readLine()));
 		    System.out.println("Enter the all the Countries Along with with their neighbours seperated by comma starting a new line for each country");
-			while(sc.hasNextLine())
+			for(int j=0;j<noofcountries.get(continent);j++)
 			{
-				String[] temp=sc.nextLine().split(",");
+				String[] temp=br.readLine().split(",");
 				ArrayList<String> temp_list=new ArrayList<String>();
 				for(int i=1;i<temp.length;i++)
 				{
 					temp_list.add(temp[i]);
 				}
-				adj_countries.put(temp[1],temp_list);
+				adj_countries.put(temp[0],temp_list);
 			}
 		    
 		}
 	    
-	}
+}
 	
 	/**
 	 * Writes the Map to a text file.
@@ -86,13 +100,16 @@ public class MapClass {
 		pw.println("[Territories]");
 		for(String country:adj_countries.keySet())
 		{
+			System.out.println(adj_countries);
 			pw.write(country+","+"0,0,");
-			for(int i=1;i<adj_countries.get(country).size();i++)
+			for(int i=0;i<adj_countries.get(country).size();i++)
 			{
 				pw.write(adj_countries.get(country).get(i)+",");
 			}
 			pw.println();
 		}
+		fw.close();
+		pw.close();
 	}
 
 	public int getNoofcontinents() {

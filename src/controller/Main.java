@@ -1,14 +1,21 @@
 package controller;
 
+import java.io.IOException;
+
+import MapClassPackage.MapClass;
+
 public class Main {
 
-	public static void main(String args[]){
-		System.out.println("Get Ready to play Conquest!\n");
-		GameMenu gameMenu=new GameMenu();
-		gameMenu.display();
-		gameMenu.select();
+	public static void main(String args[]) throws IOException{
+//		System.out.println("Get Ready to play Conquest!\n");
+//		GameMenu gameMenu=new GameMenu();
+//		gameMenu.display();
+//		gameMenu.select();
 		
-	    System.out.println("testting");
+		MapClass map=new MapClass();
+		map.populateMap();
+		map.writeTheMapToTheTextFile();
+		
 	}
 	
 	
