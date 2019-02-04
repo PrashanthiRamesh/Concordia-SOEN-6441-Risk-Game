@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 
+import MapClassPackage.LoadMapFromFile;
 import MapClassPackage.MapClass;
 
 public class Main {
@@ -12,9 +13,14 @@ public class Main {
 //		gameMenu.display();
 //		gameMenu.select();
 		
-		MapClass map=new MapClass();
-		map.populateMap();
-		map.writeTheMapToTheTextFile();
+//		MapClass map=new MapClass();
+//		map.populateMap();
+//		map.writeTheMapToTheTextFile();
+		
+	    LoadMapFromFile lm=new LoadMapFromFile();
+	    lm.loapMap();
+	    lm.writeTheMapToTheTextFile();
+		
 		
 	}
 	
