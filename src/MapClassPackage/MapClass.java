@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
-import CountryPackage.CountryClass;
+import country.Country;
 import player.Player;
 
 /**
@@ -39,7 +39,7 @@ public class MapClass {
 	 */
 	private HashMap<String,Integer> noofcountries;
 	
-	private ArrayList<CountryClass> countries;
+	private ArrayList<Country> countries;
 	
 	
 	public MapClass()
@@ -142,13 +142,13 @@ public class MapClass {
 	
 	public void assignPlayersToCountries(ArrayList<Player> players,int no_of_players)
 	{
-		countries=new ArrayList<CountryClass>();
+		countries=new ArrayList<Country>();
 		int temp=0;
 		for(String var:adj_countries.keySet())
 		{
 			int rand_temp=randInt(0,no_of_players-1);
 			System.out.println(rand_temp+" "+no_of_players);
-			countries.add(new CountryClass(var,players.get(rand_temp).getPlayername(),0));	
+			countries.add(new Country(var,players.get(rand_temp).getPlayername(),0));	
 		}	
 		
 	}
@@ -163,10 +163,10 @@ public class MapClass {
 		return noofcontinents;
 	}
 
-	public ArrayList<CountryClass> getCountries() {
+	public ArrayList<Country> getCountries() {
 		return countries;
 	}
-	public void setCountries(ArrayList<CountryClass> countries) {
+	public void setCountries(ArrayList<Country> countries) {
 		this.countries = countries;
 	}
 	public int getNoof_adjacentcountries() {

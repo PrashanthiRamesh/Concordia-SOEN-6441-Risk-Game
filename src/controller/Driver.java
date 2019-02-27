@@ -4,9 +4,10 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import CountryPackage.CountryClass;
+
 import MapClassPackage.LoadMapFromFile;
 import MapClassPackage.MapClass;
+import country.Country;
 import player.Player;
 
 public class Driver {
@@ -15,7 +16,7 @@ public class Driver {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		ArrayList<Player> players;
 		MapClass map = null;
-		CountryClass country_class;
+		Country country_class;
 		System.out.println("Get Ready to play Conquest!\n");
 		System.out.println("1.Create Map From Console \n2.Load from a File");
 		OUTER:
