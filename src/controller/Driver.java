@@ -10,6 +10,11 @@ import map.LoadMapFromFile;
 import map.Map;
 import player.Player;
 
+/**
+ * @author Maqsood
+ * Driver Class
+ *
+ */
 public class Driver {
 
 	public static void main(String args[]) throws IOException{
