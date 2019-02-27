@@ -2,12 +2,13 @@ package GamePlayPackage;
 
 import java.util.ArrayList;
 
-import PlayerPackgae.PlayerClass;
+
+import player.Player;
 
 public class GamePlay {
 
 	
-	public void reinforcementphase(ArrayList<PlayerClass> players)
+	public void reinforcementphase(ArrayList<Player> players)
 	{
 		
 		
@@ -16,7 +17,7 @@ public class GamePlay {
 	}
 	
 	
-	public void attackphase(ArrayList<PlayerClass> players)
+	public void attackphase(ArrayList<Player> players)
 	{
 		
 		
@@ -26,7 +27,7 @@ public class GamePlay {
 	}
 	
 	
-	public void  fortificationsphase(ArrayList<PlayerClass> players)
+	public void  fortificationsphase(ArrayList<Player> players)
 	{
 		
 		

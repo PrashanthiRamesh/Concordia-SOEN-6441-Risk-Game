@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import CountryPackage.CountryClass;
 import MapClassPackage.LoadMapFromFile;
 import MapClassPackage.MapClass;
-import PlayerPackgae.PlayerClass;
+import player.Player;
 
 public class Driver {
 
 	public static void main(String args[]) throws IOException{
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		ArrayList<PlayerClass> players;
+		ArrayList<Player> players;
 		MapClass map = null;
 		CountryClass country_class;
 		System.out.println("Get Ready to play Conquest!\n");
@@ -63,12 +63,12 @@ public class Driver {
 			try
 			{
 				int temp_num=Integer.parseInt(br.readLine());
-				players=new ArrayList<PlayerClass>(temp_num);
+				players=new ArrayList<Player>(temp_num);
 				for(int i=0;i<temp_num;i++)
 				{
 					System.out.println("Enter player "+i+" name");
 					String temp_name=br.readLine();
-					players.add(new PlayerClass(temp_name,0));
+					players.add(new Player(temp_name,0));
 				}
 				break;
 			}

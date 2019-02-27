@@ -1,5 +1,4 @@
 package MapClassPackage;
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,9 +7,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 /**
- * @author admin
+ * @author Prashanthi
  * Loads the Map From The File.
  */
 public class LoadMapFromFile {
@@ -27,9 +25,12 @@ public class LoadMapFromFile {
 	/**
 	 * Constructor to Initialize the the class variables.
 	 */
-	public LoadMapFromFile() {
+	private String filename;
+	
+	public LoadMapFromFile(String filename) {
 		continents = new HashMap<String, Integer>();
 		adj_countries = new HashMap<String, ArrayList<String>>();
+		this.filename=filename;
 	}
 
 	/**
@@ -37,7 +38,7 @@ public class LoadMapFromFile {
 	 * @throws IOException
 	 */
 	public void loapMap() throws IOException {
-		FileReader fir = new FileReader("input.txt");
+		FileReader fir = new FileReader(filename);
 		BufferedReader bir = new BufferedReader(fir);
 
 		while (!bir.readLine().trim().equals("[Continents]")) {
