@@ -1,4 +1,4 @@
-package MapClassPackage;
+package map;
 
 import java.io.BufferedReader;
 import java.io.FileWriter;
@@ -17,7 +17,7 @@ import player.Player;
  * Map Class Loads the maps form the Console and form the file.
  *
  */
-public class MapClass {
+public class Map {
 	/**
 	 * Holds the Number of continents in the Map.
 	 */
@@ -42,7 +42,7 @@ public class MapClass {
 	private ArrayList<Country> countries;
 	
 	
-	public MapClass()
+	public Map()
 	{
 		continents=new HashMap<String,Integer>();
 		adj_countries=new HashMap<String,ArrayList<String>>();
