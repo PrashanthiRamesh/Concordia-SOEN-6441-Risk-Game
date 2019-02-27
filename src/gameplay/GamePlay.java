@@ -6,8 +6,7 @@ import player.Player;
 
 /**
  * 
- * @author Suthakhar
- * GamePlay Class
+ * @author Suthakhar GamePlay Class
  */
 public class GamePlay {
 

@@ -2,8 +2,7 @@ package player;
 
 /**
  * 
- * @author Manasa
- * Player Class
+ * @author Manasa Player Class
  */
 public class Player {
 

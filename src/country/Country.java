@@ -1,8 +1,7 @@
 package country;
 
 /**
- * @author Mutesham
- * Country Class
+ * @author Mutesham Country Class
  */
 public class Country {
 

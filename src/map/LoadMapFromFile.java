@@ -1,4 +1,5 @@
 package map;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,12 +8,12 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 /**
- * @author Prashanthi
- * Loads the Map From The File.
+ * @author Prashanthi Loads the Map From The File.
  */
 public class LoadMapFromFile {
-    
+
 	/**
 	 * Stores the Continents along with their Control Values.
 	 */
@@ -26,15 +27,16 @@ public class LoadMapFromFile {
 	 * Constructor to Initialize the the class variables.
 	 */
 	private String filename;
-	
+
 	public LoadMapFromFile(String filename) {
 		continents = new HashMap<String, Integer>();
 		adj_countries = new HashMap<String, ArrayList<String>>();
-		this.filename=filename;
+		this.filename = filename;
 	}
 
 	/**
 	 * Loads the Map form the File.
+	 * 
 	 * @throws IOException
 	 */
 	public void loapMap() throws IOException {
@@ -71,9 +73,10 @@ public class LoadMapFromFile {
 		}
 
 	}
-    
+
 	/**
 	 * Writes the Map to the File.
+	 * 
 	 * @throws IOException
 	 */
 	public void writeTheMapToTheTextFile() throws IOException {
