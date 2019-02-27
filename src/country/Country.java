@@ -1,11 +1,11 @@
-package CountryPackage;
+package country;
 
-public class CountryClass {
+public class Country {
 
 	String countryName;
 	String belongsTo;
 	int armies;
-	public CountryClass(String countryName, String belongsTo, int armies) {
+	public Country(String countryName, String belongsTo, int armies) {
 		this.countryName = countryName;
 		this.belongsTo = belongsTo;
 		this.armies = armies;
