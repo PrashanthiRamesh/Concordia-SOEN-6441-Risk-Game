@@ -1,12 +1,12 @@
-package PlayerPackgae;
+package player;
 
-public class PlayerClass {
+public class Player {
 
 	private String playername;
 	private int initialarmies;
 	
 	
-	public PlayerClass(String playername, int initialarmies) {
+	public Player(String playername, int initialarmies) {
 		this.playername = playername;
 		this.initialarmies = initialarmies;
 	}
