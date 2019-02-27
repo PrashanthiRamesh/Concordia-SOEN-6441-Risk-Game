@@ -7,7 +7,10 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Scanner;
+import java.util.Random;
+
+import CountryPackage.CountryClass;
+import player.Player;
 
 /**
  * @author Maqsood
@@ -36,6 +39,8 @@ public class MapClass {
 	 */
 	private HashMap<String,Integer> noofcountries;
 	
+	private ArrayList<CountryClass> countries;
+	
 	
 	public MapClass()
 	{
@@ -52,15 +57,36 @@ public class MapClass {
 		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
 		System.out.println("Enter the number of Continents");
 		noofcontinents=Integer.parseInt(br.readLine());
-		System.out.println("Enter each Continent along with its control Value seperated with a space");
+		System.out.println("Enter each Continent along with its control Value seperated with =");
 	    for(int i=0;i<noofcontinents;i++)
 	    {
-	    
 	    	String temp_str=br.readLine();
 	    	System.out.println(temp_str);
-	    	String[] temp=temp_str.split(" ");
-	    	System.out.println(temp.length);
-	    	continents.put(temp[0], Integer.parseInt(temp[1]));
+	    	String[] temp=temp_str.split("=");
+	    	
+	    	if(!continents.containsKey(temp[0]))
+	    	{
+	    	if(temp.length!=2)
+	    	{
+	    		System.out.println("Incorrect Input : Provide continent along with its control value");
+	    		i--;
+	    	}
+	    	else if(!temp[1].matches(".*\\d+.*"))
+	    	{
+	    		System.out.println(" Incorrect Input :The Control Value should be a Numeric");
+	    		i--;
+	    	}
+	    	else
+	    	{
+	    		continents.put(temp[0], Integer.parseInt(temp[1]));
+	    	}
+	    	}
+	    	else
+	    	{
+	    		System.out.println("Continent Already Exists: please Renenter with correct Continent name");
+	    	    i--;
+	    	
+	    	}
 	    }
 		for(String continent:continents.keySet())
 		{
@@ -73,7 +99,10 @@ public class MapClass {
 				ArrayList<String> temp_list=new ArrayList<String>();
 				for(int i=1;i<temp.length;i++)
 				{
+					if(!temp[i].equals(temp[0]))
 					temp_list.add(temp[i]);
+					else
+					System.out.println("A country Cannot be neighbour to itself");
 				}
 				adj_countries.put(temp[0],temp_list);
 			}
@@ -81,7 +110,6 @@ public class MapClass {
 		}
 	    
 }
-	
 	/**
 	 * Writes the Map to a text file.
 	 * @throws IOException 
@@ -111,11 +139,36 @@ public class MapClass {
 		fw.close();
 		pw.close();
 	}
+	
+	public void assignPlayersToCountries(ArrayList<Player> players,int no_of_players)
+	{
+		countries=new ArrayList<CountryClass>();
+		int temp=0;
+		for(String var:adj_countries.keySet())
+		{
+			int rand_temp=randInt(0,no_of_players-1);
+			System.out.println(rand_temp+" "+no_of_players);
+			countries.add(new CountryClass(var,players.get(rand_temp).getPlayername(),0));	
+		}	
+		
+	}
+	public static int randInt(int min, int max) {
+
+	    Random rand = new Random();
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+	    return randomNum;
+	}
 
 	public int getNoofcontinents() {
 		return noofcontinents;
 	}
 
+	public ArrayList<CountryClass> getCountries() {
+		return countries;
+	}
+	public void setCountries(ArrayList<CountryClass> countries) {
+		this.countries = countries;
+	}
 	public int getNoof_adjacentcountries() {
 		return noof_adjacentcountries;
 	}
