@@ -1,13 +1,14 @@
 package country;
 
 /**
- * @author Mutesham Country Class
+ * Country Class
+ * @author Mutesham
  */
 public class Country {
 
-	String countryName;
-	String belongsTo;
-	int armies;
+	private String countryName;
+	private String belongsTo;
+	private int armies;
 
 	public Country(String countryName, String belongsTo, int armies) {
 		this.countryName = countryName;

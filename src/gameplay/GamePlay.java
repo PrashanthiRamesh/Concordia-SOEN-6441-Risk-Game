@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import player.Player;
 
 /**
- * 
- * @author Suthakhar GamePlay Class
+ * GamePlay Class
+ * @author Suthakhar
  */
 public class GamePlay {
 
