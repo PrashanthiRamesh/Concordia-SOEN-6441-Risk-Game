@@ -1,7 +1,6 @@
 package controller;
 
 
-import country.Country;
 import map.RiskMap;
 import player.Player;
 
@@ -33,16 +32,40 @@ public class Driver {
      */
     public static void main(String args[]) throws IOException {
 
-        boolean map_flag = false;
-        while (!map_flag) {
+
+      label1:while(true){
             map = new RiskMap();
             getMapInput();
-            if (map.isMapConnected()) {
-                map_flag = true;
-                getPlayersInput();
-            } else {
-                System.out.println("**** Map is not connected and is invalid! Please start again! ****");
+            boolean edit_map_flag=false;
+            while(!edit_map_flag){
+                if (map.isMapConnected()) {
+                    System.out.println("****Map that is loaded is connected and valid!****");
+                    System.out.println("Do you want to edit the map?\nYes\nNo\n");
+                    boolean edit_map_choice_flag=false;
+                    while (!edit_map_choice_flag){
+                        String edit_map_choice=scan.next();
+                        if(edit_map_choice.equals("Yes")){
+                            edit_map_choice_flag=true;
+                            //call edit map method
+                            map.editMap();
+                            map.writeTheMapToTheTextFile();
+                        }else if(edit_map_choice.equals("No")){
+                            edit_map_choice_flag=true;
+                         //   map_flag = true;
+                            edit_map_flag=true;
+                            getPlayersInput();
+                        }else{
+                            System.out.println("Invalid! Enter either Yes or No: ");
+                        }
+                    }
+                } else {
+                    edit_map_flag=true;
+                    System.out.println("**** Map is not connected and is invalid! Please start again! ****");
+
+                    continue label1;
+                }
             }
+
         }
     }
 
@@ -98,8 +121,6 @@ public class Driver {
      *
      */
     private static void getPlayersInput() {
-        //TODO: when to edit the map?- add country, continent, adjacent countries (ask sardar)
-        System.out.println("****Map that is loaded is connected and valid!****");
         ArrayList<Player> players = null;
         boolean players_flag = false;
         System.out.println("Enter the number of players [2 to 6]: ");
@@ -112,7 +133,7 @@ public class Driver {
                     for (int i = 0; i < no_of_players; i++) {
                         System.out.println("Enter player " + (i + 1) + " name: ");
                         String player_name = scan.next();
-                        players.add(new Player(player_name, 0)); //TODO
+                        players.add(new Player(player_name, 0));
                     }
                 } else {
                     System.out.println("Invalid no of players! Enter again [2 to 6]:");
@@ -133,6 +154,8 @@ public class Driver {
         Player player_armies=new Player();
         player_armies.calculateArmies( players, map.getCountries());
     }
+
+
 
 
 

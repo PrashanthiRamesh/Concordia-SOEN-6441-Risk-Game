@@ -18,6 +18,9 @@ public class GamePlay {
 	public void reinforcement(ArrayList<Player> players) {
 
 
+
+
+
 	}
 
 	public void attack(ArrayList<Player> players) {

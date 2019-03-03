@@ -7,6 +7,7 @@ Middle East=5
 Europe=4
 Asia=6
 Australia=3
+ds=3
 [Territories]
 AA,0,0,AB,CA,
 AB,0,0,AA,AC,AF,AJ,
@@ -77,3 +78,5 @@ CN,0,0,CM,CO,CL,CK,
 CO,0,0,CL,CN,CP,
 CP,0,0,CO,CQ,
 CQ,0,0,CK,CP,AN,CF,
+d,0,0,
+v,0,0,

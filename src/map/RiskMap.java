@@ -119,24 +119,7 @@ public class RiskMap {
                 continent_flag = true;
                 no_of_continents = scan.nextInt();
                 System.out.println("Enter each Continent along with its control value separated with =");
-                for (int i = 0; i < no_of_continents; i++) {
-                    String continent_with_control_value = br.readLine();
-                    String[] continent_and_control_value = continent_with_control_value.split("=");
-                    if (!continents.containsKey(continent_and_control_value[0])) {
-                        if (continent_and_control_value.length != 2) {
-                            System.out.println("Incorrect Input : Provide continent along with its control value");
-                            i--;
-                        } else if (!continent_and_control_value[1].matches(".*\\d+.*")) {
-                            System.out.println(" Incorrect Input :The Control Value should be a Numeric");
-                            i--;
-                        } else {
-                            continents.put(continent_and_control_value[0], Integer.parseInt(continent_and_control_value[1]));
-                        }
-                    } else {
-                        System.out.println("Continent Already Exists: please Re enter with correct Continent name");
-                        i--;
-                    }
-                }
+                parseContinents(no_of_continents);
             } else {
                 System.out.println("Invalid characters! Enter again :");
                 scan.next();
@@ -145,28 +128,57 @@ public class RiskMap {
 
     }
 
-    private void addCountriesWithNeighbours() throws IOException {
-        //TODO: validations here
-        for (String continent : continents.keySet()) {
-            System.out.println("Enter the Number of countries in " + continent);
-            continent_with_no_of_countries.put(continent, scan.nextInt());
-            System.out.println(
-                    "Enter the all the Countries Along with with their neighbours seperated by comma starting a new line for each country");
-            for (int j = 0; j < continent_with_no_of_countries.get(continent); j++) {
-                String[] temp = br.readLine().split(",");
-                ArrayList<String> temp_list = new ArrayList<String>();
-                for (int i = 1; i < temp.length; i++) {
-                    if (!temp[i].equals(temp[0]))
-                        temp_list.add(temp[i]);
-                    else {
-                        System.out.println("A country Cannot be neighbour to itself");
-                        j--;
+    private String parseContinents(int continents_count) throws IOException {
+        String return_continent="";
+        for (int i = 0; i < continents_count ; i++) {
+            String continent_with_control_value = br.readLine();
+            String[] continent_and_control_value = continent_with_control_value.split("=");
+            if (!continents.containsKey(continent_and_control_value[0])) {
+                if (continent_and_control_value.length != 2) {
+                    System.out.println("Incorrect Input : Provide continent along with its control value");
+                    i--;
+                } else if (!continent_and_control_value[1].matches(".*\\d+.*")) {
+                    System.out.println(" Incorrect Input :The Control Value should be a Numeric");
+                    i--;
+                } else {
+                    continents.put(continent_and_control_value[0], Integer.parseInt(continent_and_control_value[1]));
+                    if(i==0){
+                        return_continent=continent_and_control_value[0];
                     }
-
                 }
-                adj_countries.put(temp[0], temp_list);
+            } else {
+                System.out.println("Continent Already Exists: please Re enter with correct Continent name");
+                i--;
             }
+        }
+        return return_continent;
+    }
 
+
+    private void addCountriesWithNeighbours() throws IOException {
+        for (String continent : continents.keySet()) {
+            parseCountries(continent);
+        }
+    }
+
+    private void parseCountries(String new_continent) throws IOException {
+        //TODO Validations
+        System.out.println("Enter the Number of countries in " + new_continent);
+        continent_with_no_of_countries.put(new_continent, scan.nextInt());
+        System.out.println(
+                "Enter the all the Countries Along with with their neighbours seperated by comma starting a new line for each country");
+        for (int j = 0; j < continent_with_no_of_countries.get(new_continent); j++) {
+            String[] temp = br.readLine().split(",");
+            ArrayList<String> temp_list = new ArrayList<String>();
+            for (int i = 1; i < temp.length; i++) {
+                if (!temp[i].equals(temp[0]))
+                    temp_list.add(temp[i]);
+                else {
+                    System.out.println("A country Cannot be neighbour to itself");
+                    j--;
+                }
+            }
+            adj_countries.put(temp[0], temp_list);
         }
     }
 
@@ -186,7 +198,6 @@ public class RiskMap {
         }
         pw.println("[Territories]");
         for (String country : adj_countries.keySet()) {
-            System.out.println(adj_countries);
             pw.write(country + "," + "0,0,");
             for (int i = 0; i < adj_countries.get(country).size(); i++) {
                 pw.write(adj_countries.get(country).get(i) + ",");
@@ -284,6 +295,43 @@ public class RiskMap {
             line = bir.readLine();
         }
 
+    }
+
+    public void editMap() throws IOException {
+        //display all continents and countries
+        System.out.println("Continents and control values: " + this.continents);
+        System.out.println("Countries and adjacent countries:" + this.adj_countries);
+        System.out.println();
+        System.out.println("1.Add Continent\n2.Add Country\n3.Remove Continent\n4.Remove Country\n5.Quit Edit");
+        boolean edit_map_choice_flag = false;
+        while (!edit_map_choice_flag) {
+            if (scan.hasNextInt()) {
+                edit_map_choice_flag = true;
+                int edit_map_choice = scan.nextInt();
+                switch (edit_map_choice) {
+                    case 1:
+                        System.out.println("Enter one Continent along with its control value separated with =");
+                        String continent_name=parseContinents(1);
+                        parseCountries(continent_name);
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        System.out.println("ok! editing over!");
+                        break;
+                    default:
+                        System.out.println("Invalid choice! Enter 1,2,3,4 or 5:");
+                        edit_map_choice_flag = false;
+                }
+            } else {
+                System.out.println("Invalid characters! Enter either 1,2,3,4 or 5: ");
+                scan.next();
+            }
+        }
     }
 
 
