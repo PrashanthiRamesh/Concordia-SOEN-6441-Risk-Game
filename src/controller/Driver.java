@@ -32,45 +32,45 @@ public class Driver {
      */
     public static void main(String args[]) throws IOException {
 
-
-      label1:while(true){
+        boolean map_flag=false;
+        while (!map_flag){
             map = new RiskMap();
             getMapInput();
             boolean edit_map_flag=false;
             while(!edit_map_flag){
                 if (map.isMapConnected()) {
+                    System.out.println("\nContinents and its countries: "+map.getContinents_with_countries());
+                    System.out.println("\nCountries and its neighbours: "+map.getAdj_countries());
                     System.out.println("****Map that is loaded is connected and valid!****");
                     System.out.println("Do you want to edit the map?\nYes\nNo\n");
                     boolean edit_map_choice_flag=false;
-                    while (!edit_map_choice_flag){
-                        String edit_map_choice=scan.next();
-                        if(edit_map_choice.equals("Yes")){
+                    while(!edit_map_choice_flag){
+                        String edit_map_choice = scan.next();
+                        if (edit_map_choice.equals("Yes")) {
                             edit_map_choice_flag=true;
-                            //call edit map method
                             map.editMap();
                             map.writeTheMapToTheTextFile();
-                        }else if(edit_map_choice.equals("No")){
+                        } else if (edit_map_choice.equals("No")) {
                             edit_map_choice_flag=true;
-                         //   map_flag = true;
                             edit_map_flag=true;
                             getPlayersInput();
-                        }else{
+                        } else {
                             System.out.println("Invalid! Enter either Yes or No: ");
                         }
                     }
+                    map_flag=true;
                 } else {
                     edit_map_flag=true;
-                    System.out.println("**** Map is not connected and is invalid! Please start again! ****");
-
-                    continue label1;
+                    map_flag=false;
+                    System.out.println("\n**Map after editing**\nContinents and its countries: "+map.getContinents_with_countries());
+                    System.out.println("\nCountries and its neighbours: "+map.getAdj_countries());
+                    System.out.println("\n**** Map is not connected and is invalid! Please start again! ****\n");
                 }
             }
-
         }
     }
 
     /**
-     *
      * @throws IOException
      */
     private static void getMapInput() throws IOException {
@@ -96,9 +96,9 @@ public class Driver {
                             File map_file = new File(input_map_file.trim());
                             if (map_file.exists()) {
                                 file_flag = true;
-                                map.loapMap(input_map_file.trim());
+                                map.loadMap(input_map_file.trim());
                                 map.writeTheMapToTheTextFile();
-                                System.out.println("RiskMap Loaded!");
+                                System.out.println("Risk Map Loaded!");
                             } else {
                                 System.out.println("File does not exist! Enter again [eg: input.txt]: ");
                             }
@@ -151,12 +151,9 @@ public class Driver {
         System.out.println(map.getCountries());
 
         System.out.println("Assigning Initial Armies to Players based on the number of countries they own");
-        Player player_armies=new Player();
-        player_armies.calculateArmies( players, map.getCountries());
+        Player player_armies = new Player();
+        player_armies.calculateArmies(players, map.getCountries());
     }
-
-
-
 
 
 }
