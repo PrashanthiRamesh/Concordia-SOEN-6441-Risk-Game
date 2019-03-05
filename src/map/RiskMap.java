@@ -172,6 +172,8 @@ public class RiskMap {
         }
     }
 
+    
+    //test
     private void parseCountries(String new_continent) throws IOException {
         //TODO Validations
         System.out.println("Enter the Number of countries in " + new_continent);
