@@ -4,29 +4,38 @@ import java.util.ArrayList;
 
 import player.Player;
 
+
 /**
- * GamePlay Class
+ * GamePlay Class represents a game
+ *
  * @author Suthakhar
+ * @version 1.0
+ * @since 2019-02-27
  */
-//TODO complete this logic
 public class GamePlay {
 
-	public void start(){
 
-	}
-
+	/**
+	 *
+	 * @param players
+	 */
 	public void reinforcement(ArrayList<Player> players) {
 
 
-
-
-
 	}
 
+	/**
+	 *
+	 * @param players
+	 */
 	public void attack(ArrayList<Player> players) {
 
 	}
 
+	/**
+	 *
+	 * @param players
+	 */
 	public void fortification(ArrayList<Player> players) {
 
 	}

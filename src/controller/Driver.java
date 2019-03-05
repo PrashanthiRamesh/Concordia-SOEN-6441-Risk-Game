@@ -3,35 +3,37 @@ package controller;
 
 import map.RiskMap;
 import player.Player;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.*;
 
 /**
- * Driver Class
+ * Driver Class to initiate the game
  *
  * @author Prashanthi
+ * @version 1.0
+ * @since 2019-02-26
  */
 public class Driver {
 
     /**
-     *
+     * A RiskMap instance
      */
     private static RiskMap map = null;
 
     /**
-     *
+     * A Scanner instance to read and parse various primitive values.
      */
     private static Scanner scan = new Scanner(System.in);
 
     /**
-     * @param args
-     * @throws IOException
+     * Implements the game phases according to the Risk rules
+     * @param args command line arguments
+     * @throws IOException on user input
      */
     public static void main(String args[]) throws IOException {
-
+        //TODO add try catch block to ensure it never breaks unexpectedly
         boolean map_flag=false;
         while (!map_flag){
             map = new RiskMap();
@@ -71,7 +73,8 @@ public class Driver {
     }
 
     /**
-     * @throws IOException
+     * Game starts by user creation of a map file.
+     * @throws IOException on user input
      */
     private static void getMapInput() throws IOException {
         System.out.println("Get Ready to play Conquest!\n");
@@ -118,7 +121,7 @@ public class Driver {
     }
 
     /**
-     *
+     * User chooses the number of players, then all countries are randomly assigned to players.
      */
     private static void getPlayersInput() {
         ArrayList<Player> players = null;
@@ -145,14 +148,13 @@ public class Driver {
                 scan.next();
             }
         }
-
         System.out.println("Randomly Assigning Countries to Players");
         map.assignPlayersToCountries(players, players.size());
         System.out.println(map.getCountries());
 
         System.out.println("Assigning Initial Armies to Players based on the number of countries they own");
         Player player_armies = new Player();
-        player_armies.calculateArmies(players, map.getCountries());
+        player_armies.calculateReinforcementArmies(players, map.getCountries());
     }
 
 
