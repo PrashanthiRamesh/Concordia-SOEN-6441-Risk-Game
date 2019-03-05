@@ -68,6 +68,8 @@ public class GamePlay {
                 String choice = scanner.next();
                 if (choice.equals("Yes")) {
                     continue_game_flag = true;
+                    //calculate reinforcement armies
+                    this.players=Player.calculateReinforcementArmies(players,map.getCountries());
                 } else if (choice.equals("No")) {
                     continue_game_flag = true;
                     game_over = true;
@@ -87,7 +89,7 @@ public class GamePlay {
         int player_armies = player.getArmies();
         ArrayList<String> player_countries = player.getCountries();
         //System.out.println("\n**Reinforcement**\n");
-        System.out.println("No of armies to place: " + player_armies);
+        System.out.println("\nNo of armies to place: " + player_armies);
         System.out.println("Countries you own: " + player_countries);
         while (player_armies > 0) {
             System.out.println("Enter the name of the country to place armies in: ");
@@ -159,56 +161,61 @@ public class GamePlay {
             String move_armies_from=scanner.next();
             if(noOfArmiesInCountry(move_armies_from)>0){
                 if(player_countries.contains(move_armies_from)){
-                    player_from_country_flag=true;
-                    LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours=map.getAdj_countries();
-                    ArrayList<String> selected_country_neighbours=all_countries_with_neighbours.get(move_armies_from);
-                    System.out.println("Neighbours to "+move_armies_from+" : "+selected_country_neighbours);
-                    System.out.println("Enter the country to which you want to move armies to: ");
-                    boolean player_to_country_flag=false;
-                    while (!player_to_country_flag){
-                        String move_armies_to=scanner.next();
-                        if(selected_country_neighbours.contains(move_armies_to)){
-                            if(!player_countries.contains(move_armies_to)){
-                                player_to_country_flag=true;
-                                int no_of_armies_from=noOfArmiesInCountry(move_armies_from);
-                                System.out.println("No of armies in your country "+move_armies_from+" : "+ no_of_armies_from);
-                                System.out.println("Enter the number of armies to move: ");
-                                boolean no_of_armies_flag=false;
-                                while (!no_of_armies_flag){
-                                    if (scanner.hasNextInt()) {
-                                        int no_of_armies_to_move = scanner.nextInt();
-                                        if(no_of_armies_to_move<=no_of_armies_from && no_of_armies_to_move>0){
-                                            no_of_armies_flag=true;
-                                            System.out.println("** Before moving armies **\n");
-                                            System.out.println("No of armies in country "+ move_armies_from+" (from): "+noOfArmiesInCountry(move_armies_from));
-                                            System.out.println("No of armies in country "+ move_armies_to+" (to): "+noOfArmiesInCountry(move_armies_to));
-                                            for(Country country:countries){
-                                                if(country.getCountryName().equals(move_armies_from)){
-                                                    country.setArmies(country.getArmies()-no_of_armies_to_move);
+                    if(containsOtherPlayerCountriesAsNeighbours(move_armies_from,player)){
+                        player_from_country_flag=true;
+                        LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours=map.getAdj_countries();
+                        ArrayList<String> selected_country_neighbours=all_countries_with_neighbours.get(move_armies_from);
+                        System.out.println("Neighbours to "+move_armies_from+" : "+selected_country_neighbours);
+                        System.out.println("Enter the country to which you want to move armies to: ");
+                        boolean player_to_country_flag=false;
+                        while (!player_to_country_flag){
+                            String move_armies_to=scanner.next();
+                            if(selected_country_neighbours.contains(move_armies_to)){
+                                if(!player_countries.contains(move_armies_to)){
+                                    player_to_country_flag=true;
+                                    int no_of_armies_from=noOfArmiesInCountry(move_armies_from);
+                                    System.out.println("No of armies in your country "+move_armies_from+" : "+ no_of_armies_from);
+                                    System.out.println("Enter the number of armies to move: ");
+                                    boolean no_of_armies_flag=false;
+                                    while (!no_of_armies_flag){
+                                        if (scanner.hasNextInt()) {
+                                            int no_of_armies_to_move = scanner.nextInt();
+                                            if(no_of_armies_to_move<=no_of_armies_from && no_of_armies_to_move>0){
+                                                no_of_armies_flag=true;
+                                                System.out.println("** Before moving armies **\n");
+                                                System.out.println("No of armies in country "+ move_armies_from+" (from): "+noOfArmiesInCountry(move_armies_from));
+                                                System.out.println("No of armies in country "+ move_armies_to+" (to): "+noOfArmiesInCountry(move_armies_to));
+                                                for(Country country:countries){
+                                                    if(country.getCountryName().equals(move_armies_from)){
+                                                        country.setArmies(country.getArmies()-no_of_armies_to_move);
+                                                    }
+                                                    if(country.getCountryName().equals(move_armies_to)){
+                                                        country.setArmies(country.getArmies()+no_of_armies_to_move);
+                                                    }
                                                 }
-                                                if(country.getCountryName().equals(move_armies_to)){
-                                                    country.setArmies(country.getArmies()+no_of_armies_to_move);
-                                                }
-                                            }
-                                            System.out.println("** After moving armies **\n");
-                                            System.out.println("No of armies in country "+ move_armies_from+" (from): "+noOfArmiesInCountry(move_armies_from));
-                                            System.out.println("No of armies in country "+ move_armies_to+" (to): "+noOfArmiesInCountry(move_armies_to));
+                                                System.out.println("** After moving armies **\n");
+                                                System.out.println("No of armies in country "+ move_armies_from+" (from): "+noOfArmiesInCountry(move_armies_from));
+                                                System.out.println("No of armies in country "+ move_armies_to+" (to): "+noOfArmiesInCountry(move_armies_to));
 
+                                            }else{
+                                                System.out.println("Invalid! Enter again: ");
+                                            }
                                         }else{
-                                            System.out.println("Invalid! Enter again: ");
+                                            System.out.println("Invalid characters! Enter again: ");
+                                            scanner.next();
                                         }
-                                    }else{
-                                        System.out.println("Invalid characters! Enter again: ");
-                                        scanner.next();
                                     }
+                                }else{
+                                    System.out.println("Invalid! You can move armies to your own country! Enter again: ");
                                 }
                             }else{
-                                System.out.println("Invalid! You can move armies to your own country! Enter again: ");
+                                System.out.println("Invalid! Not a neighbouring country! Enter again: ");
                             }
-                        }else{
-                            System.out.println("Invalid! Not a neighbouring country! Enter again: ");
                         }
+                    }else{
+                        System.out.println("Invalid! You own all neighbouring countries! Enter a different country:");
                     }
+
                 }else{
                     System.out.println("Invalid! You don't own this country! Enter again: ");
                 }
@@ -229,9 +236,14 @@ public class GamePlay {
         return -1;
     }
 
-    //TODO
-    private boolean doesContainNeighbourCountriesToMoveArmies(){
-
+    private boolean containsOtherPlayerCountriesAsNeighbours(String country_name, Player player){
+        LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours=map.getAdj_countries();
+        ArrayList<String> neighbours=all_countries_with_neighbours.get(country_name);
+        for (String neighbour:neighbours){
+            if(!player.getCountries().contains(neighbour)){
+                return true;
+            }
+        }
         return false;
     }
 

@@ -38,8 +38,5 @@ public class CountryTest {
     public void setArmies() {
     }
 
-    @Test
-    public String toString() {
-        return null;
-    }
+
 }

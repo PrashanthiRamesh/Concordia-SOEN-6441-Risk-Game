@@ -173,9 +173,9 @@ public class Driver {
         map.assignPlayersToCountries(players, players.size());
         System.out.println(map.getCountries());
 
-        System.out.println("\n** Assigning Initial Armies to Players based on the number of countries they own **\n");
+        System.out.println("\n** Assigning Initial Armies to Players based on the number of players in the game **\n");
         Player player = new Player();
-        players=player.calculateReinforcementArmies(players, map.getCountries());
+        players=player.setInitialArmies(players, map.getCountries());
     }
 
 
