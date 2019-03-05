@@ -259,6 +259,7 @@ public class RiskMap {
      * @throws IOException on user input
      */
     private void inputCountriesAndNeighbours(String continent) throws IOException {
+
         //TODO Validations
         System.out.println("Enter the Number of countries in " + continent);
         boolean no_of_countries_flag=false;
@@ -269,8 +270,22 @@ public class RiskMap {
                 System.out.println(
                         "Enter all the Countries Along with with their neighbours separated by comma starting a new line for each country");
                 ArrayList<String> countries = new ArrayList<>();
+
+                outer:
                 for (int j = 0; j < continent_with_no_of_countries.get(continent); j++) {
+
                     String[] temp = br.readLine().split(",");
+                    
+                    for(int i=0;i<temp.length;i++)
+                    {
+                    	if(temp[i].trim().length()<1)
+                    	{
+                    		System.out.println("please enter the input in correct format");
+                    		j--;
+                    		continue outer;
+                    	}
+                    }
+                    
                     ArrayList<String> temp_list = new ArrayList<String>();
                     for (int i = 1; i < temp.length; i++) {
                         if (!temp[i].equals(temp[0]))
