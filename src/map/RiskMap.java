@@ -56,7 +56,7 @@ public class RiskMap {
     private BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
     /**
-     *  It provides many methods to read and parse various primitive values.
+     * To read and parse various primitive values.
      */
     private Scanner scan = new Scanner(System.in);
 
