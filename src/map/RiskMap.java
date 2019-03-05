@@ -339,9 +339,10 @@ public class RiskMap {
      */
     public void assignPlayersToCountries(ArrayList<Player> players, int no_of_players) {
         countries = new ArrayList<>();
-        for (String var : adj_countries.keySet()) {
+        for (String country_name : adj_countries.keySet()) {
             int rand_temp = randInt(0, no_of_players - 1);
-            countries.add(new Country(var, players.get(rand_temp).getPlayer_name(), 0));
+            String player_name=players.get(rand_temp).getPlayer_name();
+            countries.add(new Country(country_name, player_name, 0));
         }
     }
 

@@ -1,6 +1,7 @@
 package controller;
 
 
+import gameplay.GamePlay;
 import map.RiskMap;
 import player.Player;
 import java.io.File;
@@ -18,6 +19,11 @@ import java.util.*;
 public class Driver {
 
     /**
+     * Holds all the players in the game
+     */
+    private static ArrayList<Player> players = null;
+
+    /**
      * A RiskMap instance
      */
     private static RiskMap map = null;
@@ -28,48 +34,62 @@ public class Driver {
     private static Scanner scan = new Scanner(System.in);
 
     /**
-     * Implements the game phases according to the Risk rules
+     * Initiates the game
      * @param args command line arguments
-     * @throws IOException on user input
      */
-    public static void main(String args[]) throws IOException {
-        //TODO add try catch block to ensure it never breaks unexpectedly
-        boolean map_flag=false;
-        while (!map_flag){
-            map = new RiskMap();
-            getMapInput();
-            boolean edit_map_flag=false;
-            while(!edit_map_flag){
-                if (map.isMapConnected()) {
-                    System.out.println("\nContinents and its countries: "+map.getContinents_with_countries());
-                    System.out.println("\nCountries and its neighbours: "+map.getAdj_countries());
-                    System.out.println("****Map that is loaded is connected and valid!****");
-                    System.out.println("Do you want to edit the map?\nYes\nNo\n");
-                    boolean edit_map_choice_flag=false;
-                    while(!edit_map_choice_flag){
-                        String edit_map_choice = scan.next();
-                        if (edit_map_choice.equals("Yes")) {
-                            edit_map_choice_flag=true;
-                            map.editMap();
-                            map.writeTheMapToTheTextFile();
-                        } else if (edit_map_choice.equals("No")) {
-                            edit_map_choice_flag=true;
-                            edit_map_flag=true;
-                            getPlayersInput();
-                        } else {
-                            System.out.println("Invalid! Enter either Yes or No: ");
+    public static void main(String args[]) {
+        startGame();
+    }
+
+    /**
+     * Implements the game phases according to the Risk rules
+     */
+    public static void startGame(){
+        try{
+            boolean map_flag=false;
+            while (!map_flag){
+                map = new RiskMap();
+                getMapInput();
+                boolean edit_map_flag=false;
+                while(!edit_map_flag){
+                    if (map.isMapConnected()) {
+                        System.out.println("\nContinents and its countries: "+map.getContinents_with_countries());
+                        System.out.println("\nCountries and its neighbours: "+map.getAdj_countries());
+                        System.out.println("\n****Map that is loaded is connected and valid!****\n");
+                        System.out.println("Do you want to edit the map?\nYes\nNo");
+                        boolean edit_map_choice_flag=false;
+                        while(!edit_map_choice_flag){
+                            String edit_map_choice = scan.next();
+                            if (edit_map_choice.equals("Yes")) {
+                                edit_map_choice_flag=true;
+                                map.editMap();
+                                map.writeTheMapToTheTextFile();
+                            } else if (edit_map_choice.equals("No")) {
+                                edit_map_choice_flag=true;
+                                edit_map_flag=true;
+                                getPlayersInput();
+                                GamePlay gamePlay=new GamePlay(players,map);
+                                gamePlay.start();
+                            } else {
+                                System.out.println("Invalid! Enter either Yes or No: ");
+                            }
                         }
+                        map_flag=true;
+                    } else {
+                        edit_map_flag=true;
+                        map_flag=false;
+                        System.out.println("\n**Map after editing**\nContinents and its countries: "+map.getContinents_with_countries());
+                        System.out.println("\nCountries and its neighbours: "+map.getAdj_countries());
+                        System.out.println("\n**** Map is not connected and is invalid! Please start again! ****\n");
                     }
-                    map_flag=true;
-                } else {
-                    edit_map_flag=true;
-                    map_flag=false;
-                    System.out.println("\n**Map after editing**\nContinents and its countries: "+map.getContinents_with_countries());
-                    System.out.println("\nCountries and its neighbours: "+map.getAdj_countries());
-                    System.out.println("\n**** Map is not connected and is invalid! Please start again! ****\n");
                 }
             }
+        }catch (Exception ex){
+            System.out.println("Unhandled Exception: "+ex);
+            System.out.println("Start Again");
+            startGame();
         }
+
     }
 
     /**
@@ -124,7 +144,7 @@ public class Driver {
      * User chooses the number of players, then all countries are randomly assigned to players.
      */
     private static void getPlayersInput() {
-        ArrayList<Player> players = null;
+
         boolean players_flag = false;
         System.out.println("Enter the number of players [2 to 6]: ");
         while (!players_flag) {
@@ -133,10 +153,11 @@ public class Driver {
                 int no_of_players = scan.nextInt();
                 if (no_of_players >= 2 && no_of_players <= 6) {
                     players = new ArrayList<>(no_of_players);
+                    ArrayList<String> player_countries=new ArrayList<>();
                     for (int i = 0; i < no_of_players; i++) {
                         System.out.println("Enter player " + (i + 1) + " name: ");
                         String player_name = scan.next();
-                        players.add(new Player(player_name, 0));
+                        players.add(new Player(player_name, 0,player_countries ));
                     }
                 } else {
                     System.out.println("Invalid no of players! Enter again [2 to 6]:");
@@ -148,13 +169,13 @@ public class Driver {
                 scan.next();
             }
         }
-        System.out.println("Randomly Assigning Countries to Players");
+        System.out.println("\n** Randomly Assigning Countries to Players **\n");
         map.assignPlayersToCountries(players, players.size());
         System.out.println(map.getCountries());
 
-        System.out.println("Assigning Initial Armies to Players based on the number of countries they own");
-        Player player_armies = new Player();
-        player_armies.calculateReinforcementArmies(players, map.getCountries());
+        System.out.println("\n** Assigning Initial Armies to Players based on the number of countries they own **\n");
+        Player player = new Player();
+        players=player.calculateReinforcementArmies(players, map.getCountries());
     }
 
 

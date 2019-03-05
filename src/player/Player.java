@@ -21,12 +21,17 @@ public class Player {
     /**
      * Stores the number of armies of the player
      */
-    private int initial_armies;
+    private int armies;
 
     /**
      * Store the number of countries of the player
      */
     private int no_of_countries;
+
+    /**
+     * Store the countries the player owns
+     */
+    private ArrayList<String> countries;
 
     /**
      * Creates a player
@@ -37,11 +42,13 @@ public class Player {
     /**
      * Creates a player with the specified player's name and armies
      * @param player_name  A String representing the name of the player
-     * @param initial_armies An integer representing the number of armies of player
+     * @param armies An integer representing the number of armies of player
+     * @param countries An ArrayList representing the list of countries that the player owns
      */
-    public Player(String player_name, int initial_armies) {
+    public Player(String player_name, int armies, ArrayList<String> countries) {
         this.player_name = player_name;
-        this.initial_armies = initial_armies;
+        this.armies = armies;
+        this.countries=countries;
     }
 
     /**
@@ -64,16 +71,16 @@ public class Player {
      * Getter method to get the number of armies of player
      * @return player's number of armies
      */
-    public int getInitial_armies() {
-        return initial_armies;
+    public int getArmies() {
+        return armies;
     }
 
     /**
      * Setter method to assign an integer value to the number of armies to the player
-     * @param initial_armies number of armies of player
+     * @param armies number of armies of player
      */
-    public void setInitial_armies(int initial_armies) {
-        this.initial_armies = initial_armies;
+    public void setArmies(int armies) {
+        this.armies = armies;
     }
 
     /**
@@ -93,25 +100,45 @@ public class Player {
     }
 
     /**
+     * Getter method to get the list of countries the player owns
+     * @return countries that the player owns
+     */
+    public ArrayList<String> getCountries() {
+        return countries;
+    }
+
+    /**
+     * Setter method to assign the list of countries that the player owns
+     * @param countries list of countries the player owns
+     */
+    public void setCountries(ArrayList<String> countries) {
+        this.countries = countries;
+    }
+
+    /**
      * Calculation of correct number of reinforcement armies according to the Risk rules.
      * @param players List of players in the game
      * @param countries List of countries in the game
      */
-    public void calculateReinforcementArmies(ArrayList<Player> players, ArrayList<Country> countries) {
+    public ArrayList<Player> calculateReinforcementArmies(ArrayList<Player> players, ArrayList<Country> countries) {
         for (Player player : players) {
             int player_countries_count=0;
+            ArrayList<String> player_countries=new ArrayList<>();
             for (Country country : countries) {
                 if (country.getBelongsTo().equals(player.player_name)) {
                     player_countries_count++;
+                    player_countries.add(country.getCountryName());
                 }
             }
-            player.initial_armies=(int) Math.floor(player_countries_count / 3.0);
+            player.countries=player_countries;
+            player.armies =(int) Math.floor(player_countries_count / 3.0);
             player.no_of_countries=player_countries_count;
             System.out.println();
             System.out.println("**** Player- "+player.player_name+" ****");
             System.out.println("Countries: "+player.no_of_countries);
-            System.out.println("Armies: "+player.initial_armies);
+            System.out.println("Armies: "+player.armies);
         }
+        return players;
     }
 
 }
