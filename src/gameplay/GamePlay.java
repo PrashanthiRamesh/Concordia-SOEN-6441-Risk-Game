@@ -39,6 +39,7 @@ public class GamePlay {
      */
     public GamePlay()
     { }
+
     /**
      * Creates a game play with specified value of players and map
      * @param players list of all players in the game
