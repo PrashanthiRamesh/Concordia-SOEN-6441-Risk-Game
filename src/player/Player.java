@@ -120,7 +120,7 @@ public class Player {
      * @param players List of players in the game
      * @param countries List of countries in the game
      */
-    public ArrayList<Player> calculateReinforcementArmies(ArrayList<Player> players, ArrayList<Country> countries) {
+    public static ArrayList<Player> calculateReinforcementArmies(ArrayList<Player> players, ArrayList<Country> countries) {
         for (Player player : players) {
             int player_countries_count=0;
             ArrayList<String> player_countries=new ArrayList<>();
@@ -141,4 +141,51 @@ public class Player {
         return players;
     }
 
+    /**
+     * This method sets the initial number of armies as per number of players playing in a game.
+     * @param players list of players
+     * @param countries list of countries
+     * @return ArrayList of players
+     */
+    public ArrayList<Player> setInitialArmies(ArrayList<Player> players, ArrayList<Country> countries) {
+
+        for (Player player : players) {
+            int player_countries_count=0;
+            ArrayList<String> player_countries=new ArrayList<>();
+            for (Country country : countries) {
+                if (country.getBelongsTo().equals(player.player_name)) {
+                    player_countries_count++;
+                    player_countries.add(country.getCountryName());
+                }
+            }
+            player.countries=player_countries;
+            player.armies = calculateInitialArmies(players.size());
+            player.no_of_countries=player_countries_count;
+            System.out.println();
+            System.out.println("**** Player- "+player.player_name+" ****");
+            System.out.println("Countries: "+player.no_of_countries);
+            System.out.println("Armies: "+player.armies);
+        }
+        return players;
+
+    }
+
+    private static int calculateInitialArmies(int no_of_players){
+        int initial_armies=0;
+        if (no_of_players == 2) {
+            initial_armies=40;
+        } else if (no_of_players == 3) {
+            initial_armies = 35;
+
+        } else if (no_of_players == 4) {
+            initial_armies = 30;
+
+        } else if (no_of_players == 5) {
+            initial_armies = 25;
+        } else if(no_of_players==6){
+            initial_armies = 20;
+
+        }
+        return initial_armies;
+    }
 }

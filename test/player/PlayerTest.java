@@ -8,39 +8,23 @@ import static org.junit.Assert.*;
 
 public class PlayerTest {
 
-    @Before
-    public void setUp() throws Exception {
-    }
+        @Test
+        public void validInitialArmies(){
 
-    @After
-    public void tearDown() throws Exception {
-    }
+        }
 
-    @Test
-    public void getPlayer_name() {
-    }
+        @Test
+        public void invalidInitialArmies(){
 
-    @Test
-    public void setPlayer_name() {
-    }
+        }
 
-    @Test
-    public void getInitial_armies() {
-    }
+        @Test
+        public void validReinforcementArmies(){
 
-    @Test
-    public void setInitial_armies() {
-    }
+        }
 
-    @Test
-    public void getNo_of_countries() {
-    }
+        @Test
+        public void inValidReinforcementArmies(){
 
-    @Test
-    public void setNo_of_countries() {
-    }
-
-    @Test
-    public void calculateArmies() {
-    }
+        }
 }
