@@ -34,12 +34,13 @@ public class GamePlay {
      */
     public RiskMap map=new RiskMap();
 
-    public GamePlay()
-    {
-    	
-    }
     /**
-     * Creates a game play
+     * Create a game play
+     */
+    public GamePlay()
+    { }
+    /**
+     * Creates a game play with specified value of players and map
      * @param players list of all players in the game
      * @param map instance of RiskMap
      */
@@ -230,6 +231,11 @@ public class GamePlay {
         }
     }
 
+    /**
+     * Calculate the number of armies that a country has at a particular time in the game
+     * @param country_name name of the country
+     * @return number of armies in the country
+     */
     public int noOfArmiesInCountry(String country_name){
        
     	ArrayList<Country> countries = map.getCountries();
@@ -241,6 +247,12 @@ public class GamePlay {
         return -1;
     }
 
+    /**
+     * Checks if player contains neighbor countries that are owned by a different player
+     * @param country_name name of country
+     * @param player player instance
+     * @return true if at least one neighbour country is owned by a different player, else false
+     */
     private boolean containsOtherPlayerCountriesAsNeighbours(String country_name, Player player){
         LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours=map.getAdj_countries();
         ArrayList<String> neighbours=all_countries_with_neighbours.get(country_name);

@@ -170,6 +170,11 @@ public class Player {
 
     }
 
+    /**
+     * Calculate the number of initial armies for each player based on the total number of players in the game
+     * @param no_of_players Number of players
+     * @return no of armies for each player
+     */
     public int calculateInitialArmies(int no_of_players){
         int initial_armies=0;
         if (no_of_players == 2) {
@@ -186,6 +191,11 @@ public class Player {
         return initial_armies;
     }
 
+    /**
+     * Calculate the reinforcement armies of each player based on the total number of countries that a player owns
+     * @param player_countries_count total number of countries that a player owns
+     * @return number of reinforcement armies
+     */
     public static int calculateReinforcementArmies(int player_countries_count){
         return (int) Math.floor(player_countries_count / 3.0);
     }
