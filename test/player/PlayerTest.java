@@ -50,4 +50,16 @@ public class PlayerTest {
 
         }
 
+        @Test
+        public void invalidReinforcementArmies(){
+
+                int total_no_of_countries[]={99,98,55,66,43};
+                int reinforcement_armies[]={34,33,19,23,15};
+                for(int i=0;i<total_no_of_countries.length;i++){
+                        int armies=Player.calculateReinforcementArmies(total_no_of_countries[i]);
+                        assertNotEquals(armies, reinforcement_armies[i]);
+                }
+
+        }
+
 }

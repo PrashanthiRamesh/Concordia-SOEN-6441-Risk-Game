@@ -1,110 +1,113 @@
 package map;
 
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import sun.awt.image.ImageWatched;
 
-import java.util.*;
+import country.Country;
+import gameplay.GamePlay;
+import map.RiskMap;
 
-import static org.junit.Assert.*;
-<<<<<<< HEAD
-
-
-=======
->>>>>>> d48c3a93c183a7c8a334efb7f1b7a90f73d7ff7b
 public class RiskMapTest {
 
+    private RiskMap map;
+    private Country country;
+    private GamePlay gamePlay;
+
+    @Before
+    public void setUp() throws Exception {
+
+        map = new RiskMap();
+        country = new Country();
+        gamePlay = new GamePlay();
+    }
 
     @After
     public void tearDown() throws Exception {
+
+
     }
 
-    @Test void randomInteger()
-    {
-    	assertTrue(Arrays.asList(yourArray).contains(yourElement));
-    }
-    
-    
-    @Test
-    public void getNo_of_continents() {
-    }
 
     @Test
-    public void setNo_of_continents() {
-    }
-
-    @Test
-    public void getCountries() {
-    }
-
-    @Test
-    public void setCountries() {
+    public void connectedGraph() {
+        ArrayList<String> al1 = new ArrayList<String>();
+        ArrayList<String> al2 = new ArrayList<String>();
+        ArrayList<String> al3 = new ArrayList<String>();
+        al1.add("b");
+        al1.add("c");
+        map.adj_countries.put("a", al1);
+        al2.add("c");
+        al2.add("a");
+        map.adj_countries.put("b", al2);
+        al3.add("b");
+        al3.add("a");
+        map.adj_countries.put("c", al3);
+        assertTrue(map.isMapConnected());
     }
 
     @Test
-    public void getNo_of_adjacent_countries() {
+    public void inputFileConnection() throws IOException {
+        assertEquals("AB", map.loadMap("input.txt"));
     }
 
     @Test
-    public void setNo_of_adjacent_countries() {
+    public void randomInteger() {
+        int[] arr = {0, 1, 2, 3};
+
+        int x = Arrays.binarySearch(arr, map.randInt(0, 4));
+
+        //assertEquals( 1, x);
+
+    }
+
+
+    @Test
+    public void testWritingfile() throws IOException {
+        assertEquals("[Continents]", map.writeTheMapToTheTextFile());
+
+    }
+
+
+    @Test
+    public void TestBFS() {
+        ArrayList<String> al1 = new ArrayList<String>();
+        ArrayList<String> al2 = new ArrayList<String>();
+        ArrayList<String> al3 = new ArrayList<String>();
+        al1.add("b");
+        al1.add("c");
+        map.adj_countries.put("a", al1);
+        al2.add("c");
+        al2.add("a");
+
+        map.adj_countries.put("b", al2);
+        al3.add("b");
+        al3.add("a");
+
+        map.adj_countries.put("c", al3);
+
+        assertTrue(map.breadthFirstSearch(map.adj_countries, "a", "c"));
     }
 
     @Test
-    public void getContinents() {
+    public void TestArmies() {
+        ArrayList<Country> al = new ArrayList<Country>();
+        Country c = new Country("India", "Maqsood", 5);
+        al.add(c);
+        gamePlay.map.setCountries(al);
+
+        assertEquals(5, gamePlay.noOfArmiesInCountry("India"));
+
+
     }
 
-    @Test
-    public void setContinents() {
-    }
 
-    @Test
-    public void getAdj_countries() {
-    }
-
-    @Test
-    public void setAdj_countries() {
-    }
-
-    @Test
-    public void getContinent_with_no_of_countries() {
-    }
-
-    @Test
-    public void setContinent_with_no_of_countries() {
-    }
-
-    @Test
-    public void getContinents_with_countries() {
-    }
-
-    @Test
-    public void setContinents_with_countries() {
-    }
-
-    @Test
-    public void populateMap() {
-    }
-
-    @Test
-    public void writeTheMapToTheTextFile() {
-    }
-
-    @Test
-    public void assignPlayersToCountries() {
-    }
-
-    @Test
-    public void isMapConnected() {
-    }
-
-    @Test
-    public void loadMap() {
-    }
-
-    @Test
-    public void editMap() {
-    }
 }
