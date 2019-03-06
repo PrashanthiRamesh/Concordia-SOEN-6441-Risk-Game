@@ -368,6 +368,7 @@ public class RiskMap {
         Map.Entry<String, ArrayList<String>> last_entry = (Map.Entry<String, ArrayList<String>>) adj_countries.entrySet().toArray()[adj_countries.size() - 1];
         String end = last_entry.getKey();
         return breadthFirstSearch(adj_countries, start, end);
+
     }
 
     /**
@@ -377,7 +378,7 @@ public class RiskMap {
      * @param end Last country in the list
      * @return true if the algorithm is able to traverse from first to last node, else returns false
      */
-    private static boolean breadthFirstSearch(Map<String, ArrayList<String>> adjList, String start, String end) {
+    public boolean breadthFirstSearch(Map<String, ArrayList<String>> adjList, String start, String end) {
         Map<String, String> parents = new LinkedHashMap<String, String>();
         Queue<String> q = new LinkedList<String>();
         q.add(start);

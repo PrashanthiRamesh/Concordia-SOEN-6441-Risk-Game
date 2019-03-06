@@ -120,7 +120,7 @@ public class Player {
      * @param players List of players in the game
      * @param countries List of countries in the game
      */
-    public static ArrayList<Player> calculateReinforcementArmies(ArrayList<Player> players, ArrayList<Country> countries) {
+    public static ArrayList<Player> setReinforcementArmies(ArrayList<Player> players, ArrayList<Country> countries) {
         for (Player player : players) {
             int player_countries_count=0;
             ArrayList<String> player_countries=new ArrayList<>();
@@ -131,7 +131,7 @@ public class Player {
                 }
             }
             player.countries=player_countries;
-            player.armies =(int) Math.floor(player_countries_count / 3.0);
+            player.armies = calculateReinforcementArmies(player_countries_count);
             player.no_of_countries=player_countries_count;
             System.out.println();
             System.out.println("**** Player- "+player.player_name+" ****");
@@ -170,22 +170,23 @@ public class Player {
 
     }
 
-    private static int calculateInitialArmies(int no_of_players){
+    public int calculateInitialArmies(int no_of_players){
         int initial_armies=0;
         if (no_of_players == 2) {
             initial_armies=40;
         } else if (no_of_players == 3) {
             initial_armies = 35;
-
         } else if (no_of_players == 4) {
             initial_armies = 30;
-
         } else if (no_of_players == 5) {
             initial_armies = 25;
         } else if(no_of_players==6){
             initial_armies = 20;
-
         }
         return initial_armies;
+    }
+
+    public static int calculateReinforcementArmies(int player_countries_count){
+        return (int) Math.floor(player_countries_count / 3.0);
     }
 }

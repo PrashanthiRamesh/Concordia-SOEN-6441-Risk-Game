@@ -11,7 +11,7 @@ import java.util.*;
 
 import static org.junit.Assert.*;
 
-@RunWith(Parameterized.class)
+
 public class RiskMapTest {
 
 

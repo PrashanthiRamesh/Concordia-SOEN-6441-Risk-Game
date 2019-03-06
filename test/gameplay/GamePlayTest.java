@@ -1,5 +1,6 @@
 package gameplay;
 
+import map.RiskMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,8 @@ public class GamePlayTest {
 
     @Before
     public void setUp() throws Exception {
+
+
     }
 
     @After

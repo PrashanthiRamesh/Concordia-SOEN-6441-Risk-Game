@@ -69,7 +69,7 @@ public class GamePlay {
                 if (choice.equals("Yes")) {
                     continue_game_flag = true;
                     //calculate reinforcement armies
-                    this.players=Player.calculateReinforcementArmies(players,map.getCountries());
+                    this.players=Player.setReinforcementArmies(players,map.getCountries());
                 } else if (choice.equals("No")) {
                     continue_game_flag = true;
                     game_over = true;
