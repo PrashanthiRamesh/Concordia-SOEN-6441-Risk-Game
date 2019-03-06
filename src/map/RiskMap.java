@@ -262,8 +262,6 @@ public class RiskMap {
      * @throws IOException on user input
      */
     private void inputCountriesAndNeighbours(String continent) throws IOException {
-
-        //TODO Validations
         System.out.println("Enter the Number of countries in " + continent);
         boolean no_of_countries_flag=false;
         while (!no_of_countries_flag){
@@ -404,9 +402,6 @@ public class RiskMap {
             }
             if(adjList.get(nextVertex)!=null){
                 for (String edge : adjList.get(nextVertex)) {
-                	
-                	
-                	
                     if (!parents.containsKey(edge)) {
                         q.add(edge);
                         parents.put(edge, nextVertex);
@@ -424,7 +419,6 @@ public class RiskMap {
      * @throws IOException on user input
      */
     public String loadMap(String filename) throws IOException {
-        //TODO: validations here
         FileReader fir = new FileReader(filename);
         BufferedReader bir = new BufferedReader(fir);
         while (!bir.readLine().trim().equals("[Continents]")) {

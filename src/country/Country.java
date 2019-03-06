@@ -25,16 +25,19 @@ public class Country {
 	private int armies;
 
 	/**
+	 * Creates a country
+	 */
+	public Country()
+	{
+		
+	}
+
+	/**
 	 * Creates a country with a specified country name, player name and number of armies
 	 * @param countryName country name
 	 * @param belongsTo player name who owns the country
 	 * @param armies number of armies in the country
 	 */
-	
-	public Country()
-	{
-		
-	}
 	public Country(String countryName, String belongsTo, int armies) {
 		this.countryName = countryName;
 		this.belongsTo = belongsTo;
