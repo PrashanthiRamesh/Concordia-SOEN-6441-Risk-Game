@@ -1,6 +1,0 @@
-[Continents]
-A=9
-[Territories]
-a,0,0,b,c,
-b,0,0,c,a,
-c,0,0,a,b,

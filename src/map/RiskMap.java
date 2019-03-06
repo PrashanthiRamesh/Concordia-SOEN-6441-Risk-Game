@@ -38,7 +38,7 @@ public class RiskMap {
     /**
      * LinkedHashMap which stores the country and the neighboring countries to it.
      */
-    private LinkedHashMap<String, ArrayList<String>> adj_countries;
+    public LinkedHashMap<String, ArrayList<String>> adj_countries;
 
     /**
      * LinkedHashMap Which stores the Continent along with the number of countries in it.
@@ -89,7 +89,10 @@ public class RiskMap {
      * @param countries ArrayList of countries
      */
     public void setCountries(ArrayList<Country> countries) {
-        this.countries = countries;
+        
+    	this.countries = countries;
+        
+       
     }
 
     /**
@@ -311,7 +314,7 @@ public class RiskMap {
      * Writes and parses the Risk Map to a text file.
      * @throws IOException on user input
      */
-    public void writeTheMapToTheTextFile() throws IOException {
+    public String writeTheMapToTheTextFile() throws IOException {
         FileWriter fw = new FileWriter("OutputMap.txt");
         PrintWriter pw = new PrintWriter(fw);
 
@@ -328,8 +331,15 @@ public class RiskMap {
             }
             pw.println();
         }
+       
         fw.close();
         pw.close();
+        FileReader fir = new FileReader("OutputMap.txt");
+        BufferedReader bir = new BufferedReader(fir);
+        String toReturn=bir.readLine();
+        fir.close();
+        bir.close();
+        return toReturn;
     }
 
     /**
@@ -352,7 +362,7 @@ public class RiskMap {
      * @param max maximum value of the range
      * @return a random integer
      */
-    private static int randInt(int min, int max) {
+    public int randInt(int min, int max) {
         Random rand = new Random();
         return rand.nextInt((max - min) + 1) + min;
     }
@@ -378,20 +388,25 @@ public class RiskMap {
      * @param end Last country in the list
      * @return true if the algorithm is able to traverse from first to last node, else returns false
      */
-    public boolean breadthFirstSearch(Map<String, ArrayList<String>> adjList, String start, String end) {
+
+    public  boolean breadthFirstSearch(Map<String, ArrayList<String>> adjList, String start, String end) {
+
         Map<String, String> parents = new LinkedHashMap<String, String>();
         Queue<String> q = new LinkedList<String>();
         q.add(start);
         parents.put(start, "dummy");
         boolean connected = false;
         while (!q.isEmpty()) {
-            String nextVertex = q.poll();
+            String nextVertex = q.poll(); 
             if (nextVertex.equals(end)) {
                 connected = true;
                 break;
             }
             if(adjList.get(nextVertex)!=null){
                 for (String edge : adjList.get(nextVertex)) {
+                	
+                	
+                	
                     if (!parents.containsKey(edge)) {
                         q.add(edge);
                         parents.put(edge, nextVertex);
@@ -408,7 +423,7 @@ public class RiskMap {
      * Loads the RiskMap form the File
      * @throws IOException on user input
      */
-    public void loadMap(String filename) throws IOException {
+    public String loadMap(String filename) throws IOException {
         //TODO: validations here
         FileReader fir = new FileReader(filename);
         BufferedReader bir = new BufferedReader(fir);
@@ -444,6 +459,9 @@ public class RiskMap {
             }
             line = bir.readLine();
         }
+        
+        return adj_countries.get("AA").get(0);
+        
     }
 
     /**

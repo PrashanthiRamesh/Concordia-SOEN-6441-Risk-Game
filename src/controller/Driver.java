@@ -26,7 +26,7 @@ public class Driver {
     /**
      * A RiskMap instance
      */
-    private static RiskMap map = null;
+    public static RiskMap map = null;
 
     /**
      * A Scanner instance to read and parse various primitive values.
