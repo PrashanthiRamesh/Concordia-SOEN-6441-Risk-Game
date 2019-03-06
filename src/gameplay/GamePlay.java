@@ -32,8 +32,12 @@ public class GamePlay {
     /**
      * Instance of RiskMap
      */
-    private RiskMap map;
+    public RiskMap map=new RiskMap();
 
+    public GamePlay()
+    {
+    	
+    }
     /**
      * Creates a game play
      * @param players list of all players in the game
@@ -219,8 +223,9 @@ public class GamePlay {
         }
     }
 
-    private int noOfArmiesInCountry(String country_name){
-        ArrayList<Country> countries = map.getCountries();
+    public int noOfArmiesInCountry(String country_name){
+       
+    	ArrayList<Country> countries = map.getCountries();
         for(Country country:countries){
             if(country.getCountryName().equals(country_name)){
                 return country.getArmies();

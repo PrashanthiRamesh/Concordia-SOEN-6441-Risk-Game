@@ -18,7 +18,7 @@ public class Country {
 	 * Holds the name of the player the country belongs to
 	 */
 	private String belongsTo;
-
+	
 	/**
 	 * Holds the number of armies that the country has
 	 */
@@ -30,12 +30,16 @@ public class Country {
 	 * @param belongsTo player name who owns the country
 	 * @param armies number of armies in the country
 	 */
+	
+	public Country()
+	{
+		
+	}
 	public Country(String countryName, String belongsTo, int armies) {
 		this.countryName = countryName;
 		this.belongsTo = belongsTo;
 		this.armies = armies;
 	}
-
 	/**
 	 * Getter method to get the name of the country
 	 * @return country name

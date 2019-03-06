@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+
 public class RiskMapTest {
 
     @Before
@@ -16,6 +17,12 @@ public class RiskMapTest {
     public void tearDown() throws Exception {
     }
 
+    @Test void randomInteger()
+    {
+    	assertTrue(Arrays.asList(yourArray).contains(yourElement));
+    }
+    
+    
     @Test
     public void getNo_of_continents() {
     }
