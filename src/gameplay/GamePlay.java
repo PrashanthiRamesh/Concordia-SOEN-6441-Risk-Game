@@ -2,6 +2,7 @@ package gameplay;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Observable;
 import java.util.Scanner;
 
 import country.Country;
@@ -17,9 +18,60 @@ import player.Player;
  * @version 1.0
  * @since 2019-02-27
  */
-public class GamePlay {
+public class GamePlay extends Observable{
 
-    /**
+	private int phase;
+	
+	private String current_player;
+	
+	private float percentage_map;
+	
+	private double continents_controlled;
+	
+	private int total_armies;
+	
+	
+	public float getPercentage_map() {
+		return percentage_map;
+	}
+
+	public void setPercentage_map(float percentage_map) {
+		this.percentage_map = percentage_map;
+	}
+
+	public double getContinents_controlled() {
+		return continents_controlled;
+	}
+
+	public void setContinents_controlled(double continents_controlled) {
+		this.continents_controlled = continents_controlled;
+	}
+
+	public int getTotal_armies() {
+		return total_armies;
+	}
+
+	public void setTotal_armies(int total_armies) {
+		this.total_armies = total_armies;
+	}
+
+	public int getPhase() {
+		return phase;
+	}
+
+	public void setPhase(int phase) {
+		this.phase = phase;
+	}
+
+	public String getCurrent_player() {
+		return current_player;
+	}
+
+	public void setCurrent_player(String current_player) {
+		this.current_player = current_player;
+	}
+
+	/**
      * A Scanner instance to read and parse various primitive values.
      */
     private static Scanner scanner = new Scanner(System.in);
@@ -54,20 +106,32 @@ public class GamePlay {
      * Driver method to initiate the game phases in a round robin fashion for every player
      */
     public void start() {
+    	
+    	
         System.out.println("\n**** Game has started ****\n");
         boolean game_over = false;
         while (!game_over) {
+        	
+        	
             System.out.println("** New Round Begins **");
-            System.out.println("\n** Reinforcement **");
+            
             for (Player player : players) {
-                System.out.println("\n** Player- " + player.getPlayer_name() + " **");
+            	phase=1;
+            	current_player=player.getPlayer_name();
+            	percentage_map=map.No_of_countries_player_owns(player.getPlayer_name())/map.adj_countries.size();
+            	total_armies=player.getArmies();
+            	setChanged();
+            	notifyObservers(this);
                 reinforcement(player);
             }
-            System.out.println("\n** Fortification **");
             for (Player player : players) {
-                System.out.println("\n** Player- " + player.getPlayer_name() + " **");
+            	phase=2;
+            	current_player=player.getPlayer_name();
+            	setChanged();
+            	notifyObservers(this);
                 fortification(player);
             }
+            
             System.out.println("\nContinue the game?\nYes\nNo");
             boolean continue_game_flag = false;
             while (!continue_game_flag) {
@@ -85,6 +149,9 @@ public class GamePlay {
                 }
             }
         }
+        setChanged();
+    	// notify all attached Observers of a change
+    	notifyObservers(this);
         System.out.println("\n***Game Over***\n");
     }
 
