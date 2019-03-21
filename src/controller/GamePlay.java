@@ -1,11 +1,11 @@
-package gameplay;
+package controller;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
 import model.Country;
-import map.RiskMap;
+import model.RiskMap;
 import model.Player;
 
 

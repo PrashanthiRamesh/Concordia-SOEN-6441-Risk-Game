@@ -1,4 +1,4 @@
-package country;
+package model;
 
 /**
  * Country Class represents a country

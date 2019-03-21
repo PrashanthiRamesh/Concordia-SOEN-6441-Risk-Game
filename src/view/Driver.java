@@ -1,8 +1,8 @@
-package controller;
+package view;
 
 
-import gameplay.GamePlay;
-import map.RiskMap;
+import controller.GamePlay;
+import model.RiskMap;
 import model.Player;
 import java.io.File;
 import java.io.IOException;

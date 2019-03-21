@@ -1,5 +1,6 @@
 package player;
 
+import model.Player;
 import org.junit.Before;
 import org.junit.Test;
 

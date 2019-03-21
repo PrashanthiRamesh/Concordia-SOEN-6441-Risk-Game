@@ -8,13 +8,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import model.RiskMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import country.Country;
-import gameplay.GamePlay;
-import map.RiskMap;
+import model.Country;
+import controller.GamePlay;
 
 public class RiskMapTest {
 

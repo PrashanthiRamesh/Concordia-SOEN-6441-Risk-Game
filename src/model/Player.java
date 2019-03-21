@@ -1,6 +1,4 @@
-package player;
-
-import model.Country;
+package model;
 
 import java.util.ArrayList;
 

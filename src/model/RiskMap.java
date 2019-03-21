@@ -1,10 +1,8 @@
-package map;
+package model;
 
 import java.io.*;
 import java.util.*;
 
-import model.Country;
-import model.Player;
 
 /**
  * RiskMap Class Loads the maps form the Console and from the file.
