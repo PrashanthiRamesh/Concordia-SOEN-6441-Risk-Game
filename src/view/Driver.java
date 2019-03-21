@@ -2,12 +2,17 @@ package view;
 
 
 import controller.GamePlay;
+import gameplay.PhaseView;
+import gameplay.PlayerWorldDominantView;
 import model.RiskMap;
 import model.Player;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.*;
+import java.util.Scanner;
+
+
 
 /**
  * Driver Class to initiate the game
@@ -33,6 +38,9 @@ public class Driver {
      */
     private static Scanner scan = new Scanner(System.in);
 
+    static GamePlay gamePlay;
+    static PhaseView phaseview;
+    static PlayerWorldDominantView PWDV;
     /**
      * Initiates the game
      * @param args command line arguments
@@ -45,6 +53,8 @@ public class Driver {
      * Implements the game phases according to the Risk rules
      */
     public static void startGame(){
+    	
+    	
         try{
             boolean map_flag=false;
             while (!map_flag){
@@ -68,7 +78,12 @@ public class Driver {
                                 edit_map_choice_flag=true;
                                 edit_map_flag=true;
                                 getPlayersInput();
-                                GamePlay gamePlay=new GamePlay(players,map);
+                                gamePlay  =new GamePlay(players,map);
+                                phaseview=new PhaseView();
+                                PWDV=new PlayerWorldDominantView();
+                                
+                                gamePlay.addObserver(phaseview);
+                                gamePlay.addObserver(PWDV);
                                 gamePlay.start();
                             } else {
                                 System.out.println("Invalid! Enter either Yes or No: ");

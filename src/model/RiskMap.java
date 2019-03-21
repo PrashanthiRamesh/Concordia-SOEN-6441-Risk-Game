@@ -599,5 +599,17 @@ public class RiskMap {
     }
 
 
+    public int No_of_countries_player_owns(String name)
+    {
+    	int count=0;
+    	for(int i=0;i<countries.size();i++)
+    	{
+    		if(countries.get(i).getBelongsTo().equals(name))
+    			count++;
+    	}
+    	
+		return count;
+    	
+    }
 
 }
