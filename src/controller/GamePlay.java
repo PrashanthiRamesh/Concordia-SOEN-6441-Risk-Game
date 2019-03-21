@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
 
-import country.Country;
+import model.Country;
 import map.RiskMap;
-import player.Player;
+import model.Player;
 
 
 /**

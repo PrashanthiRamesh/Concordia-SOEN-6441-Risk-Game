@@ -3,7 +3,7 @@ package controller;
 
 import gameplay.GamePlay;
 import map.RiskMap;
-import player.Player;
+import model.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
