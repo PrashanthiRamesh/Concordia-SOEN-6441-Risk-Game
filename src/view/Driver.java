@@ -2,11 +2,8 @@ package view;
 
 
 import controller.GamePlay;
-import gameplay.PhaseView;
-import gameplay.PlayerWorldDominantView;
 import model.RiskMap;
 import model.Player;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,9 +35,7 @@ public class Driver {
      */
     private static Scanner scan = new Scanner(System.in);
 
-    static GamePlay gamePlay;
-    static PhaseView phaseview;
-    static PlayerWorldDominantView PWDV;
+
     /**
      * Initiates the game
      * @param args command line arguments
@@ -52,9 +47,7 @@ public class Driver {
     /**
      * Implements the game phases according to the Risk rules
      */
-    public static void startGame(){
-    	
-    	
+    private static void startGame(){
         try{
             boolean map_flag=false;
             while (!map_flag){
@@ -62,9 +55,9 @@ public class Driver {
                 getMapInput();
                 boolean edit_map_flag=false;
                 while(!edit_map_flag){
-                    if (map.isMapConnected()) {
-                        System.out.println("\nContinents and its countries: "+map.getContinents_with_countries());
-                        System.out.println("\nCountries and its neighbours: "+map.getAdj_countries());
+                    if (map.areContinentsConnected() && map.isMapConnected()) {
+                        System.out.println("\nContinents and its countries: "+map.getContinentsWithCountries());
+                        System.out.println("\nCountries and its neighbours: "+map.getAdjCountries());
                         System.out.println("\n****Map that is loaded is connected and valid!****\n");
                         System.out.println("Do you want to edit the map?\nYes\nNo");
                         boolean edit_map_choice_flag=false;
@@ -78,12 +71,20 @@ public class Driver {
                                 edit_map_choice_flag=true;
                                 edit_map_flag=true;
                                 getPlayersInput();
-                                gamePlay  =new GamePlay(players,map);
-                                phaseview=new PhaseView();
-                                PWDV=new PlayerWorldDominantView();
-                                
-                                gamePlay.addObserver(phaseview);
-                                gamePlay.addObserver(PWDV);
+
+                                /*
+                                 * Observer Pattern
+                                 * 1. Phase View to display name of the game phase, current player's name,
+                                 *    information about actions that are taking place in the phase which should
+                                 *    declared at the beginning of every phase
+                                 * 2. Player World Domination View to display the % of map controlled by every player,
+                                 *    continents controlled by every player, total number of armies owned by every player
+                                 */
+                                GamePlay gamePlay  =new GamePlay(players,map);
+                                Phase phase=new Phase();
+                                PlayerWorldDomination worldDomination=new PlayerWorldDomination();
+                                gamePlay.addObserver(phase);
+                                gamePlay.addObserver(worldDomination);
                                 gamePlay.start();
                             } else {
                                 System.out.println("Invalid! Enter either Yes or No: ");
@@ -93,9 +94,10 @@ public class Driver {
                     } else {
                         edit_map_flag=true;
                         map_flag=false;
-                        System.out.println("\n**Map after editing**\nContinents and its countries: "+map.getContinents_with_countries());
-                        System.out.println("\nCountries and its neighbours: "+map.getAdj_countries());
-                        System.out.println("\n**** Map is not connected and is invalid! Please start again! ****\n");
+                        System.out.println("\n**Map Overview**\n\nContinents and its countries and its neighbours: "+map.getContinentsWithCountriesAndNeighbours());
+                        System.out.println("\nContinents and its countries: "+map.getContinentsWithCountries());
+                        System.out.println("\nCountries and its neighbours: "+map.getAdjCountries());
+                        System.out.println("\n**** Map is not connected or one of the Continents is not connected and is invalid! Please start again! ****\n");
                     }
                 }
             }

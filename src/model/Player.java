@@ -302,7 +302,7 @@ public class Player {
                 if(player_countries.contains(move_armies_from)){
                     if(containsOtherPlayerCountriesAsNeighbours(move_armies_from,player)){
                         player_from_country_flag=true;
-                        LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours=map.getAdj_countries();
+                        LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours=map.getAdjCountries();
                         ArrayList<String> selected_country_neighbours=all_countries_with_neighbours.get(move_armies_from);
                         System.out.println("Neighbours to "+move_armies_from+" : "+selected_country_neighbours);
                         System.out.println("Enter the country to which you want to move armies to: ");
@@ -388,7 +388,7 @@ public class Player {
      * @return true if at least one neighbour country is owned by a different player, else false
      */
     public boolean containsOtherPlayerCountriesAsNeighbours(String country_name, Player player){
-        LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours=map.getAdj_countries();
+        LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours=map.getAdjCountries();
         ArrayList<String> neighbours=all_countries_with_neighbours.get(country_name);
         for (String neighbour:neighbours){
             if(!player.getCountries().contains(neighbour)){

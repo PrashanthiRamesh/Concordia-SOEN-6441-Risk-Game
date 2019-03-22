@@ -8,26 +8,26 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import model.Player;
 import model.RiskMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import model.Country;
-import controller.GamePlay;
 
 public class RiskMapTest {
 
     private RiskMap map;
     private Country country;
-    private GamePlay gamePlay;
+    private Player gamePlay;
 
     @Before
     public void setUp() throws Exception {
 
         map = new RiskMap();
         country = new Country();
-        gamePlay = new GamePlay();
+        gamePlay = new Player();
     }
 
     @After
@@ -44,13 +44,13 @@ public class RiskMapTest {
         ArrayList<String> al3 = new ArrayList<String>();
         al1.add("b");
         al1.add("c");
-        map.adj_countries.put("a", al1);
+        map.adjCountries.put("a", al1);
         al2.add("c");
         al2.add("a");
-        map.adj_countries.put("b", al2);
+        map.adjCountries.put("b", al2);
         al3.add("b");
         al3.add("a");
-        map.adj_countries.put("c", al3);
+        map.adjCountries.put("c", al3);
         assertTrue(map.isMapConnected());
     }
 
@@ -84,17 +84,17 @@ public class RiskMapTest {
         ArrayList<String> al3 = new ArrayList<String>();
         al1.add("b");
         al1.add("c");
-        map.adj_countries.put("a", al1);
+        map.adjCountries.put("a", al1);
         al2.add("c");
         al2.add("a");
 
-        map.adj_countries.put("b", al2);
+        map.adjCountries.put("b", al2);
         al3.add("b");
         al3.add("a");
 
-        map.adj_countries.put("c", al3);
+        map.adjCountries.put("c", al3);
 
-        assertTrue(map.breadthFirstSearch(map.adj_countries, "a", "c"));
+        assertTrue(map.breadthFirstSearch(map.adjCountries, "a", "c"));
     }
 
     @Test

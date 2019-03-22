@@ -1,11 +1,8 @@
 package controller;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Observable;
 import java.util.Scanner;
-
-import model.Country;
 import model.RiskMap;
 import model.Player;
 
@@ -123,7 +120,7 @@ public class GamePlay extends Observable{
             	phase=1;
             	current_player=player.getPlayer_name();
             
-            	percentage_map=play.map.No_of_countries_player_owns(player.getPlayer_name())/play.map.adj_countries.size();
+            	percentage_map=play.map.No_of_countries_player_owns(player.getPlayer_name())/play.map.adjCountries.size();
             	total_armies=player.getArmies();
             	setChanged();
             	notifyObservers(this);
