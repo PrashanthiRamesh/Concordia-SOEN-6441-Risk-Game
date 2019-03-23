@@ -357,7 +357,7 @@ public class RiskMap {
         countries = new ArrayList<>();
         for (String country_name : adjCountries.keySet()) {
             int rand_temp = randInt(0, no_of_players - 1);
-            String player_name=players.get(rand_temp).getPlayer_name();
+            String player_name=players.get(rand_temp).getPlayerName();
             countries.add(new Country(country_name, player_name, 0));
         }
     }
@@ -636,17 +636,32 @@ public class RiskMap {
     }
 
 
-    public int No_of_countries_player_owns(String name)
-    {
+    public int noOfCountriesPlayerOwns(String playerName) {
     	int count=0;
-    	for(int i=0;i<countries.size();i++)
-    	{
-    		if(countries.get(i).getBelongsTo().equals(name))
+    	for(int i=0;i<countries.size();i++) {
+    		if(countries.get(i).getBelongsTo().equals(playerName))
     			count++;
     	}
-    	
 		return count;
-    	
+    }
+
+    public ArrayList<String> continentsOfGivenCountries(ArrayList<String> playerCountries){
+        ArrayList<String> controlledContinents=new ArrayList<>();
+        //get continentsWithCountries HashMap
+        //if any country of a continent is in playerCountries, then add continent in the arralist
+        Set<String> continents = continentsWithCountries.keySet();
+        for(String continent:continents){
+            int countCountries=0;
+            for(String country:continentsWithCountries.get(continent)){
+                if(playerCountries.contains(country)){
+                    countCountries++;
+                }
+            }
+            if(countCountries==continentsWithCountries.get(continent).size()){
+                controlledContinents.add(continent);
+            }
+        }
+        return controlledContinents;
     }
 
 }

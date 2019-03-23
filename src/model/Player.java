@@ -76,7 +76,7 @@ public class Player {
      * Getter method to get the name of the player
      * @return player name
      */
-    public String getPlayer_name() {
+    public String getPlayerName() {
         return player_name;
     }
 
@@ -220,14 +220,10 @@ public class Player {
     public static int calculateReinforcementArmies(int player_countries_count){
         return (int) Math.floor(player_countries_count / 3.0);
     }
-    
-    /**
-     * Implementation of reinforcement phase of the game
-     */
-    public void reinforcement(Player player) {
+
+    public void initialDeployment(Player player){
         int player_armies = player.getArmies();
         ArrayList<String> player_countries = player.getCountries();
-        //System.out.println("\n**Reinforcement**\n");
         System.out.println("\nNo of armies to place: " + player_armies);
         System.out.println("Countries you own: " + player_countries);
         while (player_armies > 0) {
@@ -275,9 +271,16 @@ public class Player {
     }
 
     /**
+     * Implementation of reinforcement phase of the game
+     */
+    public void reinforcement(Player player) {
+
+    }
+
+    /**
      * Implementation of attack phase of game
      */
-    public void attack() {
+    public void attack(Player player) {
 
     }
 
@@ -287,7 +290,6 @@ public class Player {
     public void fortification(Player player) {
         ArrayList<String> player_countries = player.getCountries();
         ArrayList<Country> countries = map.getCountries();
-      //  System.out.println("\n** Fortification **\n");
         System.out.println("\nCountries you own: "+player_countries);
         for(Country country:countries){
             if(player_countries.contains(country.getCountryName())){

@@ -2,15 +2,19 @@ package view;
 
 import controller.GamePlay;
 
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
 public class PlayerWorldDomination implements Observer {
 
 	public void update(Observable obs, Object x) {
-		float percentage_map=((GamePlay) obs).getPercentage_map();
-		int armies=((GamePlay) obs).getTotal_armies();
-		System.out.println(percentage_map+" map percentage  "+ armies+ " armies");
+		float percentageMap=((GamePlay) obs).getPercentageMap();
+		int armies=((GamePlay) obs).getTotalArmies();
+		ArrayList continents=((GamePlay) obs).getContinentsControlled();
+		System.out.println("% of map controlled= "+percentageMap);
+		System.out.println("Number of Armies owned= "+armies);
+		System.out.println("Continents controlled= "+continents);
 		 
 	}
 

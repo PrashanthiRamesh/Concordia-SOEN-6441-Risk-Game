@@ -19,37 +19,37 @@ public class GamePlay extends Observable{
 
 	private int phase;
 	
-	private String current_player;
+	private String currentPlayer;
 	
-	private float percentage_map;
+	private float percentageMap;
 	
-	private double continents_controlled;
+	private ArrayList continentsControlled;
 	
-	private int total_armies;
+	private int totalArmies;
 	
 	
-	public float getPercentage_map() {
-		return percentage_map;
+	public float getPercentageMap() {
+		return percentageMap;
 	}
 
-	public void setPercentage_map(float percentage_map) {
-		this.percentage_map = percentage_map;
+	public void setPercentageMap(float percentageMap) {
+		this.percentageMap = percentageMap;
 	}
 
-	public double getContinents_controlled() {
-		return continents_controlled;
+	public ArrayList getContinentsControlled() {
+		return continentsControlled;
 	}
 
-	public void setContinents_controlled(double continents_controlled) {
-		this.continents_controlled = continents_controlled;
+	public void setContinentsControlled(ArrayList continentsControlled) {
+		this.continentsControlled = continentsControlled;
 	}
 
-	public int getTotal_armies() {
-		return total_armies;
+	public int getTotalArmies() {
+		return totalArmies;
 	}
 
-	public void setTotal_armies(int total_armies) {
-		this.total_armies = total_armies;
+	public void setTotalArmies(int totalArmies) {
+		this.totalArmies = totalArmies;
 	}
 
 	public int getPhase() {
@@ -60,12 +60,12 @@ public class GamePlay extends Observable{
 		this.phase = phase;
 	}
 
-	public String getCurrent_player() {
-		return current_player;
+	public String getCurrentPlayer() {
+		return currentPlayer;
 	}
 
-	public void setCurrent_player(String current_player) {
-		this.current_player = current_player;
+	public void setCurrentPlayer(String currentPlayer) {
+		this.currentPlayer = currentPlayer;
 	}
 
 	/**
@@ -107,34 +107,53 @@ public class GamePlay extends Observable{
      * Driver method to initiate the game phases in a round robin fashion for every player
      */
     public void start() {
-    	
-    	
-        System.out.println("\n**** Game has started ****\n");
+        System.out.println("\n**** Game has started ****");
+		for (Player player : play.players) {
+			phase=1;
+			currentPlayer =player.getPlayerName();
+			percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
+			totalArmies =player.getArmies();
+			continentsControlled=play.map.continentsOfGivenCountries(player.getCountries());
+			setChanged();
+			notifyObservers(this);
+			play.initialDeployment(player);
+		}
         boolean game_over = false;
         while (!game_over) {
-        	
-        	
-            System.out.println("** New Round Begins **");
-            
+            System.out.println("\n** New Round Begins **");
+            /*
+             * Reinforcement Phase
+             */
             for (Player player : play.players) {
-            	phase=1;
-            	current_player=player.getPlayer_name();
-            
-            	percentage_map=play.map.No_of_countries_player_owns(player.getPlayer_name())/play.map.adjCountries.size();
-            	total_armies=player.getArmies();
+            	phase=2;
+            	currentPlayer =player.getPlayerName();
+            	percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
+            	totalArmies =player.getArmies();
+            	continentsControlled=play.map.continentsOfGivenCountries(player.getCountries());
             	setChanged();
             	notifyObservers(this);
-            	
                 play.reinforcement(player);
             }
+			/*
+			 * Attack Phase
+			 */
+			for (Player player : players) {
+				phase=3;
+				currentPlayer =player.getPlayerName();
+				setChanged();
+				notifyObservers(this);
+				play.attack(player);
+			}
+			/*
+			 * Fortification Phase
+			 */
             for (Player player : players) {
-            	phase=2;
-            	current_player=player.getPlayer_name();
+            	phase=4;
+            	currentPlayer =player.getPlayerName();
             	setChanged();
             	notifyObservers(this);
                 play.fortification(player);
             }
-            
             System.out.println("\nContinue the game?\nYes\nNo");
             boolean continue_game_flag = false;
             while (!continue_game_flag) {
@@ -152,7 +171,6 @@ public class GamePlay extends Observable{
                 }
             }
         }
-        
         System.out.println("\n***Game Over***\n");
     }
 
