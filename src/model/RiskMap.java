@@ -636,7 +636,7 @@ public class RiskMap {
 		return count;
     }
 
-    public ArrayList<String> continentsOfGivenCountries(ArrayList<String> playerCountries){
+    public ArrayList<String> continentsControlledByPlayer(ArrayList<String> playerCountries){
         ArrayList<String> controlledContinents=new ArrayList<>();
         Set<String> continents = continentsWithCountries.keySet();
         for(String continent:continents){

@@ -5,6 +5,7 @@ import java.util.Observable;
 import java.util.Scanner;
 import model.RiskMap;
 import model.Player;
+import view.CardExchange;
 
 
 /**
@@ -114,7 +115,7 @@ public class GamePlay extends Observable{
 			currentPlayer =player.getPlayerName();
 			percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
 			totalArmies =player.getArmies();
-			continentsControlled=play.map.continentsOfGivenCountries(player.getCountries());
+			continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
 			setChanged();
 			notifyObservers(this);
 			play.initialDeployment(player);
@@ -126,15 +127,20 @@ public class GamePlay extends Observable{
              * Reinforcement Phase
              */
             if(!initial_game_flag){
+
 				for (Player player : play.players) {
 					phase=2;
+					CardExchange cardExchange=new CardExchange();
+					play.addObserver(cardExchange);
 					currentPlayer =player.getPlayerName();
 					percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
 					totalArmies =player.getArmies();
-					continentsControlled=play.map.continentsOfGivenCountries(player.getCountries());
+					continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
 					setChanged();
 					notifyObservers(this);
 					play.reinforcement(player);
+					play.deleteObserver(cardExchange);
+
 				}
 			}
             initial_game_flag=false;
@@ -144,6 +150,9 @@ public class GamePlay extends Observable{
 			for (Player player : play.players) {
 				phase=3;
 				currentPlayer =player.getPlayerName();
+				percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
+				totalArmies =player.getArmies();
+				continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
 				setChanged();
 				notifyObservers(this);
 				play.attack(player);
@@ -154,6 +163,9 @@ public class GamePlay extends Observable{
             for (Player player : play.players) {
             	phase=4;
             	currentPlayer =player.getPlayerName();
+				percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
+				totalArmies =player.getArmies();
+				continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
             	setChanged();
             	notifyObservers(this);
                 play.fortification(player);
