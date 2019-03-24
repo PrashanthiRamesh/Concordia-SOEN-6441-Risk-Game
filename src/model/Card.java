@@ -6,6 +6,11 @@ public class Card  {
 
     private int typeNumber;
 
+    public Card(String name, int typeNumber) {
+        this.name = name;
+        this.typeNumber = typeNumber;
+    }
+
     public String getName() {
         return name;
     }
@@ -22,7 +27,7 @@ public class Card  {
         this.typeNumber = typeNumber;
     }
 
-    public String getNameByTypeNumber(int typeNumber){
+    public static String getNameByTypeNumber(int typeNumber){
         String name="";
         switch (typeNumber){
             case 1:

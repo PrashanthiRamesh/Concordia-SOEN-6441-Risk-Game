@@ -2,6 +2,7 @@ package view;
 
 
 import controller.GamePlay;
+import model.Card;
 import model.RiskMap;
 import model.Player;
 import java.io.File;
@@ -170,11 +171,13 @@ public class Driver {
                 int no_of_players = scan.nextInt();
                 if (no_of_players >= 2 && no_of_players <= 6) {
                     players = new ArrayList<>(no_of_players);
-                    ArrayList<String> player_countries=new ArrayList<>();
+                    ArrayList<String> playerCountries=new ArrayList<>();
+
                     for (int i = 0; i < no_of_players; i++) {
+                        ArrayList<Card> cards=new ArrayList<>();
                         System.out.println("Enter player " + (i + 1) + " name: ");
                         String player_name = scan.next();
-                        players.add(new Player(player_name, 0,player_countries ));
+                        players.add(new Player(player_name, 0,playerCountries, cards ));
                     }
                 } else {
                     System.out.println("Invalid no of players! Enter again [2 to 6]:");

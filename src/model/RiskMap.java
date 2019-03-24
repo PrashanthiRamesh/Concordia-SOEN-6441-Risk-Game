@@ -1,5 +1,7 @@
 package model;
 
+import util.Util;
+
 import java.io.*;
 import java.util.*;
 
@@ -356,21 +358,10 @@ public class RiskMap {
     public void assignPlayersToCountries(ArrayList<Player> players, int no_of_players) {
         countries = new ArrayList<>();
         for (String country_name : adjCountries.keySet()) {
-            int rand_temp = randInt(0, no_of_players - 1);
+            int rand_temp = Util.randInt(0, no_of_players - 1);
             String player_name=players.get(rand_temp).getPlayerName();
             countries.add(new Country(country_name, player_name, 0));
         }
-    }
-
-    /**
-     * Generate a random integer between two integers (range)
-     * @param min minimum value of the range
-     * @param max maximum value of the range
-     * @return a random integer
-     */
-    public int randInt(int min, int max) {
-        Random rand = new Random();
-        return rand.nextInt((max - min) + 1) + min;
     }
 
     /**
@@ -647,8 +638,6 @@ public class RiskMap {
 
     public ArrayList<String> continentsOfGivenCountries(ArrayList<String> playerCountries){
         ArrayList<String> controlledContinents=new ArrayList<>();
-        //get continentsWithCountries HashMap
-        //if any country of a continent is in playerCountries, then add continent in the arralist
         Set<String> continents = continentsWithCountries.keySet();
         for(String continent:continents){
             int countCountries=0;

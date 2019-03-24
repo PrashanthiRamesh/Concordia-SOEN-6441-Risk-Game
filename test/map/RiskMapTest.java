@@ -15,6 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import model.Country;
+import util.Util;
 
 public class RiskMapTest {
 
@@ -63,7 +64,7 @@ public class RiskMapTest {
     public void randomInteger() {
         int[] arr = {0, 1, 2, 3};
 
-        int x = Arrays.binarySearch(arr, map.randInt(0, 4));
+        int x = Arrays.binarySearch(arr, Util.randInt(0, 4));
 
         //assertEquals( 1, x);
 

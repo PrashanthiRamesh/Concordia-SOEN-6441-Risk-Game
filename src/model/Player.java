@@ -2,6 +2,8 @@
 package model;
 
 
+import util.Util;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Scanner;
@@ -36,6 +38,11 @@ public class Player {
     private ArrayList<String> countries;
 
     /**
+     * Stores the cards the player owns
+     */
+    private ArrayList<Card> cards;
+
+    /**
      * Array list that holds instances of all players
      */
     public ArrayList<Player> players;
@@ -68,10 +75,11 @@ public class Player {
      * @param armies      An integer representing the number of armies of player
      * @param countries   An ArrayList representing the list of countries that the player owns
      */
-    public Player(String player_name, int armies, ArrayList<String> countries) {
+    public Player(String player_name, int armies, ArrayList<String> countries, ArrayList<Card> cards) {
         this.player_name = player_name;
         this.armies = armies;
         this.countries = countries;
+        this.cards=cards;
     }
 
     /**
@@ -144,6 +152,14 @@ public class Player {
      */
     public void setCountries(ArrayList<String> countries) {
         this.countries = countries;
+    }
+
+    public ArrayList<Card> getCards() {
+        return cards;
+    }
+
+    public void setCards(ArrayList<Card> cards) {
+        this.cards = cards;
     }
 
     /**
@@ -297,7 +313,21 @@ public class Player {
      * Implementation of attack phase of game
      */
     public void attack(Player player) {
+        boolean playerWon=true;
+        ArrayList<Card> playerCards=player.cards;
+        if(playerWon){
+            //get a random number from 1 to 3 and assign to player card
+            int cardTypeValue= Util.randInt(1,3);
+            String cardName=Card.getNameByTypeNumber(cardTypeValue);
+            playerCards.add(new Card(cardName,cardTypeValue));
+            player.cards=playerCards;
 
+        }
+        System.out.println("\n**Cards**\nPlayer has "+playerCards.size()+ " card(s)\nThey are: ");
+        for(Card playerCard:playerCards){
+            System.out.print(playerCard.getName()+ " | ");
+        }
+        System.out.println();
     }
 
     /**
