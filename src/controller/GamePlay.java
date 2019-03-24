@@ -125,7 +125,6 @@ public class GamePlay extends Observable{
             /*
              * Reinforcement Phase
              */
-            int x=1;
             if(!initial_game_flag){
 				for (Player player : play.players) {
 					phase=2;
