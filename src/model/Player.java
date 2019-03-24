@@ -141,7 +141,7 @@ public class Player {
      * @param players List of players in the game
      * @param countries List of countries in the game
      */
-    public static ArrayList<Player> setReinforcementArmies(ArrayList<Player> players, ArrayList<Country> countries) {
+    private static ArrayList<Player> setReinforcementArmies(ArrayList<Player> players, ArrayList<Country> countries) {
         for (Player player : players) {
             int player_countries_count=0;
             ArrayList<String> player_countries=new ArrayList<>();
@@ -274,6 +274,8 @@ public class Player {
      * Implementation of reinforcement phase of the game
      */
     public void reinforcement(Player player) {
+        //calculate reinforcement armies
+        setReinforcementArmies(players,map.getCountries());
 
     }
 

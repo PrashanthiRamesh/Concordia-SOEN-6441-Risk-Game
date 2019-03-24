@@ -88,9 +88,8 @@ public class GamePlay extends Observable{
     /**
      * Create a game play
      */
-    public GamePlay()
-    { 
-    	
+    public GamePlay() {
+
     }
 
     /**
@@ -108,6 +107,8 @@ public class GamePlay extends Observable{
      */
     public void start() {
         System.out.println("\n**** Game has started ****");
+		currentPlayer=null;
+        boolean initial_game_flag=true;
 		for (Player player : play.players) {
 			phase=1;
 			currentPlayer =player.getPlayerName();
@@ -124,20 +125,24 @@ public class GamePlay extends Observable{
             /*
              * Reinforcement Phase
              */
-            for (Player player : play.players) {
-            	phase=2;
-            	currentPlayer =player.getPlayerName();
-            	percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
-            	totalArmies =player.getArmies();
-            	continentsControlled=play.map.continentsOfGivenCountries(player.getCountries());
-            	setChanged();
-            	notifyObservers(this);
-                play.reinforcement(player);
-            }
+            int x=1;
+            if(!initial_game_flag){
+				for (Player player : play.players) {
+					phase=2;
+					currentPlayer =player.getPlayerName();
+					percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
+					totalArmies =player.getArmies();
+					continentsControlled=play.map.continentsOfGivenCountries(player.getCountries());
+					setChanged();
+					notifyObservers(this);
+					play.reinforcement(player);
+				}
+			}
+            initial_game_flag=false;
 			/*
 			 * Attack Phase
 			 */
-			for (Player player : players) {
+			for (Player player : play.players) {
 				phase=3;
 				currentPlayer =player.getPlayerName();
 				setChanged();
@@ -147,7 +152,7 @@ public class GamePlay extends Observable{
 			/*
 			 * Fortification Phase
 			 */
-            for (Player player : players) {
+            for (Player player : play.players) {
             	phase=4;
             	currentPlayer =player.getPlayerName();
             	setChanged();
@@ -160,8 +165,6 @@ public class GamePlay extends Observable{
                 String choice = scanner.next();
                 if (choice.equals("Yes")) {
                     continue_game_flag = true;
-                    //calculate reinforcement armies
-                    this.players=Player.setReinforcementArmies(players,map.getCountries());
                 } else if (choice.equals("No")) {
                     continue_game_flag = true;
                     game_over = true;
