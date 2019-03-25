@@ -282,8 +282,138 @@ public class Player {
      */
     public void attack(Player player) {
 
+    	ArrayList<Country> countriescopy=map.getCountries();
+    	Scanner scan = new Scanner(System.in);
+    	System.out.println("Selet Player to Attack From the List");
+    	int count=0;
+    	for(int i=0;i<players.size();i++)
+    	{
+    		if(!players.get(i).getPlayerName().equals(player.getPlayerName()))
+    		{
+    			System.out.println(players.get(i).getPlayerName());
+    		}
+    	}
+    	String attacker=scan.next();
+    	
+        System.out.println("The Countries You Can Attack of the Player "+attacker+" are :");
+        ArrayList<String> player_countries = player.getCountries();
+        ArrayList<String> store =new ArrayList<String>();
+        for(int i=0;i<player_countries.size();i++)
+        {
+        	ArrayList<String> adjcont=map.adjCountries.get(player_countries.get(i));
+        	
+        	
+        	for(int j=0;j<adjcont.size();j++)
+        	{
+        		for(int k=0;k<countriescopy.size();k++)
+        		{
+        			if(adjcont.get(j).equals(countriescopy.get(k).getCountryName()))
+        			{
+        				
+        				if(countriescopy.get(k).getBelongsTo().equals(attacker))
+        				{
+        					store.add(countriescopy.get(k).getCountryName());
+        					
+        					//System.out.println(countriescopy.get(k).getCountryName()+ " " +countriescopy.get(k).getArmies());
+        				}
+        			}
+        		}
+        	}
+        	//System.out.println(player_countries.get(i)+" ----> "+store);
+        	
+        	for(int p=0;p<countriescopy.size();p++)
+    		{
+    			if(countriescopy.get(p).getCountryName().equals(player_countries.get(i)))
+    			{
+    				System.out.print(player_countries.get(i)+"-"+countriescopy.get(p).getArmies());
+    			}
+    		}
+        	System.out.print("------> [");
+        	for(int m=0;m<store.size();m++)
+        	{
+        		for(int p=0;p<countriescopy.size();p++)
+        		{
+        			if(countriescopy.get(p).getCountryName().equals(store.get(m)))
+        			{
+        				System.out.print(store.get(m)+"-"+countriescopy.get(p).getArmies());
+        				if(m!=store.size()-1)
+            			{
+            				System.out.print(",");
+            			}
+        			}
+        			
+        		}
+        	}
+        	System.out.print("]");
+        	System.out.println();
+        	//System.out.println(player_countries.get(i)+" ----> "+store);
+        	store.clear();
+        }
+        int attackerArmies;
+        int defenderArmies;
+        String defendingcountry;
+        String attackingcountry;
+        int attackerDice;
+        int defenderDice;
+        ZeroArmy :
+        while(true)
+        {
+        	
+        System.out.println("Select the Country you want to Attack");
+        defendingcountry =scan.next();
+        System.out.println("Select Your country To attack");
+        attackingcountry=scan.next();
+        
+        for(int i=0;i<countriescopy.size();i++)
+        {
+        	if(countriescopy.get(i).getCountryName().equals(attackingcountry))
+        	{
+        		attackerArmies=countriescopy.get(i).getArmies();
+        		if(countriescopy.get(i).getArmies()==0)
+        		{
+        			
+        			System.out.println("You have no armies in the selected country");
+        			continue ZeroArmy;
+        		}
+        		else
+        			break ZeroArmy;	
+        	}
+        }
+        
+        }
+    	
+        for(int i=0;i<countriescopy.size();i++)
+        {
+        	if(countriescopy.get(i).getCountryName().equals(defendingcountry))
+        	{
+        		defenderArmies=countriescopy.get(i).getArmies();
+        		if(defenderArmies==0)
+        		{
+        			defenderDice=1;
+        		}
+        		else
+        		{
+        			defenderDice=2;
+        		}
+        			
+        	}
+        }
+       
+        if(attackerArmies>=3)
+        System.out.println("You Can Roll Atmost 3 dice");
+        else if(attackerArmies==2)
+        	System.out.println("You Can Roll Atmost 2 dice");
+        else System.out.println("You Can only Roll the Dice once");
+        attackerDice=scan.nextInt();
+        
+        
+        
+        
+    	
     }
 
+    
+    
     /**
      * Implementation of fortification phase of game
      */

@@ -137,7 +137,7 @@ public class GamePlay extends Observable{
 			/*
 			 * Attack Phase
 			 */
-			for (Player player : players) {
+			for (Player player : play.players) {
 				phase=3;
 				currentPlayer =player.getPlayerName();
 				setChanged();
@@ -147,7 +147,7 @@ public class GamePlay extends Observable{
 			/*
 			 * Fortification Phase
 			 */
-            for (Player player : players) {
+            for (Player player : play.players) {
             	phase=4;
             	currentPlayer =player.getPlayerName();
             	setChanged();
