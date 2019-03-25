@@ -122,7 +122,7 @@ public class GamePlay extends Observable{
 		}
         boolean game_over = false;
         while (!game_over) {
-            System.out.println("\n** New Round Begins **");
+            System.out.println("\n**** New Round Begins ****");
             /*
              * Reinforcement Phase
              */

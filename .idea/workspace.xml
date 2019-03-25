@@ -5,14 +5,8 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/controller/GamePlay.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/controller/GamePlay.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/model/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/model/Player.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/model/RiskMap.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/model/RiskMap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/view/CardExchange.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/view/CardExchange.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/view/Driver.class" beforeDir="false" afterPath="$PROJECT_DIR$/bin/view/Driver.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/controller/GamePlay.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/controller/GamePlay.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/model/RiskMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/model/RiskMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/CardExchange.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/CardExchange.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/view/Driver.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/view/Driver.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/bin/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -56,13 +50,14 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/model/RiskMap.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="64">
-              <caret line="88" selection-start-line="88" selection-end-line="88" />
+            <state relative-caret-position="84">
+              <caret line="638" column="29" selection-start-line="638" selection-start-column="29" selection-end-line="638" selection-end-column="29" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="e#2558#2559#0" expanded="true" />
                 <element signature="e#2590#2591#0" expanded="true" />
                 <element signature="e#26362#26363#0" expanded="true" />
                 <element signature="e#26418#26419#0" expanded="true" />
@@ -74,8 +69,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/model/Player.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="83">
-              <caret line="341" selection-start-line="341" selection-end-line="341" />
+            <state relative-caret-position="44">
+              <caret line="201" column="71" selection-start-line="201" selection-start-column="71" selection-end-line="201" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2041#2042#0" expanded="true" />
@@ -120,11 +115,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/controller/GamePlay.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="244">
-              <caret line="140" column="47" lean-forward="true" selection-start-line="140" selection-start-column="47" selection-end-line="140" selection-end-column="47" />
+            <state relative-caret-position="324">
+              <caret line="124" column="60" selection-start-line="124" selection-start-column="60" selection-end-line="124" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1036#1037#0" expanded="true" />
@@ -223,9 +218,9 @@
         <option value="$PROJECT_DIR$/src/model/Card.java" />
         <option value="$PROJECT_DIR$/src/model/RiskMap.java" />
         <option value="$PROJECT_DIR$/src/view/Driver.java" />
-        <option value="$PROJECT_DIR$/src/model/Player.java" />
         <option value="$PROJECT_DIR$/src/view/CardExchange.java" />
         <option value="$PROJECT_DIR$/src/controller/GamePlay.java" />
+        <option value="$PROJECT_DIR$/src/model/Player.java" />
       </list>
     </option>
   </component>
@@ -283,7 +278,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553458790454" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1553471943340" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
     <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit4" value="" />
     <property name="create.test.in.the.same.root" value="true" />
@@ -415,9 +410,9 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1299" height="743" extended-state="6" />
+    <frame x="79" y="25" width="1287" height="743" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4988067" visible="true" weight="0.3216281" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4988067" visible="true" weight="0.32473812" />
       <window_info id="Structure" order="1" sideWeight="0.50119334" side_tool="true" weight="0.26177174" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -426,7 +421,7 @@
       <window_info id="Favorites" order="6" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32899022" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.42996743" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.72638434" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.3159609" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -580,12 +575,14 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/view/Driver.java">
+    <entry file="file://$PROJECT_DIR$/src/model/Country.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="103" selection-start-line="103" selection-end-line="103" />
+        <state relative-caret-position="56">
+          <caret line="66" selection-start-line="66" selection-end-line="66" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="e#970#971#0" expanded="true" />
+            <element signature="e#995#996#0" expanded="true" />
+            <element signature="e#1347#1348#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -600,35 +597,32 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/Country.java">
+    <entry file="file://$PROJECT_DIR$/src/view/Driver.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="56">
-          <caret line="66" selection-start-line="66" selection-end-line="66" />
+        <state relative-caret-position="506">
+          <caret line="103" selection-start-line="103" selection-end-line="103" />
           <folding>
-            <element signature="e#970#971#0" expanded="true" />
-            <element signature="e#995#996#0" expanded="true" />
-            <element signature="e#1347#1348#0" expanded="true" />
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/model/RiskMap.java">
+    <entry file="file://$PROJECT_DIR$/src/controller/GamePlay.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="64">
-          <caret line="88" selection-start-line="88" selection-end-line="88" />
+        <state relative-caret-position="324">
+          <caret line="124" column="60" selection-start-line="124" selection-start-column="60" selection-end-line="124" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2590#2591#0" expanded="true" />
-            <element signature="e#26362#26363#0" expanded="true" />
-            <element signature="e#26418#26419#0" expanded="true" />
+            <element signature="e#1036#1037#0" expanded="true" />
+            <element signature="e#1055#1056#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/model/Player.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="83">
-          <caret line="341" selection-start-line="341" selection-end-line="341" />
+        <state relative-caret-position="44">
+          <caret line="201" column="71" selection-start-line="201" selection-start-column="71" selection-end-line="201" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2041#2042#0" expanded="true" />
@@ -645,14 +639,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/controller/GamePlay.java">
+    <entry file="file://$PROJECT_DIR$/src/model/RiskMap.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="244">
-          <caret line="140" column="47" lean-forward="true" selection-start-line="140" selection-start-column="47" selection-end-line="140" selection-end-column="47" />
+        <state relative-caret-position="84">
+          <caret line="638" column="29" selection-start-line="638" selection-start-column="29" selection-end-line="638" selection-end-column="29" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1036#1037#0" expanded="true" />
-            <element signature="e#1055#1056#0" expanded="true" />
+            <element signature="e#2558#2559#0" expanded="true" />
+            <element signature="e#2590#2591#0" expanded="true" />
+            <element signature="e#26362#26363#0" expanded="true" />
+            <element signature="e#26418#26419#0" expanded="true" />
           </folding>
         </state>
       </provider>

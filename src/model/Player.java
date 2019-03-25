@@ -199,7 +199,7 @@ public class Player extends Observable {
     }
 
     private void setArmiesForContinentsControlled(Player player, ArrayList<String> playerCountries, int playerArmies) {
-        ArrayList<String> playerContinents = (new RiskMap()).continentsControlledByPlayer(playerCountries);
+        ArrayList<String> playerContinents = map.continentsControlledByPlayer(playerCountries);
         if (!playerContinents.isEmpty()) {
             System.out.println("Player controls the following continents: " + playerContinents);
             LinkedHashMap<String, Integer> continents = map.getContinents();
