@@ -185,7 +185,7 @@ public class GamePlay extends Observable{
 					CardExchange cardExchange=new CardExchange();
 					play.addObserver(cardExchange);
 					setPlayerDetailsForPhase(player);
-					play.reinforcement(player);
+					play.reinforcement(player);		//send play.map for map object
 					play.deleteObserver(cardExchange);
 
 				}
@@ -198,9 +198,9 @@ public class GamePlay extends Observable{
 				phase=3;
 
 				setPlayerDetailsForPhase(player);
-				play.attack(player, play.map);
+				play.attack(player, play.map); //after leaving behind, country should belong to winner
 
-			
+
 			}
 			/*
 			 * Fortification Phase
