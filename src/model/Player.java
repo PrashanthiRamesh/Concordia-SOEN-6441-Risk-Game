@@ -355,7 +355,6 @@ public class Player extends Observable {
      */
     public void attack(Player player, RiskMap mapInstance) {
 
-
         attackcontinue:
         while (true) {
             ArrayList<Country> countriescopy = mapInstance.getCountries();
@@ -481,10 +480,10 @@ public class Player extends Observable {
                 Integer defenderRandomNumbers[] = new Integer[defenderDice];
 
                 for (int i = 0; i < attackerDice; i++) {
-                    attackerRandomNumbers[i] = randInt(1, 6);
+                    attackerRandomNumbers[i] = Util.randInt(1, 6);
                 }
                 for (int i = 0; i < defenderDice; i++) {
-                    defenderRandomNumbers[i] = randInt(1, 6);
+                    defenderRandomNumbers[i] = Util.randInt(1, 6);
                 }
                 Arrays.sort(attackerRandomNumbers, Collections.reverseOrder());
                 Arrays.sort(defenderRandomNumbers, Collections.reverseOrder());
@@ -640,10 +639,6 @@ public class Player extends Observable {
 
     }
 
-    public static int randInt(int min, int max) {
-        Random rand = new Random();
-        return rand.nextInt((max - min) + 1) + min;
-    }
 
     public void displayPlayerCards(ArrayList<Card> playerCards, String name) {
         System.out.print("\n**Cards**\nPlayer has " + playerCards.size() + " card(s)\nThey are: ");
@@ -739,9 +734,11 @@ public class Player extends Observable {
                 System.out.println("Exiting Fortification Phase!");
                 player_from_country_flag = true;
             }
-
-
         }
+        if(!doesPlayerOwnAtLeastOneCountry(player)){
+            players.remove(player);
+        }
+
     }
 
     /**
@@ -797,6 +794,10 @@ public class Player extends Observable {
             }
         }
         return null;
+    }
+
+    private boolean doesPlayerOwnAtLeastOneCountry(Player player){
+        return player.getCountries().size() != 0;
     }
 
 
