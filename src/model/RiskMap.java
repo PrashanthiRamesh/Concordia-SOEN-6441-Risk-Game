@@ -28,7 +28,7 @@ public class RiskMap {
     /**
      * ArrayList that holds all the countries in the map
      */
-    private ArrayList<Country> countries;
+    public ArrayList<Country> countries;
 
     /**
      * LinkedHashMap Which Stores the Continents along with their control Values.

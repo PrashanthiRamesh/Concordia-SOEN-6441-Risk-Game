@@ -2,12 +2,15 @@
 package model;
 
 
-import util.Util;
-
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Observable;
+import java.util.Random;
 import java.util.Scanner;
+
+import util.Util;
 
 /**
  * Player Class represents a player
@@ -347,8 +350,9 @@ public class Player extends Observable {
 
     /**
      * Implementation of attack phase of game
+     * @param mapInstance 
      */
-    public void attack(Player player) {
+    public void attack(Player player, RiskMap mapInstance) {
         boolean playerWon = true;
         ArrayList<Card> playerCards = player.cards;
         if (playerWon) {
@@ -358,8 +362,11 @@ public class Player extends Observable {
             playerCards.add(new Card(cardName, cardTypeValue));
             player.cards = playerCards;
 
-
-    	ArrayList<Country> countriescopy=map.getCountries();
+       
+       attackcontinue :     
+       while(true)     
+       {
+    	ArrayList<Country> countriescopy=mapInstance.getCountries();
     	Scanner scan = new Scanner(System.in);
     	System.out.println("Selet Player to Attack From the List");
     	int count=0;
@@ -374,6 +381,9 @@ public class Player extends Observable {
     	
         System.out.println("The Countries You Can Attack of the Player "+attacker+" are :");
         ArrayList<String> player_countries = player.getCountries();
+        
+        System.out.println(player_countries);
+        
         ArrayList<String> store =new ArrayList<String>();
         for(int i=0;i<player_countries.size();i++)
         {
@@ -426,12 +436,12 @@ public class Player extends Observable {
         	//System.out.println(player_countries.get(i)+" ----> "+store);
         	store.clear();
         }
-        int attackerArmies;
-        int defenderArmies;
+        int attackerArmies=0;
+        int defenderArmies=0;
         String defendingcountry;
         String attackingcountry;
-        int attackerDice;
-        int defenderDice;
+        int attackerDice=0;
+        int defenderDice=0;
         ZeroArmy :
         while(true)
         {
@@ -441,6 +451,21 @@ public class Player extends Observable {
         System.out.println("Select Your country To attack");
         attackingcountry=scan.next();
         
+        boolean check=false;
+        for(int i=0;i<map.adjCountries.get(attackingcountry).size();i++)
+        {
+        	if(map.adjCountries.get(attackingcountry).get(i).equals(defendingcountry)) {
+        	
+        		check=true;
+        	}
+        	
+        }
+        
+        if(check==false)
+        {
+        	System.out.println("It is not a Neighbouring country Please check and enter again");
+        	continue ZeroArmy;
+        }
         for(int i=0;i<countriescopy.size();i++)
         {
         	if(countriescopy.get(i).getCountryName().equals(attackingcountry))
@@ -464,18 +489,22 @@ public class Player extends Observable {
         	if(countriescopy.get(i).getCountryName().equals(defendingcountry))
         	{
         		defenderArmies=countriescopy.get(i).getArmies();
-        		if(defenderArmies==0)
-        		{
-        			defenderDice=1;
-        		}
-        		else
-        		{
-        			defenderDice=2;
-        		}
+        		
         			
         	}
         }
        
+        while(true)
+        {
+        	
+        if(defenderArmies==0)
+		{
+			defenderDice=1;
+		}
+		else
+		{
+			defenderDice=2;
+		}
         if(attackerArmies>=3)
         System.out.println("You Can Roll Atmost 3 dice");
         else if(attackerArmies==2)
@@ -484,15 +513,227 @@ public class Player extends Observable {
         attackerDice=scan.nextInt();
         
         
+        Integer attackerRandomNumbers[]=new Integer[attackerDice];
+        Integer defenderRandomNumbers[]=new Integer[defenderDice];
+        
+        for(int i=0;i<attackerDice;i++)
+        {
+        	attackerRandomNumbers[i]=randInt(1,6);
+        }
+        for(int i=0;i<defenderDice;i++)
+        {
+        	defenderRandomNumbers[i]=randInt(1,6);
+        }
+        Arrays.sort(attackerRandomNumbers,Collections.reverseOrder());
+        Arrays.sort(defenderRandomNumbers,Collections.reverseOrder());
+        
+        System.out.println("Dice Rolled!!!");
+        System.out.println("Attacker's Dice");
+        for(int i=0;i<attackerDice;i++)
+        {
+        	System.out.print(attackerRandomNumbers[i]+" ");
+        }
+        System.out.println();
+        System.out.println("Defenders Dice");
+        for(int i=0;i<defenderDice;i++)
+        {
+        	System.out.print(defenderRandomNumbers[i]+" ");
+        }
+        System.out.println();
+        if(attackerDice<defenderDice)
+        {
+        	for(int i=0;i<attackerDice;i++)
+        	{
+        		if(attackerRandomNumbers[i]<=defenderRandomNumbers[i])
+        		{
+        			attackerArmies--;
+        		}
+        		else
+        		{
+        			defenderArmies--;
+        		}
+        	}
+        }
+        else
+        {
+        	for(int i=0;i<defenderDice;i++)
+        	{
+        		if(attackerRandomNumbers[i]<=defenderRandomNumbers[i])
+        		{
+        			attackerArmies--;
+        		}
+        		else
+        		{
+        			defenderArmies--;
+        		}	
+        	}
+        }
+        
+        if(attackerArmies==0)
+        {
+        	System.out.println("Defender has Won");
+        	 for(int i=0;i<countriescopy.size();i++)
+             {
+             	if(countriescopy.get(i).getCountryName().equals(defendingcountry))
+             	{
+             		mapInstance.countries.get(i).setArmies(defenderArmies);
+             		
+             		
+             	}
+             }
+        	 
+        	 for(int i=0;i<countriescopy.size();i++)
+             {
+             	if(countriescopy.get(i).getCountryName().equals(attackingcountry))
+             	{
+             		mapInstance.countries.get(i).setArmies(0);
+             
+             	}
+             }
+        	 
+        	 break;
+        }
+        else if(defenderArmies==-1)
+        {
+            System.out.println("You Won");
+            attackerArmies--;
+            
+            if(attackerArmies>1)
+            {
+            System.out.println("You Have "+attackerArmies+" Left");
+            System.out.println("Enter the Number of armies you want to leave behind from the territory you came");
+            int temp=scan.nextInt();
+            for(int i=0;i<countriescopy.size();i++)
+            {
+            	if(countriescopy.get(i).getCountryName().equals(attackingcountry))
+            	{
+            		mapInstance.countries.get(i).setArmies(temp);
+            		mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
+                    
+            	}
+            }
+            
+            for(int i=0;i<countriescopy.size();i++)
+            {
+            	if(countriescopy.get(i).getCountryName().equals(defendingcountry))
+            	{
+            		System.out.println("inside if ");
+            		mapInstance.countries.get(i).setArmies(attackerArmies-temp);
+            		mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
+            		
+            		System.out.println(mapInstance.countries.get(i).getBelongsTo() +"  belongs to");
+            		
+            	}
+            }
+            
+            }
+            else if(attackerArmies==1)
+            {
+            	for(int i=0;i<countriescopy.size();i++)
+                {
+                	if(countriescopy.get(i).getCountryName().equals(defendingcountry))
+                	{
+                		mapInstance.countries.get(i).setArmies(1);
+                		mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
+                	}
+                }
+            	
+            	for(int i=0;i<countriescopy.size();i++)
+                {
+                	if(countriescopy.get(i).getCountryName().equals(attackingcountry))
+                	{
+                		mapInstance.countries.get(i).setArmies(0);
+                		mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
+                
+                	}
+                }
+            }
+            else
+            {
+            	for(int i=0;i<countriescopy.size();i++)
+                {
+                	if(countriescopy.get(i).getCountryName().equals(defendingcountry))
+                	{
+                		mapInstance.countries.get(i).setArmies(0);
+                		mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
+                	}
+                }
+            	for(int i=0;i<countriescopy.size();i++)
+                {
+                	if(countriescopy.get(i).getCountryName().equals(attackingcountry))
+                	{
+                		mapInstance.countries.get(i).setArmies(0);
+                		mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
+                	}
+                }
+            }
+            
+            
+            
+            
+            break;
+        }
         
         
-    	
-
+        
+        }
+        
+        int counter=0;
+        for(int i=0;i<countriescopy.size();i++)
+        {
+        	if(countriescopy.get(i).getBelongsTo().equals(player.getPlayerName()))
+        	{
+        		counter++;
+        	}
+        }
+        if(countriescopy.size()==counter)
+        {
+        	System.out.println("You Won Please the collect the reward from the TA");
+        	System.exit(0);
+        }
+        
+        counter=0;
+        for(int i=0;i<countriescopy.size();i++)
+        {
+        	if(countriescopy.get(i).getBelongsTo().equals(player.getPlayerName()))
+        	{
+        		if(countriescopy.get(i).getArmies()>0)
+        		counter++;
+        	}
+        }
+        if(counter<1)
+        {
+        	System.out.println("Attack Not Possible No Armies Left");
+        	
+        	break attackcontinue;
+        }
+        
+        System.out.println("Do You Want to Continue the Attack \n Yes or No ?");
+        
+        String response=scan.next();
+        
+        if(response.equals("Yes"))
+        {
+        	continue attackcontinue;
+        }
+        else if(response.equals("No"))
+        {
+        	break attackcontinue;
+        }
+        
+       }
+        
+        
         }
         displayPlayerCards(playerCards);
 
     }
 
+    public static int randInt(int min, int max) {
+        Random rand = new Random();
+        return rand.nextInt((max - min) + 1) + min;
+    }
+ 
     public void displayPlayerCards(ArrayList<Card> playerCards) {
         System.out.println("\n**Cards**\nPlayer has " + playerCards.size() + " card(s)\nThey are: ");
         for (Card playerCard : playerCards) {

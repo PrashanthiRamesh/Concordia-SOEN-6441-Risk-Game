@@ -155,7 +155,7 @@ public class GamePlay extends Observable{
 				continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
 				setChanged();
 				notifyObservers(this);
-				play.attack(player);
+				play.attack(player,play.map);
 			}
 			/*
 			 * Fortification Phase
