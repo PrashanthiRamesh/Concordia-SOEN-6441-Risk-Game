@@ -18,53 +18,107 @@ import view.CardExchange;
  */
 public class GamePlay extends Observable{
 
+	/**
+	 *
+	 */
 	private int phase;
-	
+
+	/**
+	 *
+	 */
 	private String currentPlayer;
-	
+
+	/**
+	 *
+	 */
 	private float percentageMap;
-	
+
+	/**
+	 *
+	 */
 	private ArrayList continentsControlled;
-	
+
+	/**
+	 *
+	 */
 	private int totalArmies;
-	
-	
+
+	/**
+	 *
+	 * @return
+	 */
 	public float getPercentageMap() {
 		return percentageMap;
 	}
 
+	/**
+	 *
+	 * @param percentageMap
+	 */
 	public void setPercentageMap(float percentageMap) {
 		this.percentageMap = percentageMap;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public ArrayList getContinentsControlled() {
 		return continentsControlled;
 	}
 
+	/**
+	 *
+	 * @param continentsControlled
+	 */
 	public void setContinentsControlled(ArrayList continentsControlled) {
 		this.continentsControlled = continentsControlled;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getTotalArmies() {
 		return totalArmies;
 	}
 
+	/**
+	 *
+	 * @param totalArmies
+	 */
 	public void setTotalArmies(int totalArmies) {
 		this.totalArmies = totalArmies;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public int getPhase() {
 		return phase;
 	}
 
+	/**
+	 *
+	 * @param phase
+	 */
 	public void setPhase(int phase) {
 		this.phase = phase;
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	public String getCurrentPlayer() {
 		return currentPlayer;
 	}
 
+	/**
+	 *
+	 * @param currentPlayer
+	 */
 	public void setCurrentPlayer(String currentPlayer) {
 		this.currentPlayer = currentPlayer;
 	}
@@ -78,8 +132,11 @@ public class GamePlay extends Observable{
      * Array list that holds instances of all players
      */
     private ArrayList<Player> players;
-    
-    private Player play;
+
+	/**
+	 *
+	 */
+	private Player play;
 
     /**
      * Instance of RiskMap
@@ -109,52 +166,37 @@ public class GamePlay extends Observable{
     public void start() {
         System.out.println("\n**** Game has started ****");
 		currentPlayer=null;
-        boolean initial_game_flag=true;
+        boolean initialGameFlag =true;
 		for (Player player : play.players) {
 			phase=1;
-			currentPlayer =player.getPlayerName();
-			percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
-			totalArmies =player.getArmies();
-			continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
-			setChanged();
-			notifyObservers(this);
+			setPlayerDetailsForPhase(player);
 			play.initialDeployment(player);
 		}
-        boolean game_over = false;
-        while (!game_over) {
+        boolean gameOver = false;
+        while (!gameOver) {
             System.out.println("\n**** New Round Begins ****");
             /*
              * Reinforcement Phase
              */
-            if(!initial_game_flag){
+            if(!initialGameFlag){
 
 				for (Player player : play.players) {
 					phase=2;
 					CardExchange cardExchange=new CardExchange();
 					play.addObserver(cardExchange);
-					currentPlayer =player.getPlayerName();
-					percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
-					totalArmies =player.getArmies();
-					continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
-					setChanged();
-					notifyObservers(this);
+					setPlayerDetailsForPhase(player);
 					play.reinforcement(player);
 					play.deleteObserver(cardExchange);
 
 				}
 			}
-            initial_game_flag=false;
+            initialGameFlag =false;
 			/*
 			 * Attack Phase
 			 */
 			for (Player player : play.players) {
 				phase=3;
-				currentPlayer =player.getPlayerName();
-				percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
-				totalArmies =player.getArmies();
-				continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
-				setChanged();
-				notifyObservers(this);
+				setPlayerDetailsForPhase(player);
 				play.attack(player);
 			}
 			/*
@@ -162,13 +204,8 @@ public class GamePlay extends Observable{
 			 */
             for (Player player : play.players) {
             	phase=4;
-            	currentPlayer =player.getPlayerName();
-				percentageMap =(float)play.map.noOfCountriesPlayerOwns(player.getPlayerName())/play.map.adjCountries.size();
-				totalArmies =player.getArmies();
-				continentsControlled=play.map.continentsControlledByPlayer(player.getCountries());
-            	setChanged();
-            	notifyObservers(this);
-                play.fortification(player);
+				setPlayerDetailsForPhase(player);
+				play.fortification(player);
             }
             System.out.println("\nContinue the game?\nYes\nNo");
             boolean continue_game_flag = false;
@@ -178,7 +215,7 @@ public class GamePlay extends Observable{
                     continue_game_flag = true;
                 } else if (choice.equals("No")) {
                     continue_game_flag = true;
-                    game_over = true;
+                    gameOver = true;
                 } else {
                     System.out.println("Invalid choice! Enter either Yes or No: ");
                     scanner.next();
@@ -188,6 +225,18 @@ public class GamePlay extends Observable{
         System.out.println("\n***Game Over***\n");
     }
 
+	/**
+	 * Refactored method 1
+	 * @param player
+	 */
+	private void setPlayerDetailsForPhase(Player player) {
+		currentPlayer = player.getPlayerName();
+		percentageMap = (float) play.map.noOfCountriesPlayerOwns(player.getPlayerName()) / play.map.adjCountries.size();
+		totalArmies = player.getArmies();
+		continentsControlled = play.map.continentsControlledByPlayer(player.getCountries());
+		setChanged();
+		notifyObservers(this);
+	}
 
 
 }
