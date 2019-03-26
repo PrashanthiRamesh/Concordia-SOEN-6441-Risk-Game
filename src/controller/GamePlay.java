@@ -196,8 +196,11 @@ public class GamePlay extends Observable{
 			 */
 			for (Player player : play.players) {
 				phase=3;
+
 				setPlayerDetailsForPhase(player);
-				play.attack(player);
+				play.attack(player, play.map);
+
+			
 			}
 			/*
 			 * Fortification Phase
