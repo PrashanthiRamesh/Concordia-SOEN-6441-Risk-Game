@@ -83,8 +83,7 @@ public class Driver {
                                  */
                                 GamePlay gamePlay  =new GamePlay(players,map);
                                 gamePlay.addObserver(new PlayerWorldDomination());
-                                gamePlay.addObserver(new Phase());
-                                gamePlay.start();
+                                gamePlay.start(gamePlay);
                             } else {
                                 System.out.println("Invalid! Enter either Yes or No: ");
                             }

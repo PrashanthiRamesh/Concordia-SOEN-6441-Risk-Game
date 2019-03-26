@@ -6,6 +6,7 @@ import java.util.Scanner;
 import model.RiskMap;
 import model.Player;
 import view.CardExchange;
+import view.Phase;
 
 
 /**
@@ -163,23 +164,25 @@ public class GamePlay extends Observable{
     /**
      * Driver method to initiate the game phases in a round robin fashion for every player
      */
-    public void start() {
+    public void start(GamePlay gamePlay) {
         System.out.println("\n**** Game has started ****");
 		currentPlayer=null;
         boolean initialGameFlag =true;
 		for (Player player : play.players) {
 			phase=1;
 			setPlayerDetailsForPhase(player);
-			play.initialDeployment(player);
+			play.deployArmies(player);
 		}
         boolean gameOver = false;
+		Phase phaseView=new Phase();
         while (!gameOver) {
             System.out.println("\n**** New Round Begins ****");
             /*
              * Reinforcement Phase
              */
             if(!initialGameFlag){
-
+            	gamePlay.deleteObserver(phaseView);
+				gamePlay.addObserver(phaseView);
 				for (Player player : play.players) {
 					phase=2;
 					CardExchange cardExchange=new CardExchange();
@@ -194,6 +197,8 @@ public class GamePlay extends Observable{
 			/*
 			 * Attack Phase
 			 */
+			gamePlay.deleteObserver(phaseView);
+			gamePlay.addObserver(phaseView);
 			for (Player player : play.players) {
 				phase=3;
 
@@ -205,6 +210,8 @@ public class GamePlay extends Observable{
 			/*
 			 * Fortification Phase
 			 */
+			gamePlay.deleteObserver(phaseView);
+			gamePlay.addObserver(phaseView);
             for (Player player : play.players) {
             	phase=4;
 				setPlayerDetailsForPhase(player);
