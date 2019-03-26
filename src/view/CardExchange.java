@@ -35,7 +35,7 @@ public class CardExchange implements Observer {
 
         if (numberOfPlayerCards >= 5) {
             boolean validCards=true;
-            while(numberOfPlayerCards>=5 || validCards){
+            while(numberOfPlayerCards>=5 && validCards){
                 validCards=exchangeCards();
                 numberOfPlayerCards=this.player.getCards().size();
             }

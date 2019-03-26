@@ -283,7 +283,7 @@ public class Player extends Observable {
     }
 
 
-    public void deployArmies(Player player) {
+    public void deployArmies(Player player, RiskMap mapInstance) {
         int player_armies = player.getArmies();
         ArrayList<String> player_countries = player.getCountries();
         System.out.println("\nNo of armies to place: " + player_armies);
@@ -303,7 +303,7 @@ public class Player extends Observable {
                             if (no_of_armies_to_place <= player_armies && no_of_armies_to_place > 0) {
                                 no_of_armies_flag = true;
                                 System.out.println("Placing " + no_of_armies_to_place + " armies in country " + country_name);
-                                ArrayList<Country> countries = map.getCountries();
+                                ArrayList<Country> countries = mapInstance.getCountries();
                                 for (Country country : countries) {
                                     if (country.getCountryName().equals(country_name)) {
                                         int country_no_armies = country.getArmies();
@@ -335,9 +335,9 @@ public class Player extends Observable {
     /**
      * Implementation of reinforcement phase of the game
      */
-    public void reinforcement(Player player) {
+    public void reinforcement(Player player, RiskMap mapInstance) {
         //calculate reinforcement armies
-        setReinforcementArmies(player, map.getCountries());
+        setReinforcementArmies(player, mapInstance.getCountries());
         setArmiesForContinentsControlled(player, player.getCountries(), player.getArmies());
         currentPlayer = player;
         setChanged();
@@ -345,7 +345,7 @@ public class Player extends Observable {
         System.out.println("\nAfter Card Exchange View");
         displayPlayerCards(player.getCards(), player.getPlayerName());
         System.out.println("Player armies: " + player.getArmies());
-        deployArmies(player);
+        deployArmies(player, mapInstance);
     }
 
     /**
