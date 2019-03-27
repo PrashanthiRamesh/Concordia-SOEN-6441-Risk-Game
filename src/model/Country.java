@@ -4,8 +4,8 @@ package model;
  * Country Class represents a country
  *
  * @author Mutesham
- * @version 1.0
- * @since 2019-02-27
+ * @version 1.1
+ * @since 1.0
  */
 public class Country {
 

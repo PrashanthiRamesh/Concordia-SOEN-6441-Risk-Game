@@ -21,27 +21,27 @@ import view.Phase;
 public class GamePlay extends Observable {
 
     /**
-     *
+     * Stores the value of the each phase in the game
      */
     private int phase;
 
     /**
-     *
+     * Stores the name of the current player who is playing
      */
     private String currentPlayer;
 
     /**
-     *
+     * Stores the value of the % of map the player controls at any particular time in the game
      */
     private float percentageMap;
 
     /**
-     *
+     * Stores a list of continents the player controls at any particular time in the game
      */
     private ArrayList continentsControlled;
 
     /**
-     *
+     * Stores the total number of armies that the player has to be placed in countries
      */
     private int totalArmies;
 

@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Observable;
-import java.util.Random;
 import java.util.Scanner;
 
 import util.Util;
@@ -16,8 +15,8 @@ import util.Util;
  * Player Class represents a player
  *
  * @author Manasa
- * @version 1.0
- * @since 2019-02-27
+ * @version 1.1
+ * @since 1.0
  */
 public class Player extends Observable {
 
@@ -93,9 +92,9 @@ public class Player extends Observable {
         this.armies = armies;
         this.countries = countries;
         this.cards = cards;
-        this.infantryCount=infantryCount;
-        this.cavalryCount=cavalryCount;
-        this.cannonCount=cannonCount;
+        this.infantryCount = infantryCount;
+        this.cavalryCount = cavalryCount;
+        this.cannonCount = cannonCount;
     }
 
     /**
@@ -482,14 +481,11 @@ public class Player extends Observable {
                             break ZeroArmy;
                     }
                 }
-
             }
 
             for (int i = 0; i < countriescopy.size(); i++) {
                 if (countriescopy.get(i).getCountryName().equals(defendingcountry)) {
                     defenderArmies = countriescopy.get(i).getArmies();
-
-
                 }
             }
 
@@ -500,15 +496,18 @@ public class Player extends Observable {
                 } else {
                     defenderDice = 2;
                 }
-                if (attackerArmies >= 3){
+                Dice dice = new Dice();
+                if (attackerArmies >= 3) {
                     System.out.println("You Can Roll Atmost 3 dice");
+                    dice.roll();
                     attackerDice = scan.nextInt();
-                } else if (attackerArmies == 2){
+                } else if (attackerArmies == 2) {
                     System.out.println("You Can Roll Atmost 2 dice");
+                    dice.roll();
                     attackerDice = scan.nextInt();
-                }else{
+                } else {
                     System.out.println("You Can only Roll the Dice once");
-                    attackerDice =1;
+                    attackerDice = 1;
                 }
 
 
@@ -677,20 +676,20 @@ public class Player extends Observable {
 
 
     public void displayPlayerCards(Player player) {
-        int cardCount=player.getInfantryCount()+player.getCannonCount()+player.getCannonCount();
-        if(cardCount>0){
+        int cardCount = player.getInfantryCount() + player.getCannonCount() + player.getCannonCount();
+        if (cardCount > 0) {
             System.out.print("\n**Cards**\nPlayer has " + cardCount + " card(s)\nThey are: \n");
-            for (int i=1;i<=player.infantryCount;i++) {
-                System.out.println(i+"- Infantry Card");
+            for (int i = 1; i <= player.infantryCount; i++) {
+                System.out.println(i + "- Infantry Card");
             }
-            for (int i=1;i<=player.cavalryCount;i++) {
-                System.out.println(i+"- Cavalry Card");
+            for (int i = 1; i <= player.cavalryCount; i++) {
+                System.out.println(i + "- Cavalry Card");
             }
-            for (int i=1;i<=player.cannonCount;i++) {
-                System.out.println(i+"- Cannon Card");
+            for (int i = 1; i <= player.cannonCount; i++) {
+                System.out.println(i + "- Cannon Card");
             }
             System.out.println("\n");
-        }else{
+        } else {
             System.out.print("\n**Player has zero cards!**\n");
         }
 
@@ -783,7 +782,7 @@ public class Player extends Observable {
                 player_from_country_flag = true;
             }
         }
-        if(!doesPlayerOwnAtLeastOneCountry(player)){
+        if (!doesPlayerOwnAtLeastOneCountry(player)) {
             players.remove(player);
         }
 
@@ -828,18 +827,18 @@ public class Player extends Observable {
         ArrayList<Card> cards = winner.cards;
         int cardTypeValue = Util.randInt(1, 3);
         String cardName = Card.getNameByTypeNumber(cardTypeValue);
-        switch (cardTypeValue){
+        switch (cardTypeValue) {
             case 1:
-                winner.setInfantryCount(winner.getInfantryCount()+1);
+                winner.setInfantryCount(winner.getInfantryCount() + 1);
                 break;
             case 2:
-                winner.setCavalryCount(winner.getCavalryCount()+1);
+                winner.setCavalryCount(winner.getCavalryCount() + 1);
                 break;
             case 3:
-                winner.setCannonCount(winner.getCannonCount()+1);
+                winner.setCannonCount(winner.getCannonCount() + 1);
                 break;
         }
-        System.out.println("**Assigning "+ cardName+" Card to the Winner- "+winner.getPlayerName()+" **");
+        System.out.println("**Assigning " + cardName + " Card to the Winner- " + winner.getPlayerName() + " **");
         cards.add(new Card(cardName, cardTypeValue));
         winner.cards = cards;
         displayPlayerCards(winner);
@@ -855,7 +854,7 @@ public class Player extends Observable {
         return null;
     }
 
-    private boolean doesPlayerOwnAtLeastOneCountry(Player player){
+    private boolean doesPlayerOwnAtLeastOneCountry(Player player) {
         return player.getCountries().size() != 0;
     }
 

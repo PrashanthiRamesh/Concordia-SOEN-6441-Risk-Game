@@ -1,6 +1,9 @@
 package model;
 
-public class Card  {
+/**
+ *
+ */
+public class Card {
 
     private String name;
 
@@ -29,17 +32,17 @@ public class Card  {
     }
 
 
-    public static String getNameByTypeNumber(int typeNumber){
-        String name="";
-        switch (typeNumber){
+    public static String getNameByTypeNumber(int typeNumber) {
+        String name = "";
+        switch (typeNumber) {
             case 1:
-                name="Infantry";
+                name = "Infantry";
                 break;
             case 2:
-                name="Cavalry";
+                name = "Cavalry";
                 break;
             case 3:
-                name="Cannon";
+                name = "Cannon";
                 break;
             default:
                 break;

@@ -6,6 +6,13 @@ import java.util.Observer;
 import java.util.Scanner;
 
 
+/**
+ * CardExchange represents the observer pattern of card exchange during reinforcement phase
+ *
+ * @author Manasa
+ * @version 1.1
+ * @since 1.1
+ */
 public class CardExchange implements Observer {
 
     /**
@@ -13,23 +20,31 @@ public class CardExchange implements Observer {
      */
     private static Scanner scanner = new Scanner(System.in);
 
+    /**
+     * Stores an instance of the player
+     */
     private Player player;
 
-    public void update(Observable obs, Object x) {
+    /**
+     * This method is called every time the observed instance player changes in reinforcement phase
+     * @param observable An instance of Observable class
+     * @param object An instance of Object class used in this method
+     */
+    public void update(Observable observable, Object object) {
         System.out.println("\n**Card Exchange**\n");
-        Player player=((Player) obs).getCurrentPlayer();
+        Player player=((Player) observable).getCurrentPlayer();
         setArmiesForCards(player);
 
     }
 
+    /**
+     * This method assigns armies to player depending on the number and type of cards the player owns
+     * @param player The instance of the current player
+     */
     private void setArmiesForCards(Player player) {
-
         this.player=player;
-
         (new Player()).displayPlayerCards(this.player);
-
         int numberOfPlayerCards = player.getInfantryCount()+player.getCavalryCount()+player.getCannonCount();
-
         if (numberOfPlayerCards >= 5) {
             boolean validCards=true;
             while(numberOfPlayerCards>=5 && validCards){
@@ -54,10 +69,12 @@ public class CardExchange implements Observer {
         } else {
             System.out.println("You don't have enough cards to exchange! :(");
         }
-
-
     }
 
+    /**
+     * The method is used to exchange the cards owned by player for reinforcement armies
+     * @return true if the player owns 3 cards of same type or 1 card of each type to be exchanged for 5 armies, else false
+     */
     private boolean exchangeCards(){
         int infantryCount=player.getInfantryCount();
         int cavalryCount=player.getCavalryCount();
@@ -81,6 +98,9 @@ public class CardExchange implements Observer {
             cavalryCount-=1;
             cannonCount-=1;
             playerArmies+=5;
+        }else{
+            System.out.println("Player does not have valid cards for exchange!");
+            return false;
         }
         this.player.setInfantryCount(infantryCount);
         this.player.setCavalryCount(cavalryCount);

@@ -10,8 +10,8 @@ import java.util.*;
  * RiskMap Class Loads the maps form the Console and from the file.
  *
  * @author Maqsood
- * @version 1.0
- * @since   2019-02-01
+ * @version 1.1
+ * @since  1.0
  */
 public class RiskMap {
 
@@ -177,10 +177,18 @@ public class RiskMap {
         this.continentsWithCountries = continentsWithCountries;
     }
 
+    /**
+     * Getter for field continentsWithCountriesAndNeighbours- returns all the continents along with their countries and its neighbours
+     * @return continentsWithCountriesAndNeighbours LinkedHashMap of String and LinkedHashMap to set continents and its countries and its neighbours
+     */
     public LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> getContinentsWithCountriesAndNeighbours() {
         return continentsWithCountriesAndNeighbours;
     }
 
+    /**
+     * Setter for field continentsWithCountriesAndNeighbours- returns all the continents along with their countries and its neighbours
+     * @param continentsWithCountriesAndNeighbours LinkedHashMap of String and LinkedHashMap to set continents and its countries and its neighbours
+     */
     public void setContinentsWithCountriesAndNeighbours(LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> continentsWithCountriesAndNeighbours) {
         this.continentsWithCountriesAndNeighbours = continentsWithCountriesAndNeighbours;
     }
@@ -211,10 +219,10 @@ public class RiskMap {
      */
     private void inputNumberOfContinents() throws IOException {
         System.out.println("Enter the number of Continents");
-        boolean continent_flag = false;
-        while (!continent_flag) {
+        boolean continentFlag = false;
+        while (!continentFlag) {
             if (scanner.hasNextInt()) {
-                continent_flag = true;
+                continentFlag = true;
                 noOfContinents = scanner.nextInt();
                 System.out.println("Enter each Continent along with its control value separated with =");
                 parseContinents(noOfContinents);
@@ -227,26 +235,26 @@ public class RiskMap {
 
     /**
      * Prompt to get name of continent along with its control value
-     * @param number_of_continents number of continents to iterate over to get its values
+     * @param numberOfContinents number of continents to iterate over to get its values
      * @return name of the continent
      * @throws IOException on user input
      */
-    private String parseContinents(int number_of_continents) throws IOException {
-        String return_continent = "";
-        for (int i = 0; i < number_of_continents; i++) {
-            String continent_with_control_value = bufferedReader.readLine();
-            String[] continent_and_control_value = continent_with_control_value.split("=");
-            if (!continents.containsKey(continent_and_control_value[0])) {
-                if (continent_and_control_value.length != 2) {
+    private String parseContinents(int numberOfContinents) throws IOException {
+        String returnContinent = "";
+        for (int i = 0; i < numberOfContinents; i++) {
+            String continentWithControlValue = bufferedReader.readLine();
+            String[] continentAndControlValue = continentWithControlValue.split("=");
+            if (!continents.containsKey(continentAndControlValue[0])) {
+                if (continentAndControlValue.length != 2) {
                     System.out.println("Incorrect Input : Provide continent along with its control value");
                     i--;
-                } else if (!continent_and_control_value[1].matches(".*\\d+.*")) {
+                } else if (!continentAndControlValue[1].matches(".*\\d+.*")) {
                     System.out.println(" Incorrect Input :The Control Value should be a Numeric");
                     i--;
                 } else {
-                    continents.put(continent_and_control_value[0], Integer.parseInt(continent_and_control_value[1]));
+                    continents.put(continentAndControlValue[0], Integer.parseInt(continentAndControlValue[1]));
                     if (i == 0) {
-                        return_continent = continent_and_control_value[0];
+                        returnContinent = continentAndControlValue[0];
                     }
                 }
             } else {
@@ -254,7 +262,7 @@ public class RiskMap {
                 i--;
             }
         }
-        return return_continent;
+        return returnContinent;
     }
 
     /**
@@ -275,11 +283,11 @@ public class RiskMap {
      */
     private void inputCountriesAndNeighbours(String continent) throws IOException {
         System.out.println("Enter the Number of countries in " + continent);
-        boolean no_of_countries_flag=false;
+        boolean noOfCountriesFlag=false;
         LinkedHashMap<String, ArrayList<String>> countriesWithNeighbours = new LinkedHashMap<>();
-        while (!no_of_countries_flag){
+        while (!noOfCountriesFlag){
             if(scanner.hasNextInt()){
-                no_of_countries_flag=true;
+                noOfCountriesFlag=true;
                 continentWithNoOfCountries.put(continent, scanner.nextInt());
                 System.out.println(
                         "Enter all the Countries Along with with their neighbours separated by comma starting a new line for each country");
@@ -294,18 +302,18 @@ public class RiskMap {
                     		continue outer;
                     	}
                     }
-                    ArrayList<String> temp_list = new ArrayList<String>();
+                    ArrayList<String> tempList = new ArrayList<String>();
                     for (int i = 1; i < temp.length; i++) {
                         if (!temp[i].equals(temp[0]))
-                            temp_list.add(temp[i]);
+                            tempList.add(temp[i]);
                         else {
                             System.out.println("A country Cannot be neighbour to itself");
                             j--;
                         }
                     }
-                    adjCountries.put(temp[0], temp_list);
+                    adjCountries.put(temp[0], tempList);
                     countries.add(temp[0]);
-                    countriesWithNeighbours.put(temp[0],temp_list);
+                    countriesWithNeighbours.put(temp[0],tempList);
 
                 }
                 continentsWithCountries.put(continent, countries);
@@ -353,14 +361,14 @@ public class RiskMap {
     /**
      * Randomly assign countries in the map to all the players
      * @param players ArrayList of players of the game
-     * @param no_of_players Number of players of the game
+     * @param noOfPlayers Number of players of the game
      */
-    public void assignPlayersToCountries(ArrayList<Player> players, int no_of_players) {
+    public void assignPlayersToCountries(ArrayList<Player> players, int noOfPlayers) {
         countries = new ArrayList<>();
-        for (String country_name : adjCountries.keySet()) {
-            int rand_temp = Util.randInt(0, no_of_players - 1);
-            String player_name=players.get(rand_temp).getPlayerName();
-            countries.add(new Country(country_name, player_name, 0));
+        for (String countryName : adjCountries.keySet()) {
+            int randInt = Util.randInt(0, noOfPlayers - 1);
+            String playerName =players.get(randInt).getPlayerName();
+            countries.add(new Country(countryName, playerName, 0));
         }
     }
 
@@ -369,10 +377,10 @@ public class RiskMap {
      * @return if map is connected it returns true, else it returns false
      */
     public boolean isMapConnected() {
-        Map.Entry<String, ArrayList<String>> first_entry = adjCountries.entrySet().iterator().next();
-        String start = first_entry.getKey();
-        Map.Entry<String, ArrayList<String>> last_entry = (Map.Entry<String, ArrayList<String>>) adjCountries.entrySet().toArray()[adjCountries.size() - 1];
-        String end = last_entry.getKey();
+        Map.Entry<String, ArrayList<String>> firstEntry = adjCountries.entrySet().iterator().next();
+        String start = firstEntry.getKey();
+        Map.Entry<String, ArrayList<String>> lastEntry = (Map.Entry<String, ArrayList<String>>) adjCountries.entrySet().toArray()[adjCountries.size() - 1];
+        String end = lastEntry.getKey();
         return breadthFirstSearch(adjCountries, start, end);
 
     }
@@ -386,22 +394,22 @@ public class RiskMap {
          * Iterate through all Continents and for each continent run bfs on each
          */
         Set<String> continents = continentsWithCountries.keySet();
-        boolean continents_connected_flag=true;
+        boolean continentsConnectedFlag=true;
         for(String continent:continents){
             LinkedHashMap<String, ArrayList<String>> countriesWithNeighbours=continentsWithCountriesAndNeighbours.get(continent);
-            Map.Entry<String, ArrayList<String>> first_entry = countriesWithNeighbours.entrySet().iterator().next();
-            String start = first_entry.getKey();
-            Map.Entry<String, ArrayList<String>> last_entry = (Map.Entry<String, ArrayList<String>>) countriesWithNeighbours.entrySet().toArray()[countriesWithNeighbours.size() - 1];
-            String end = last_entry.getKey();
+            Map.Entry<String, ArrayList<String>> firstEntry = countriesWithNeighbours.entrySet().iterator().next();
+            String start = firstEntry.getKey();
+            Map.Entry<String, ArrayList<String>> lastEntry = (Map.Entry<String, ArrayList<String>>) countriesWithNeighbours.entrySet().toArray()[countriesWithNeighbours.size() - 1];
+            String end = lastEntry.getKey();
             if(!breadthFirstSearch(countriesWithNeighbours, start, end)){
                 System.out.println("\nContinent- "+continent+" is not a connected sub-graph");
-                continents_connected_flag=false;
+                continentsConnectedFlag=false;
                 break;
             }else{
                 System.out.println("\nContinent- "+continent+" is a connected sub-graph");
             }
         }
-        return continents_connected_flag;
+        return continentsConnectedFlag;
     }
 
     /**
@@ -453,8 +461,8 @@ public class RiskMap {
             if (temp.trim().length() == 0) {
                 break;
             } else {
-                String[] temp_arr = temp.split("=");
-                continents.put(temp_arr[0], Integer.parseInt(temp_arr[1]));
+                String[] tempArr = temp.split("=");
+                continents.put(tempArr[0], Integer.parseInt(tempArr[1]));
             }
         }
         while (!bir.readLine().trim().equals("[Territories]")) {
@@ -465,16 +473,16 @@ public class RiskMap {
             LinkedHashMap<String, ArrayList<String>> countriesWithNeighbours=new LinkedHashMap<>();
             String[] temp = line.split(",");
             if (temp.length > 1) {
-                ArrayList<String> temp_al = new ArrayList<String>();
+                ArrayList<String> tempAl = new ArrayList<String>();
                 for (int i = 4; i < temp.length; i++) {
-                    temp_al.add(temp[i]);
+                    tempAl.add(temp[i]);
                 }
                 //save continents with its countries logic here
                 String continent = temp[3];
                 String country = temp[0];
                 saveContinentWithCountries(continent, country);
-                adjCountries.put(country, temp_al);
-                countriesWithNeighbours.put(country,temp_al);
+                adjCountries.put(country, tempAl);
+                countriesWithNeighbours.put(country,tempAl);
                 continentsWithCountriesAndNeighbours.put(continent,countriesWithNeighbours);
             }
             line = bir.readLine();
@@ -510,27 +518,27 @@ public class RiskMap {
         System.out.println("Countries and its neighbours:" + this.adjCountries);
         System.out.println();
         System.out.println("1.Add Continent\n2.Add Country\n3.Remove Continent\n4.Remove Country\n5.Quit Edit");
-        boolean edit_map_choice_flag = false;
-        while (!edit_map_choice_flag) {
+        boolean editMapChoiceFlag = false;
+        while (!editMapChoiceFlag) {
             if (scanner.hasNextInt()) {
-                edit_map_choice_flag = true;
-                int edit_map_choice = scanner.nextInt();
-                switch (edit_map_choice) {
+                editMapChoiceFlag = true;
+                int editMapChoice = scanner.nextInt();
+                switch (editMapChoice) {
                     case 1:
                         System.out.println("Enter one Continent along with its control value separated with =");
-                        String continent_name = parseContinents(1);
-                        inputCountriesAndNeighbours(continent_name);
+                        String continentName = parseContinents(1);
+                        inputCountriesAndNeighbours(continentName);
                         break;
                     case 2:
                         System.out.println("** Continents and their countries **\n" + continentsWithCountries);
                         System.out.println("Enter the name of the continent to which you want to add the country: ");
-                        boolean old_continent_flag = false;
-                        while (!old_continent_flag) {
-                            String old_continent = bufferedReader.readLine();
-                            if (continentsWithCountries.containsKey(old_continent)) {
-                                old_continent_flag = true;
-                                System.out.println("Countries of the continent- " + old_continent + " : " + continentsWithCountries.get(old_continent));
-                                inputCountryWhileEditingMap(old_continent);
+                        boolean oldContinentFlag = false;
+                        while (!oldContinentFlag) {
+                            String oldContinent = bufferedReader.readLine();
+                            if (continentsWithCountries.containsKey(oldContinent)) {
+                                oldContinentFlag = true;
+                                System.out.println("Countries of the continent- " + oldContinent + " : " + continentsWithCountries.get(oldContinent));
+                                inputCountryWhileEditingMap(oldContinent);
                             } else {
                                 System.out.println("Continent is not present! Please enter again: ");
                             }
@@ -539,17 +547,17 @@ public class RiskMap {
                     case 3:
                         System.out.println("Continents with their control values: " + continents);
                         System.out.println("Enter continent to be removed: ");
-                        boolean continent_flag = false;
-                        while (!continent_flag) {
-                            String continent_to_remove = bufferedReader.readLine();
-                            if (continents.containsKey(continent_to_remove)) {
-                                continent_flag = true;
-                                ArrayList<String> countries = continentsWithCountries.get(continent_to_remove);
+                        boolean continentFlag = false;
+                        while (!continentFlag) {
+                            String continentToRemove = bufferedReader.readLine();
+                            if (continents.containsKey(continentToRemove)) {
+                                continentFlag = true;
+                                ArrayList<String> countries = continentsWithCountries.get(continentToRemove);
                                 for (String country : countries) {
                                     adjCountries.remove(country);
                                 }
-                                continentWithNoOfCountries.remove(continent_to_remove);
-                                continentsWithCountries.remove(continent_to_remove);
+                                continentWithNoOfCountries.remove(continentToRemove);
+                                continentsWithCountries.remove(continentToRemove);
                                 System.out.println("**Continent removed**");
                             } else {
                                 System.out.println("Continent does not exist in the map! Please enter again: ");
@@ -559,12 +567,12 @@ public class RiskMap {
                     case 4:
                         System.out.println("Countries and their neighbours: "+ adjCountries);
                         System.out.println("Enter the country to be removed: ");
-                        boolean country_flag=false;
-                        while (!country_flag){
-                            String country_to_remove= bufferedReader.readLine();
-                            if(adjCountries.containsKey(country_to_remove)){
-                                country_flag=true;
-                                adjCountries.remove(country_to_remove);
+                        boolean countryFlag =false;
+                        while (!countryFlag){
+                            String countryToRemove= bufferedReader.readLine();
+                            if(adjCountries.containsKey(countryToRemove)){
+                                countryFlag =true;
+                                adjCountries.remove(countryToRemove);
                             }else{
                                 System.out.println("Country does not exist in the map! Please enter again: ");
                             }
@@ -575,7 +583,7 @@ public class RiskMap {
                         break;
                     default:
                         System.out.println("Invalid choice! Enter 1,2,3,4 or 5:");
-                        edit_map_choice_flag = false;
+                        editMapChoiceFlag = false;
                 }
             } else {
                 System.out.println("Invalid characters! Enter either 1,2,3,4 or 5: ");
@@ -591,23 +599,23 @@ public class RiskMap {
      */
     private void inputCountryWhileEditingMap(String continent) throws IOException {
         System.out.println("Enter the new country Along with with their neighbours separated by comma starting a new line for each country");
-        boolean new_country_flag = false;
-        while (!new_country_flag) {
-            String[] country_with_neighbours = bufferedReader.readLine().split(",");
-            String new_country = country_with_neighbours[0];
-            if (!this.containsCountry(new_country)) {
+        boolean newCountryFlag = false;
+        while (!newCountryFlag) {
+            String[] countryWithNeighbours = bufferedReader.readLine().split(",");
+            String newCountry = countryWithNeighbours[0];
+            if (!this.containsCountry(newCountry)) {
 
-                ArrayList<String> temp_list = new ArrayList<String>();
-                for (int i = 1; i < country_with_neighbours.length; i++) {
-                    if (!country_with_neighbours[i].equals(new_country)) {
-                        temp_list.add(country_with_neighbours[i]);
-                        new_country_flag = true;
+                ArrayList<String> tempList = new ArrayList<String>();
+                for (int i = 1; i < countryWithNeighbours.length; i++) {
+                    if (!countryWithNeighbours[i].equals(newCountry)) {
+                        tempList.add(countryWithNeighbours[i]);
+                        newCountryFlag = true;
                     } else {
                         System.out.println("A country Cannot be neighbour to itself");
                     }
                 }
-                adjCountries.put(new_country, temp_list);
-                saveContinentWithCountries(continent, new_country);
+                adjCountries.put(newCountry, tempList);
+                saveContinentWithCountries(continent, newCountry);
                 System.out.println("**New Country Added**");
             } else {
                 System.out.println("Country already exists! Please enter again: ");
@@ -627,6 +635,11 @@ public class RiskMap {
     }
 
 
+    /**
+     * This method is used to get the number of countries a player owns by player name
+     * @param playerName name of the player
+     * @return integer value of the country count of player
+     */
     public int noOfCountriesPlayerOwns(String playerName) {
     	int count=0;
     	for(int i=0;i<countries.size();i++) {
@@ -636,6 +649,11 @@ public class RiskMap {
 		return count;
     }
 
+    /**
+     * This method is used to return a list of continents a player controls in the map
+     * @param playerCountries list of countries of player
+     * @return list of continents the player controls
+     */
     public ArrayList<String> continentsControlledByPlayer(ArrayList<String> playerCountries){
         ArrayList<String> controlledContinents=new ArrayList<>();
         Set<String> continents = continentsWithCountries.keySet();
