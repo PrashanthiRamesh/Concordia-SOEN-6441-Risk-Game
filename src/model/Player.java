@@ -23,7 +23,7 @@ public class Player extends Observable {
     /**
      * Stores the player's name
      */
-    private String player_name;
+    private String playerName;
 
     /**
      * Stores the number of armies of the player
@@ -33,7 +33,7 @@ public class Player extends Observable {
     /**
      * Store the number of countries of the player
      */
-    private int no_of_countries;
+    private int noOfCountries;
 
     /**
      * Store the countries the player owns
@@ -50,12 +50,24 @@ public class Player extends Observable {
      */
     public ArrayList<Player> players;
 
+    /**
+     * Instance of the current player
+     */
     private Player currentPlayer;
 
+    /**
+     * Number of infantry cards of player
+     */
     private int infantryCount;
 
+    /**
+     * Number of cavalry cards of player
+     */
     private int cavalryCount;
 
+    /**
+     * Number of cannon cards of player
+     */
     private int cannonCount;
 
     /**
@@ -74,6 +86,11 @@ public class Player extends Observable {
     public Player() {
     }
 
+    /**
+     * Creates a player with the players list and map of the game
+     * @param players list of players
+     * @param map instance of map
+     */
     public Player(ArrayList<Player> players, RiskMap map) {
         this.players = players;
         this.map = map;
@@ -82,13 +99,13 @@ public class Player extends Observable {
     /**
      * Creates a player with the specified player's name and armies
      *
-     * @param player_name A String representing the name of the player
+     * @param playerName A String representing the name of the player
      * @param armies      An integer representing the number of armies of player
      * @param countries   An ArrayList representing the list of countries that the player owns
      */
-    public Player(String player_name, int armies, ArrayList<String> countries,
+    public Player(String playerName, int armies, ArrayList<String> countries,
                   ArrayList<Card> cards, int infantryCount, int cavalryCount, int cannonCount) {
-        this.player_name = player_name;
+        this.playerName = playerName;
         this.armies = armies;
         this.countries = countries;
         this.cards = cards;
@@ -103,16 +120,16 @@ public class Player extends Observable {
      * @return player name
      */
     public String getPlayerName() {
-        return player_name;
+        return playerName;
     }
 
     /**
      * Setter method to assign a string value to the name of the player
      *
-     * @param player_name name of the player
+     * @param playerName name of the player
      */
-    public void setPlayer_name(String player_name) {
-        this.player_name = player_name;
+    public void setPlayerName(String playerName) {
+        this.playerName = playerName;
     }
 
     /**
@@ -138,17 +155,17 @@ public class Player extends Observable {
      *
      * @return number of armies that a player owns
      */
-    public int getNo_of_countries() {
-        return no_of_countries;
+    public int getNoOfCountries() {
+        return noOfCountries;
     }
 
     /**
      * Setter method to assign the number of countries that a player owns
      *
-     * @param no_of_countries number of countries that a player owns
+     * @param noOfCountries number of countries that a player owns
      */
-    public void setNo_of_countries(int no_of_countries) {
-        this.no_of_countries = no_of_countries;
+    public void setNoOfCountries(int noOfCountries) {
+        this.noOfCountries = noOfCountries;
     }
 
     /**
@@ -218,19 +235,19 @@ public class Player extends Observable {
      */
     private static void setReinforcementArmies(Player player, ArrayList<Country> countries) {
 
-        int player_countries_count = 0;
-        ArrayList<String> player_countries = new ArrayList<>();
+        int playerCountriesCount = 0;
+        ArrayList<String> playerCountries = new ArrayList<>();
         for (Country country : countries) {
-            if (country.getBelongsTo().equals(player.player_name)) {
-                player_countries_count++;
-                player_countries.add(country.getCountryName());
+            if (country.getBelongsTo().equals(player.playerName)) {
+                playerCountriesCount++;
+                playerCountries.add(country.getCountryName());
             }
         }
-        player.countries = player_countries;
-        player.armies = calculateReinforcementArmies(player_countries_count);
-        player.no_of_countries = player_countries_count;
+        player.countries = playerCountries;
+        player.armies = calculateReinforcementArmies(playerCountriesCount);
+        player.noOfCountries = playerCountriesCount;
         System.out.println();
-        System.out.println("Countries: " + player.no_of_countries);
+        System.out.println("Countries: " + player.noOfCountries);
         System.out.println("Reinforcement Armies: " + player.armies);
 
     }
@@ -264,20 +281,20 @@ public class Player extends Observable {
     public ArrayList<Player> setInitialArmies(ArrayList<Player> players, ArrayList<Country> countries) {
 
         for (Player player : players) {
-            int player_countries_count = 0;
-            ArrayList<String> player_countries = new ArrayList<>();
+            int playerCountriesCount = 0;
+            ArrayList<String> playerCountries = new ArrayList<>();
             for (Country country : countries) {
-                if (country.getBelongsTo().equals(player.player_name)) {
-                    player_countries_count++;
-                    player_countries.add(country.getCountryName());
+                if (country.getBelongsTo().equals(player.playerName)) {
+                    playerCountriesCount++;
+                    playerCountries.add(country.getCountryName());
                 }
             }
-            player.countries = player_countries;
+            player.countries = playerCountries;
             player.armies = calculateInitialArmies(players.size());
-            player.no_of_countries = player_countries_count;
+            player.noOfCountries = playerCountriesCount;
             System.out.println();
-            System.out.println("**** Player- " + player.player_name + " ****");
-            System.out.println("Countries: " + player.no_of_countries);
+            System.out.println("**** Player- " + player.playerName + " ****");
+            System.out.println("Countries: " + player.noOfCountries);
             System.out.println("Armies: " + player.armies);
         }
         return players;
@@ -287,70 +304,70 @@ public class Player extends Observable {
     /**
      * Calculate the number of initial armies for each player based on the total number of players in the game
      *
-     * @param no_of_players Number of players
+     * @param noOfPlayers Number of players
      * @return no of armies for each player
      */
-    public int calculateInitialArmies(int no_of_players) {
-        int initial_armies = 0;
-        if (no_of_players == 2) {
-            initial_armies = 40;
-        } else if (no_of_players == 3) {
-            initial_armies = 35;
-        } else if (no_of_players == 4) {
-            initial_armies = 30;
-        } else if (no_of_players == 5) {
-            initial_armies = 25;
-        } else if (no_of_players == 6) {
-            initial_armies = 20;
+    public int calculateInitialArmies(int noOfPlayers) {
+        int initialArmies = 0;
+        if (noOfPlayers == 2) {
+            initialArmies = 40;
+        } else if (noOfPlayers == 3) {
+            initialArmies = 35;
+        } else if (noOfPlayers == 4) {
+            initialArmies = 30;
+        } else if (noOfPlayers == 5) {
+            initialArmies = 25;
+        } else if (noOfPlayers == 6) {
+            initialArmies = 20;
         }
-        return initial_armies;
+        return initialArmies;
     }
 
     /**
      * Calculate the reinforcement armies of each player based on the total number of countries that a player owns
      *
-     * @param player_countries_count total number of countries that a player owns
+     * @param playerCountriesCount total number of countries that a player owns
      * @return number of reinforcement armies
      */
-    public static int calculateReinforcementArmies(int player_countries_count) {
-        return (int) Math.floor(player_countries_count / 3.0);
+    public static int calculateReinforcementArmies(int playerCountriesCount) {
+        return (int) Math.floor(playerCountriesCount / 3.0);
     }
 
 
     public void deployArmies(Player player, RiskMap mapInstance) {
 
-        int player_armies = player.getArmies();
-        ArrayList<String> player_countries = player.getCountries();
-        System.out.println("\nNo of armies to place: " + player_armies);
-        System.out.println("Countries you own: " + player_countries);
-        while (player_armies > 0) {
+        int playerArmies = player.getArmies();
+        ArrayList<String> playerCountries = player.getCountries();
+        System.out.println("\nNo of armies to place: " + playerArmies);
+        System.out.println("Countries you own: " + playerCountries);
+        while (playerArmies > 0) {
             System.out.println("Enter the name of the country to place armies in: ");
-            boolean country_name_flag = false;
-            while (!country_name_flag) {
-                String country_name = scanner.next();
-                if (player_countries.contains(country_name)) {
-                    country_name_flag = true;
+            boolean countryNameFlag = false;
+            while (!countryNameFlag) {
+                String countryName = scanner.next();
+                if (playerCountries.contains(countryName)) {
+                    countryNameFlag = true;
                     System.out.println("Enter the number of armies you want to place in this country: ");
-                    boolean no_of_armies_flag = false;
-                    while (!no_of_armies_flag) {
+                    boolean noOfArmiesFlag = false;
+                    while (!noOfArmiesFlag) {
                         if (scanner.hasNextInt()) {
-                            int no_of_armies_to_place = scanner.nextInt();
-                            if (no_of_armies_to_place <= player_armies && no_of_armies_to_place > 0) {
-                                no_of_armies_flag = true;
-                                System.out.println("Placing " + no_of_armies_to_place + " armies in country " + country_name);
+                            int noOfArmiesToPlace = scanner.nextInt();
+                            if (noOfArmiesToPlace <= playerArmies && noOfArmiesToPlace > 0) {
+                                noOfArmiesFlag = true;
+                                System.out.println("Placing " + noOfArmiesToPlace + " armies in country " + countryName);
                                 ArrayList<Country> countries = mapInstance.getCountries();
                                 for (Country country : countries) {
-                                    if (country.getCountryName().equals(country_name)) {
-                                        int country_no_armies = country.getArmies();
-                                        country.setArmies(country_no_armies + no_of_armies_to_place);
-                                        System.out.println("Placed Successfully! Number of Armies in Country " + country_name + " is " + country.getArmies() + "\n");
+                                    if (country.getCountryName().equals(countryName)) {
+                                        int countryNoArmies = country.getArmies();
+                                        country.setArmies(countryNoArmies + noOfArmiesToPlace);
+                                        System.out.println("Placed Successfully! Number of Armies in Country " + countryName + " is " + country.getArmies() + "\n");
                                     }
                                 }
-                                player_armies = player_armies - no_of_armies_to_place;
-                                player.setArmies(player_armies);
-                                System.out.println("Remaining armies to place: " + player_armies);
+                                playerArmies = playerArmies - noOfArmiesToPlace;
+                                player.setArmies(playerArmies);
+                                System.out.println("Remaining armies to place: " + playerArmies);
                             } else {
-                                System.out.println("Ops Invalid! You don't have enough armies: Armies you own: " + player_armies + "\nEnter again: ");
+                                System.out.println("Ops Invalid! You don't have enough armies: Armies you own: " + playerArmies + "\nEnter again: ");
                             }
 
                         } else {
@@ -701,56 +718,56 @@ public class Player extends Observable {
      * Implementation of fortification phase of game
      */
     public void fortification(Player player) {
-        ArrayList<String> player_countries = player.getCountries();
+        ArrayList<String> playerCountries = player.getCountries();
         ArrayList<Country> countries = map.getCountries();
-        System.out.println("\nCountries you own: " + player_countries);
+        System.out.println("\nCountries you own: " + playerCountries);
         for (Country country : countries) {
-            if (player_countries.contains(country.getCountryName())) {
+            if (playerCountries.contains(country.getCountryName())) {
                 System.out.println("Country " + country.getCountryName() + " has " + country.getArmies() + " armies");
             }
         }
         System.out.println("Enter the country from which you want to move armies from or Enter 'exit' to not move armies: ");
-        boolean player_from_country_flag = false;
-        while (!player_from_country_flag) {
-            String move_armies_from = scanner.next();
-            if (!move_armies_from.toLowerCase().equals("exit")) {
-                if (noOfArmiesInCountry(move_armies_from) > 0) {
-                    if (player_countries.contains(move_armies_from)) {
-                        if (containsCountriesAsNeighbours(move_armies_from, player)) {
-                            player_from_country_flag = true;
-                            LinkedHashMap<String, ArrayList<String>> all_countries_with_neighbours = map.getAdjCountries();
-                            ArrayList<String> selected_country_neighbours = all_countries_with_neighbours.get(move_armies_from);
-                            System.out.println("Neighbours to " + move_armies_from + " : " + selected_country_neighbours);
+        boolean playerFromCountryFlag = false;
+        while (!playerFromCountryFlag) {
+            String moveArmiesFrom = scanner.next();
+            if (!moveArmiesFrom.toLowerCase().equals("exit")) {
+                if (noOfArmiesInCountry(moveArmiesFrom) > 0) {
+                    if (playerCountries.contains(moveArmiesFrom)) {
+                        if (containsCountriesAsNeighbours(moveArmiesFrom, player)) {
+                            playerFromCountryFlag = true;
+                            LinkedHashMap<String, ArrayList<String>> allCountriesWithNeighbours = map.getAdjCountries();
+                            ArrayList<String> selectedCountryNeighbours = allCountriesWithNeighbours.get(moveArmiesFrom);
+                            System.out.println("Neighbours to " + moveArmiesFrom + " : " + selectedCountryNeighbours);
                             System.out.println("Enter the country to which you want to move armies to: ");
-                            boolean player_to_country_flag = false;
-                            while (!player_to_country_flag) {
-                                String move_armies_to = scanner.next();
-                                if (selected_country_neighbours.contains(move_armies_to)) {
-                                    if (player_countries.contains(move_armies_to)) {
-                                        player_to_country_flag = true;
-                                        int no_of_armies_from = noOfArmiesInCountry(move_armies_from);
-                                        System.out.println("No of armies in your country " + move_armies_from + " : " + no_of_armies_from);
+                            boolean playerToCountryFlag = false;
+                            while (!playerToCountryFlag) {
+                                String moveArmiesTo = scanner.next();
+                                if (selectedCountryNeighbours.contains(moveArmiesTo)) {
+                                    if (playerCountries.contains(moveArmiesTo)) {
+                                        playerToCountryFlag = true;
+                                        int noOfArmiesFrom = noOfArmiesInCountry(moveArmiesFrom);
+                                        System.out.println("No of armies in your country " + moveArmiesFrom + " : " + noOfArmiesFrom);
                                         System.out.println("Enter the number of armies to move: ");
-                                        boolean no_of_armies_flag = false;
-                                        while (!no_of_armies_flag) {
+                                        boolean noOfArmiesFlag = false;
+                                        while (!noOfArmiesFlag) {
                                             if (scanner.hasNextInt()) {
-                                                int no_of_armies_to_move = scanner.nextInt();
-                                                if (no_of_armies_to_move <= no_of_armies_from && no_of_armies_to_move > 0) {
-                                                    no_of_armies_flag = true;
+                                                int noOfArmiesToMove = scanner.nextInt();
+                                                if (noOfArmiesToMove <= noOfArmiesFrom && noOfArmiesToMove > 0) {
+                                                    noOfArmiesFlag = true;
                                                     System.out.println("** Before moving armies **\n");
-                                                    System.out.println("No of armies in country " + move_armies_from + " (from): " + noOfArmiesInCountry(move_armies_from));
-                                                    System.out.println("No of armies in country " + move_armies_to + " (to): " + noOfArmiesInCountry(move_armies_to));
+                                                    System.out.println("No of armies in country " + moveArmiesFrom + " (from): " + noOfArmiesInCountry(moveArmiesFrom));
+                                                    System.out.println("No of armies in country " + moveArmiesTo + " (to): " + noOfArmiesInCountry(moveArmiesTo));
                                                     for (Country country : countries) {
-                                                        if (country.getCountryName().equals(move_armies_from)) {
-                                                            country.setArmies(country.getArmies() - no_of_armies_to_move);
+                                                        if (country.getCountryName().equals(moveArmiesFrom)) {
+                                                            country.setArmies(country.getArmies() - noOfArmiesToMove);
                                                         }
-                                                        if (country.getCountryName().equals(move_armies_to)) {
-                                                            country.setArmies(country.getArmies() + no_of_armies_to_move);
+                                                        if (country.getCountryName().equals(moveArmiesTo)) {
+                                                            country.setArmies(country.getArmies() + noOfArmiesToMove);
                                                         }
                                                     }
                                                     System.out.println("** After moving armies **\n");
-                                                    System.out.println("No of armies in country " + move_armies_from + " (from): " + noOfArmiesInCountry(move_armies_from));
-                                                    System.out.println("No of armies in country " + move_armies_to + " (to): " + noOfArmiesInCountry(move_armies_to));
+                                                    System.out.println("No of armies in country " + moveArmiesFrom + " (from): " + noOfArmiesInCountry(moveArmiesFrom));
+                                                    System.out.println("No of armies in country " + moveArmiesTo + " (to): " + noOfArmiesInCountry(moveArmiesTo));
 
                                                 } else {
                                                     System.out.println("Invalid! Enter again: ");
@@ -779,7 +796,7 @@ public class Player extends Observable {
                 }
             } else {
                 System.out.println("Exiting Fortification Phase!");
-                player_from_country_flag = true;
+                playerFromCountryFlag = true;
             }
         }
         if (!doesPlayerOwnAtLeastOneCountry(player)) {
@@ -791,14 +808,14 @@ public class Player extends Observable {
     /**
      * Calculate the number of armies that a country has at a particular time in the game
      *
-     * @param country_name name of the country
+     * @param countryName name of the country
      * @return number of armies in the country
      */
-    public int noOfArmiesInCountry(String country_name) {
+    public int noOfArmiesInCountry(String countryName) {
 
         ArrayList<Country> countries = map.getCountries();
         for (Country country : countries) {
-            if (country.getCountryName().equals(country_name)) {
+            if (country.getCountryName().equals(countryName)) {
                 return country.getArmies();
             }
         }
@@ -808,13 +825,13 @@ public class Player extends Observable {
     /**
      * Checks if player contains neighbor countries that are owned by a different player
      *
-     * @param country_name name of country
+     * @param countryName name of country
      * @param player       player instance
      * @return true if at least one neighbour country is owned by a different player, else false
      */
-    public boolean containsCountriesAsNeighbours(String country_name, Player player) {
+    public boolean containsCountriesAsNeighbours(String countryName, Player player) {
         LinkedHashMap<String, ArrayList<String>> allCountriesWithNeighbours = map.getAdjCountries();
-        ArrayList<String> neighbours = allCountriesWithNeighbours.get(country_name);
+        ArrayList<String> neighbours = allCountriesWithNeighbours.get(countryName);
         for (String neighbour : neighbours) {
             if (player.getCountries().contains(neighbour)) {
                 return true;

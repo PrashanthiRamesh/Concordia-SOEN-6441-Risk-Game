@@ -3,14 +3,19 @@ package model;
 import util.Util;
 
 /**
+ * Dice Class represents a dice
  *
+ * @author Manasa
+ * @version 1.1
+ * @since 1.1
  */
-public class Dice {
+class Dice {
 
     /**
-     * @return
+     * method to generate random number between 1 and 6
+     * @return a random number from 1 to 6 (both inclusive)
      */
-    public int roll() {
+    int roll() {
         return Util.randInt(1, 6);
     }
 }

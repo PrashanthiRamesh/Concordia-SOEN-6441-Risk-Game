@@ -1,12 +1,22 @@
 package model;
 
 /**
+ * Card Class represents a country
  *
+ * @author Maqsood
+ * @version 1.1
+ * @since 1.0
  */
 public class Card {
 
+    /**
+     *
+     */
     private String name;
 
+    /**
+     *
+     */
     private int typeNumber;
 
 

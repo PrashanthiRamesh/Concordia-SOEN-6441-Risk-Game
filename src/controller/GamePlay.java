@@ -15,8 +15,8 @@ import view.Phase;
  *
  * @author Prashanthi
  * @author Suthakhar
- * @version 1.0
- * @since 2019-02-27
+ * @version 1.1
+ * @since 1.0
  */
 public class GamePlay extends Observable {
 
@@ -46,6 +46,7 @@ public class GamePlay extends Observable {
     private int totalArmies;
 
     /**
+     * getter method to return the percentage of map controlled by player
      * @return
      */
     public float getPercentageMap() {
@@ -53,48 +54,55 @@ public class GamePlay extends Observable {
     }
 
     /**
-     * @param percentageMap
+     * setter method to set the value of percentage of map controlled by the player
+     * @param percentageMap decimal value of percentage of map controlled by player
      */
     public void setPercentageMap(float percentageMap) {
         this.percentageMap = percentageMap;
     }
 
     /**
-     * @return
+     * getter method to get the list of continents controlled by the player
+     * @return list of continents controlled by the player
      */
     public ArrayList getContinentsControlled() {
         return continentsControlled;
     }
 
     /**
-     * @param continentsControlled
+     * setter method to set the list of continents controlled by the player
+     * @param continentsControlled list of continents controlled by the player
      */
     public void setContinentsControlled(ArrayList continentsControlled) {
         this.continentsControlled = continentsControlled;
     }
 
     /**
-     * @return
+     * getter method to return the total number of armies owned by the player
+     * @return total number of armies a player owns
      */
     public int getTotalArmies() {
         return totalArmies;
     }
 
     /**
-     * @param totalArmies
+     * setter method to assign the total number of armies owned by a player
+     * @param totalArmies Integer value of armies owned by a player
      */
     public void setTotalArmies(int totalArmies) {
         this.totalArmies = totalArmies;
     }
 
     /**
-     * @return
+     * getter method to return the value of the phase of the game
+     * @return phase value
      */
     public int getPhase() {
         return phase;
     }
 
     /**
+     * setter method to set the value of the phase
      * @param phase
      */
     public void setPhase(int phase) {
@@ -102,14 +110,16 @@ public class GamePlay extends Observable {
     }
 
     /**
-     * @return
+     * getter method to get the name of the current player
+     * @return name of the player
      */
     public String getCurrentPlayer() {
         return currentPlayer;
     }
 
     /**
-     * @param currentPlayer
+     * setter method to set the name of the current player
+     * @param currentPlayer name of the player
      */
     public void setCurrentPlayer(String currentPlayer) {
         this.currentPlayer = currentPlayer;
@@ -126,7 +136,7 @@ public class GamePlay extends Observable {
     private ArrayList<Player> players;
 
     /**
-     *
+     * Instance of player
      */
     private Player play;
 
@@ -214,13 +224,13 @@ public class GamePlay extends Observable {
 
             }
             System.out.println("\nContinue the game?\nYes\nNo");
-            boolean continue_game_flag = false;
-            while (!continue_game_flag) {
+            boolean continueGameFlag = false;
+            while (!continueGameFlag) {
                 String choice = scanner.next();
                 if (choice.equals("Yes")) {
-                    continue_game_flag = true;
+                    continueGameFlag = true;
                 } else if (choice.equals("No")) {
-                    continue_game_flag = true;
+                    continueGameFlag = true;
                     gameOver = true;
                 } else {
                     System.out.println("Invalid choice! Enter either Yes or No: ");
@@ -232,9 +242,8 @@ public class GamePlay extends Observable {
     }
 
     /**
-     * Refactored method 1
-     *
-     * @param player
+     * Refactored method 1- to set the player details in every phase
+     * @param player instance of the current player
      */
     private void setPlayerDetailsForPhase(Player player) {
         currentPlayer = player.getPlayerName();
