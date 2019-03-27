@@ -1,9 +1,6 @@
 package view;
 
-import model.Card;
 import model.Player;
-
-import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -29,15 +26,15 @@ public class CardExchange implements Observer {
 
         this.player=player;
 
-        (new Player()).displayPlayerCards(this.player.getCards(), this.player.getPlayerName());
+        (new Player()).displayPlayerCards(this.player);
 
-        int numberOfPlayerCards = this.player.getCards().size();
+        int numberOfPlayerCards = player.getInfantryCount()+player.getCavalryCount()+player.getCannonCount();
 
         if (numberOfPlayerCards >= 5) {
             boolean validCards=true;
             while(numberOfPlayerCards>=5 && validCards){
                 validCards=exchangeCards();
-                numberOfPlayerCards=this.player.getCards().size();
+                numberOfPlayerCards= player.getInfantryCount()+player.getCavalryCount()+player.getCannonCount();
             }
         } else if (numberOfPlayerCards >= 3) {
             System.out.println("Do you want to exchange 3 armies for 5 armies?Yes/No");
@@ -62,62 +59,32 @@ public class CardExchange implements Observer {
     }
 
     private boolean exchangeCards(){
-        ArrayList<Card> playerCards=this.player.getCards();
-        int playerArmies=this.player.getArmies();
-
-        ArrayList<Integer> sameCardIndices=new ArrayList<>();
-        ArrayList<Integer> differentCardIndices=new ArrayList<>();
-
-        int sameCardCount=0, differentCardCount=0;
-
-        for(int i=0;i<playerCards.size()-1;i++){
-            sameCardCount=0;
-            differentCardCount=0;
-            sameCardIndices.clear();
-            sameCardIndices.add(i);
-            differentCardIndices.clear();
-            differentCardIndices.add(i);
-            for(int j=i;j<playerCards.size();j++){
-                if(playerCards.get(i).getTypeNumber()==playerCards.get(j).getTypeNumber()){
-                    sameCardCount++;
-                    sameCardIndices.add(j);
-                }
-                if(!differentCardIndices.contains(playerCards.get(j).getTypeNumber())){
-                    differentCardCount++;
-                    differentCardIndices.add(j);
-                }
-                if(sameCardCount==2 || differentCardCount==2){
-                    break;
-                }
-            }
-        }
-        if(sameCardCount==2){
-            System.out.print("You have 3 cards of same type! Removing the following cards for 5 reinforcement armies..");
-            for(int sameCardIndex:sameCardIndices){
-                System.out.print(playerCards.get(sameCardIndex)+"|");
-            }
-            for(int x = sameCardIndices.size() - 1; x > 0; x--)
-            {
-                playerCards.remove(x);
-            }
-            System.out.println("For the 3 cards exchanged you receive 5 armies! :)");
+        int infantryCount=player.getInfantryCount();
+        int cavalryCount=player.getCavalryCount();
+        int cannonCount=player.getCannonCount();
+        int playerArmies=player.getArmies();
+        if(infantryCount>=3){
+           System.out.println("3 Infantry Cards are exchanged for 5 reinforcement armies!");
+           infantryCount-=3;
+           playerArmies+=5;
+        }else if(cannonCount>=3){
+            System.out.println("3 Cavalry Cards are exchanged for 5 reinforcement armies!");
+            cavalryCount-=3;
             playerArmies+=5;
-        }else if(differentCardCount==2){
-            System.out.print("You have 1 card each of different type! Removing the following cards for 5 reinforcement armies..");
-            for(int differentCardIndex:differentCardIndices){
-                System.out.print(playerCards.get(differentCardIndex)+"|");
-            }
-            for(int x = differentCardIndices.size() - 1; x > 0; x--)
-            {
-                playerCards.remove(x);
-            }
-            System.out.println("For the 3 cards exchanged you receive 5 armies! :)");
+        }else if(cavalryCount>=3){
+            System.out.println("3 Cannon Cards are exchanged for 5 reinforcement armies!");
+            cannonCount-=3;
             playerArmies+=5;
-        }else{
-            System.out.println("Sorry! You don't have 3 cards of same type or 1 card each of different type.");
-            return false;
+        }else if(infantryCount>=1 && cannonCount>=1 && cavalryCount>=1){
+            System.out.println("3 Cards- one each of Infantry, Cavalry, Cannon Cards are exchanged for 5 reinforcement armies!");
+            infantryCount-=1;
+            cavalryCount-=1;
+            cannonCount-=1;
+            playerArmies+=5;
         }
-        this.player.setCards(playerCards);
+        this.player.setInfantryCount(infantryCount);
+        this.player.setCavalryCount(cavalryCount);
+        this.player.setCannonCount(cannonCount);
         this.player.setArmies(playerArmies);
         return true;
     }

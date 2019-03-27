@@ -53,6 +53,12 @@ public class Player extends Observable {
 
     private Player currentPlayer;
 
+    private int infantryCount;
+
+    private int cavalryCount;
+
+    private int cannonCount;
+
     /**
      * Instance of RiskMap
      */
@@ -81,11 +87,15 @@ public class Player extends Observable {
      * @param armies      An integer representing the number of armies of player
      * @param countries   An ArrayList representing the list of countries that the player owns
      */
-    public Player(String player_name, int armies, ArrayList<String> countries, ArrayList<Card> cards) {
+    public Player(String player_name, int armies, ArrayList<String> countries,
+                  ArrayList<Card> cards, int infantryCount, int cavalryCount, int cannonCount) {
         this.player_name = player_name;
         this.armies = armies;
         this.countries = countries;
         this.cards = cards;
+        this.infantryCount=infantryCount;
+        this.cavalryCount=cavalryCount;
+        this.cannonCount=cannonCount;
     }
 
     /**
@@ -175,6 +185,31 @@ public class Player extends Observable {
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
+
+    public int getInfantryCount() {
+        return infantryCount;
+    }
+
+    public void setInfantryCount(int infantryCount) {
+        this.infantryCount = infantryCount;
+    }
+
+    public int getCavalryCount() {
+        return cavalryCount;
+    }
+
+    public void setCavalryCount(int cavalryCount) {
+        this.cavalryCount = cavalryCount;
+    }
+
+    public int getCannonCount() {
+        return cannonCount;
+    }
+
+    public void setCannonCount(int cannonCount) {
+        this.cannonCount = cannonCount;
+    }
+
 
     /**
      * Calculation of correct number of reinforcement armies according to the Risk rules.
@@ -284,6 +319,7 @@ public class Player extends Observable {
 
 
     public void deployArmies(Player player, RiskMap mapInstance) {
+
         int player_armies = player.getArmies();
         ArrayList<String> player_countries = player.getCountries();
         System.out.println("\nNo of armies to place: " + player_armies);
@@ -343,7 +379,7 @@ public class Player extends Observable {
         setChanged();
         notifyObservers(this);
         System.out.println("\nAfter Card Exchange View");
-        displayPlayerCards(player.getCards(), player.getPlayerName());
+        displayPlayerCards(player);
         System.out.println("Player armies: " + player.getArmies());
         deployArmies(player, mapInstance);
     }
@@ -640,12 +676,24 @@ public class Player extends Observable {
     }
 
 
-    public void displayPlayerCards(ArrayList<Card> playerCards, String name) {
-        System.out.print("\n**Cards**\nPlayer has " + playerCards.size() + " card(s)\nThey are: ");
-        for (Card playerCard : playerCards) {
-            System.out.print(playerCard.getName()+ "|");
+    public void displayPlayerCards(Player player) {
+        int cardCount=player.getInfantryCount()+player.getCannonCount()+player.getCannonCount();
+        if(cardCount>0){
+            System.out.print("\n**Cards**\nPlayer has " + cardCount + " card(s)\nThey are: \n");
+            for (int i=1;i<=player.infantryCount;i++) {
+                System.out.println(i+"- Infantry Card");
+            }
+            for (int i=1;i<=player.cavalryCount;i++) {
+                System.out.println(i+"- Cavalry Card");
+            }
+            for (int i=1;i<=player.cannonCount;i++) {
+                System.out.println(i+"- Cannon Card");
+            }
+            System.out.println("\n");
+        }else{
+            System.out.print("\n**Player has zero cards!**\n");
         }
-        System.out.println("\n");
+
 
     }
 
@@ -780,10 +828,21 @@ public class Player extends Observable {
         ArrayList<Card> cards = winner.cards;
         int cardTypeValue = Util.randInt(1, 3);
         String cardName = Card.getNameByTypeNumber(cardTypeValue);
+        switch (cardTypeValue){
+            case 1:
+                winner.setInfantryCount(winner.getInfantryCount()+1);
+                break;
+            case 2:
+                winner.setCavalryCount(winner.getCavalryCount()+1);
+                break;
+            case 3:
+                winner.setCannonCount(winner.getCannonCount()+1);
+                break;
+        }
         System.out.println("**Assigning "+ cardName+" Card to the Winner- "+winner.getPlayerName()+" **");
         cards.add(new Card(cardName, cardTypeValue));
         winner.cards = cards;
-        displayPlayerCards(cards, winner.getPlayerName());
+        displayPlayerCards(winner);
 
     }
 
