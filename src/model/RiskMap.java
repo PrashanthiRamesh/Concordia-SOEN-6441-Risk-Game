@@ -1,5 +1,6 @@
 package model;
 
+import sun.awt.image.ImageWatched;
 import util.Util;
 
 import java.io.*;
@@ -402,6 +403,16 @@ public class RiskMap {
             String start = firstEntry.getKey();
             Map.Entry<String, ArrayList<String>> lastEntry = (Map.Entry<String, ArrayList<String>>) countriesWithNeighbours.entrySet().toArray()[countriesWithNeighbours.size() - 1];
             String end = lastEntry.getKey();
+            List<String> countries = new ArrayList<>(countriesWithNeighbours.keySet());
+            for(String countryWithNeighbours: countriesWithNeighbours.keySet()){
+                ArrayList<String> tempCountries=new ArrayList<>();
+                for(String neighbour:countriesWithNeighbours.get(countryWithNeighbours)){
+                    if(countries.contains(neighbour)){
+                        tempCountries.add(neighbour);
+                    }
+                }
+                countriesWithNeighbours.put(countryWithNeighbours,tempCountries);
+            }
             if(!breadthFirstSearch(countriesWithNeighbours, start, end)){
                 System.out.println("\nContinent- "+continent+" is not a connected sub-graph");
                 continentsConnectedFlag=false;
@@ -433,16 +444,19 @@ public class RiskMap {
                 connected = true;
                 break;
             }
-            if(adjList.get(nextVertex)!=null){
-                for (String edge : adjList.get(nextVertex)) {
-                    if (!parents.containsKey(edge)) {
-                        q.add(edge);
-                        parents.put(edge, nextVertex);
+
+                if(adjList.get(nextVertex)!=null){
+                    for (String edge : adjList.get(nextVertex)) {
+                        if (!parents.containsKey(edge)) {
+                            q.add(edge);
+                            parents.put(edge, nextVertex);
+                        }
                     }
+                }else{
+                    return false;
                 }
-            }else{
-                return false;
-            }
+
+
         }
         return connected;
     }
@@ -486,12 +500,12 @@ public class RiskMap {
                 saveContinentWithCountries(continent, country);
                 adjCountries.put(country, tempAl);
                 countriesWithNeighbours.put(country,tempAl);
-                continentsWithCountriesAndNeighbours.put(continent,countriesWithNeighbours);
+                saveContinentWithCountriesAndNeighbours(continent,country,tempAl);
             }
             line = bir.readLine();
         }
         
-        return adjCountries.get("AA").get(0);
+        return adjCountries.values().iterator().next().get(0);
         
     }
 
@@ -502,13 +516,25 @@ public class RiskMap {
      */
     private void saveContinentWithCountries(String continent, String country) {
         ArrayList<String> countries = new ArrayList<>();
-        if (continentsWithCountries.containsKey(continent)) {
+        if (continentsWithCountriesAndNeighbours.containsKey(continent)) {
             countries = continentsWithCountries.get(continent);
             countries.add(country);
             continentsWithCountries.put(continent, countries);
         } else {
             countries.add(country);
             continentsWithCountries.put(continent, countries);
+        }
+    }
+
+    private void saveContinentWithCountriesAndNeighbours(String continent, String country, ArrayList<String> countryNeighbours) {
+        LinkedHashMap<String, ArrayList<String>> countriesAndNeighbours = new LinkedHashMap<>();
+        if (continentsWithCountriesAndNeighbours.containsKey(continent)) {
+            countriesAndNeighbours = continentsWithCountriesAndNeighbours.get(continent);
+            countriesAndNeighbours.put(country,countryNeighbours);
+            continentsWithCountriesAndNeighbours.put(continent, countriesAndNeighbours);
+        } else {
+            countriesAndNeighbours.put(country,countryNeighbours);
+            continentsWithCountriesAndNeighbours.put(continent, countriesAndNeighbours);
         }
     }
 

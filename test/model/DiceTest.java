@@ -19,11 +19,10 @@ public class DiceTest {
     @Test
     public void validDiceResult()
     {
-        boolean check;
-        int diceValue=dice.roll();
-        assertTrue(diceValue<=6 && diceValue>=1);
-        assertFalse( diceValue>6);
-        assertFalse( diceValue<1);
+        int diceValue=dice.roll(10,20);
+        assertTrue(diceValue<=20 && diceValue>=10);
+        assertFalse( diceValue>20);
+        assertFalse( diceValue<10);
 
     }
 }

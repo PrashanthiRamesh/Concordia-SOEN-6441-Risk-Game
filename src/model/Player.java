@@ -303,7 +303,7 @@ public class Player extends Observable {
      * @param playerCountries list of countries a player controls
      * @param playerArmies number of armies of player
      */
-    private void setArmiesForContinentsControlled(Player player, ArrayList<String> playerCountries, int playerArmies) {
+    public void setArmiesForContinentsControlled(Player player, ArrayList<String> playerCountries, int playerArmies) {
         ArrayList<String> playerContinents = map.continentsControlledByPlayer(playerCountries);
         if (!playerContinents.isEmpty()) {
             System.out.println("Player controls the following continents: " + playerContinents);
@@ -566,25 +566,8 @@ public class Player extends Observable {
 
             while (true) {
 
-                if (defenderArmies == 0) {
-                    defenderDice = 1;
-                } else {
-                    defenderDice = 2;
-                }
-                Dice dice = new Dice();
-                if (attackerArmies >= 3) {
-                    System.out.println("You Can Roll Atmost 3 dice");
-                    dice.roll();
-                    attackerDice = scan.nextInt();
-                } else if (attackerArmies == 2) {
-                    System.out.println("You Can Roll Atmost 2 dice");
-                    dice.roll();
-                    attackerDice = scan.nextInt();
-                } else {
-                    System.out.println("You Can only Roll the Dice once");
-                    attackerDice = 1;
-                }
-
+                defenderDice = getDefenderDice(defenderArmies);
+                attackerDice = getAttackerDice(attackerArmies);
 
                 Integer[] attackerRandomNumbers = new Integer[attackerDice];
                 Integer[] defenderRandomNumbers = new Integer[defenderDice];
@@ -654,24 +637,8 @@ public class Player extends Observable {
                     if (attackerArmies > 1) {
                         System.out.println("You Have " + attackerArmies + " Left");
                         System.out.println("Enter the Number of armies you want to leave behind from the territory you came");
-                        int temp = scan.nextInt();
-                        for (int i = 0; i < countriescopy.size(); i++) {
-                            if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
-                                mapInstance.countries.get(i).setArmies(temp);
-                                mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
-                                break;
-                            }
-                        }
-
-                        for (int i = 0; i < countriescopy.size(); i++) {
-                            if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
-                                mapInstance.countries.get(i).setArmies(attackerArmies - temp);
-                                mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
-                                playerCountries.add(defendingcountry);
-                                break;
-
-                            }
-                        }
+                        int armiesToLeaveBehind = scan.nextInt();
+                        moveAfterConquering(player, mapInstance, countriescopy, playerCountries, attackerArmies, defendingcountry, attackingcountry, armiesToLeaveBehind);
 
                     } else if (attackerArmies == 1) {
                         for (int i = 0; i < countriescopy.size(); i++) {
@@ -710,25 +677,20 @@ public class Player extends Observable {
 
             }
 
-            int counter = 0;
+            int armiesLeft = 0;
             for (int i = 0; i < countriescopy.size(); i++) {
                 if (countriescopy.get(i).getBelongsTo().equals(player.getPlayerName())) {
-                    counter++;
+                    armiesLeft++;
                 }
             }
-            if (countriescopy.size() == counter) {
+            if (countriescopy.size() == armiesLeft) {
                 System.out.println("You Won Please the collect the reward from the TA :)");
                 System.exit(0);
             }
 
-            counter = 0;
-            for (int i = 0; i < countriescopy.size(); i++) {
-                if (countriescopy.get(i).getBelongsTo().equals(player.getPlayerName())) {
-                    if (countriescopy.get(i).getArmies() > 0)
-                        counter++;
-                }
-            }
-            if (counter < 1) {
+            armiesLeft = 0;
+            armiesLeft = getArmiesLeftForPlayer(player, countriescopy, armiesLeft);
+            if (armiesLeft < 1) {
                 System.out.println("Attack Not Possible No Armies Left");
 
                 break attackcontinue;
@@ -749,13 +711,102 @@ public class Player extends Observable {
 
     }
 
+    /**
+     * Method to calculate the number of armies left for a player
+     * @param player instance of player
+     * @param countriescopy list of country instances
+     * @param armiesLeft number of armies left for player
+     * @return number of armies left for the player
+     */
+    public int getArmiesLeftForPlayer(Player player, ArrayList<Country> countriescopy, int armiesLeft) {
+        for (int i = 0; i < countriescopy.size(); i++) {
+            if (countriescopy.get(i).getBelongsTo().equals(player.getPlayerName())) {
+                if (countriescopy.get(i).getArmies() > 0)
+                    armiesLeft++;
+            }
+        }
+        return armiesLeft;
+    }
+
+    /**
+     * A valid move of armies of attacker between countries after conquering
+     * @param player instance of player
+     * @param mapInstance instance of map
+     * @param countriescopy list of  country instances
+     * @param playerCountries list of player countries
+     * @param attackerArmies number of attacker armies
+     * @param defendingcountry name of defending country
+     * @param attackingcountry name of attacking country
+     * @param armiesToMove number of armies to move
+     * @return true for testing
+     */
+    public boolean moveAfterConquering(Player player, RiskMap mapInstance, ArrayList<Country> countriescopy, ArrayList<String> playerCountries, int attackerArmies, String defendingcountry, String attackingcountry, int armiesToMove) {
+        for (int i = 0; i < countriescopy.size(); i++) {
+            if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
+                mapInstance.countries.get(i).setArmies(armiesToMove);
+                mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
+                break;
+            }
+        }
+
+        for (int i = 0; i < countriescopy.size(); i++) {
+            if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
+                mapInstance.countries.get(i).setArmies(attackerArmies - armiesToMove);
+                mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
+                playerCountries.add(defendingcountry);
+                break;
+
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Method to get the defender number of roll of rice depending on the number of armies he owns in the country
+     * @param defenderArmies number of defending armies
+     * @return number of roll of dice for defender
+     */
+    public int getDefenderDice(int defenderArmies) {
+        int defenderDice;
+        if (defenderArmies == 0) {
+            defenderDice = 1;
+        } else {
+            defenderDice = 2;
+        }
+        return defenderDice;
+    }
+
+    /**
+     * Method to get the attacker number of roll of rice depending on the number of armies he owns in the country
+     * @param attackerArmies number of attacking armies
+     * @return number of roll of dice for attacker
+     */
+    public int getAttackerDice(int attackerArmies) {
+        int attackerDice;
+        Dice dice = new Dice();
+        if (attackerArmies >= 3) {
+            System.out.println("You Can Roll Atmost 3 dice");
+            dice.roll(1,3);
+            attackerDice = scanner.nextInt();
+        } else if (attackerArmies == 2) {
+            System.out.println("You Can Roll Atmost 2 dice");
+            dice.roll(1,2);
+            attackerDice = scanner.nextInt();
+        } else {
+            System.out.println("You Can only Roll the Dice once");
+            attackerDice = 1;
+        }
+        return attackerDice;
+    }
+
 
     /**
      * Method to display all the cards the player owns
      * @param player instance of player
      */
     public void displayPlayerCards(Player player) {
-        int cardCount = player.getInfantryCount() + player.getCannonCount() + player.getCannonCount();
+        int cardCount = player.getInfantryCount() + player.getCavalryCount() + player.getCannonCount();
         if (cardCount > 0) {
             System.out.print("\n**Cards**\nPlayer has " + cardCount + " card(s)\nThey are: \n");
             for (int i = 1; i <= player.infantryCount; i++) {
@@ -864,10 +915,20 @@ public class Player extends Observable {
                 playerFromCountryFlag = true;
             }
         }
+        removePlayerIfZeroCountriesOwned(player);
+
+    }
+
+    /**
+     * Method to remove player if they don't own at least one country in the map
+     * @param player instance of player
+     * @return true if the player is removed
+     */
+    boolean removePlayerIfZeroCountriesOwned(Player player) {
         if (!doesPlayerOwnAtLeastOneCountry(player)) {
             players.remove(player);
         }
-
+        return true;
     }
 
     /**

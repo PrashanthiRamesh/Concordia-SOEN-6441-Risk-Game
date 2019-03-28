@@ -1,21 +1,15 @@
 package model;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.LinkedHashMap;
 
-import model.Player;
-import model.RiskMap;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import model.Country;
-import util.Util;
+import static org.junit.Assert.*;
 
 public class RiskMapTest {
 
@@ -37,9 +31,57 @@ public class RiskMapTest {
 
     }
 
+    @Test
+    public void testNotConnectedContinent() {
+        ArrayList<String> c1 = new ArrayList<String>();
+        ArrayList<String> c2 = new ArrayList<String>();
+        ArrayList<String> c3 = new ArrayList<String>();
+        LinkedHashMap<String, ArrayList<String>> continentsWithCountries=new LinkedHashMap<>();
+        c1.add("a");c1.add("b");c1.add("c");
+        c2.add("d"); c2.add("e");
+        c3.add("f"); c3.add("g");
+        continentsWithCountries.put("C1",c1);
+        continentsWithCountries.put("C2",c2);
+        continentsWithCountries.put("C3",c3);
+        map.setContinentsWithCountries(continentsWithCountries);
+
+        LinkedHashMap<String, LinkedHashMap<String, ArrayList<String>>> continentsandcountriesWithNeighbours=new LinkedHashMap<>();
+        LinkedHashMap<String, ArrayList<String>> countriesWithNeighbours=new LinkedHashMap<>();
+        ArrayList<String> neighbours=new ArrayList<>();
+        neighbours.add("b"); neighbours.add("d");
+        countriesWithNeighbours.put("a",neighbours);
+        neighbours=new ArrayList<>();
+        neighbours.add("a");
+        countriesWithNeighbours.put("b",neighbours);
+        neighbours=new ArrayList<>();
+        countriesWithNeighbours.put("c",neighbours);
+        continentsandcountriesWithNeighbours.put("C1", countriesWithNeighbours);
+
+        countriesWithNeighbours=new LinkedHashMap<>();
+        neighbours=new ArrayList<>();
+        neighbours.add("e"); neighbours.add("f");
+        countriesWithNeighbours.put("d",neighbours);
+        neighbours=new ArrayList<>();
+        neighbours.add("d");
+        countriesWithNeighbours.put("e",neighbours);
+        continentsandcountriesWithNeighbours.put("C2", countriesWithNeighbours);
+
+        countriesWithNeighbours=new LinkedHashMap<>();
+        neighbours=new ArrayList<>();
+        neighbours.add("g"); neighbours.add("a");
+        countriesWithNeighbours.put("f",neighbours);
+        neighbours=new ArrayList<>();
+        neighbours.add("f");
+        countriesWithNeighbours.put("g",neighbours);
+        continentsandcountriesWithNeighbours.put("C3", countriesWithNeighbours);
+
+
+        map.setContinentsWithCountriesAndNeighbours(continentsandcountriesWithNeighbours);
+        assertFalse(map.areContinentsConnected());
+    }
 
     @Test
-    public void connectedGraph() {
+    public void testConnectedMap() {
         ArrayList<String> al1 = new ArrayList<String>();
         ArrayList<String> al2 = new ArrayList<String>();
         ArrayList<String> al3 = new ArrayList<String>();
@@ -56,11 +98,9 @@ public class RiskMapTest {
     }
 
     @Test
-    public void inputFileConnection() throws IOException {
+    public void testInputFileConnection() throws IOException {
         assertEquals("AB", map.loadMap("input.txt"));
     }
-
-
 
 
     @Test
@@ -71,7 +111,7 @@ public class RiskMapTest {
 
 
     @Test
-    public void TestBFS() {
+    public void testBFS() {
         ArrayList<String> al1 = new ArrayList<String>();
         ArrayList<String> al2 = new ArrayList<String>();
         ArrayList<String> al3 = new ArrayList<String>();
@@ -91,7 +131,7 @@ public class RiskMapTest {
     }
 
     @Test
-    public void TestArmies() {
+    public void testArmies() {
         ArrayList<Country> al = new ArrayList<Country>();
         Country c = new Country("India", "Maqsood", 5);
         al.add(c);
@@ -99,8 +139,8 @@ public class RiskMapTest {
 
         assertEquals(5, gamePlay.noOfArmiesInCountry("India"));
 
-
     }
+
 
 
 }

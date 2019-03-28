@@ -86,11 +86,11 @@ public class CardExchange implements Observer {
            infantryCount-=3;
            playerArmies+=5;
         }else if(cannonCount>=3){
-            System.out.println("3 Cavalry Cards are exchanged for 5 reinforcement armies!");
+            System.out.println("3 Cannon Cards are exchanged for 5 reinforcement armies!");
             cavalryCount-=3;
             playerArmies+=5;
         }else if(cavalryCount>=3){
-            System.out.println("3 Cannon Cards are exchanged for 5 reinforcement armies!");
+            System.out.println("3 Cavalry Cards are exchanged for 5 reinforcement armies!");
             cannonCount-=3;
             playerArmies+=5;
         }else if(infantryCount>=1 && cannonCount>=1 && cavalryCount>=1){
