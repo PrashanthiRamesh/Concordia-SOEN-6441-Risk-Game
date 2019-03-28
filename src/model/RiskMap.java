@@ -328,6 +328,7 @@ public class RiskMap {
 
     /**
      * Writes and parses the Risk Map to a text file.
+     * @return string continents for testing
      * @throws IOException on user input
      */
     public String writeTheMapToTheTextFile() throws IOException {
@@ -448,6 +449,8 @@ public class RiskMap {
 
     /**
      * Loads the RiskMap form the File
+     * @param filename name of the map file
+     * @return first neighbour of country for testing
      * @throws IOException on user input
      */
     public String loadMap(String filename) throws IOException {

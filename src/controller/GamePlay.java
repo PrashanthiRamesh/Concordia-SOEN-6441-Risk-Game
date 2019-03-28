@@ -47,7 +47,8 @@ public class GamePlay extends Observable {
 
     /**
      * getter method to return the percentage of map controlled by player
-     * @return
+     *
+     * @return percentage of map controlled by player
      */
     public float getPercentageMap() {
         return percentageMap;
@@ -55,6 +56,7 @@ public class GamePlay extends Observable {
 
     /**
      * setter method to set the value of percentage of map controlled by the player
+     *
      * @param percentageMap decimal value of percentage of map controlled by player
      */
     public void setPercentageMap(float percentageMap) {
@@ -63,6 +65,7 @@ public class GamePlay extends Observable {
 
     /**
      * getter method to get the list of continents controlled by the player
+     *
      * @return list of continents controlled by the player
      */
     public ArrayList getContinentsControlled() {
@@ -71,6 +74,7 @@ public class GamePlay extends Observable {
 
     /**
      * setter method to set the list of continents controlled by the player
+     *
      * @param continentsControlled list of continents controlled by the player
      */
     public void setContinentsControlled(ArrayList continentsControlled) {
@@ -79,6 +83,7 @@ public class GamePlay extends Observable {
 
     /**
      * getter method to return the total number of armies owned by the player
+     *
      * @return total number of armies a player owns
      */
     public int getTotalArmies() {
@@ -87,6 +92,7 @@ public class GamePlay extends Observable {
 
     /**
      * setter method to assign the total number of armies owned by a player
+     *
      * @param totalArmies Integer value of armies owned by a player
      */
     public void setTotalArmies(int totalArmies) {
@@ -95,6 +101,7 @@ public class GamePlay extends Observable {
 
     /**
      * getter method to return the value of the phase of the game
+     *
      * @return phase value
      */
     public int getPhase() {
@@ -103,7 +110,8 @@ public class GamePlay extends Observable {
 
     /**
      * setter method to set the value of the phase
-     * @param phase
+     *
+     * @param phase value of phase of game
      */
     public void setPhase(int phase) {
         this.phase = phase;
@@ -111,6 +119,7 @@ public class GamePlay extends Observable {
 
     /**
      * getter method to get the name of the current player
+     *
      * @return name of the player
      */
     public String getCurrentPlayer() {
@@ -119,6 +128,7 @@ public class GamePlay extends Observable {
 
     /**
      * setter method to set the name of the current player
+     *
      * @param currentPlayer name of the player
      */
     public void setCurrentPlayer(String currentPlayer) {
@@ -165,6 +175,7 @@ public class GamePlay extends Observable {
 
     /**
      * Driver method to initiate the game phases in a round robin fashion for every player
+     * @param gamePlay instance of game
      */
     public void start(GamePlay gamePlay) {
         System.out.println("\n**** Game has started ****");
@@ -220,7 +231,7 @@ public class GamePlay extends Observable {
 
                 phase = 4;
                 setPlayerDetailsForPhase(player);
-                play.fortification(player);
+                play.fortification(player, play.map);
 
             }
             System.out.println("\nContinue the game?\nYes\nNo");
@@ -242,7 +253,7 @@ public class GamePlay extends Observable {
     }
 
     /**
-     * Refactored method 1- to set the player details in every phase
+     * Refactored method- to set the player details in every phase
      * @param player instance of the current player
      */
     private void setPlayerDetailsForPhase(Player player) {

@@ -88,8 +88,9 @@ public class Player extends Observable {
 
     /**
      * Creates a player with the players list and map of the game
+     *
      * @param players list of players
-     * @param map instance of map
+     * @param map     instance of map
      */
     public Player(ArrayList<Player> players, RiskMap map) {
         this.players = players;
@@ -100,8 +101,12 @@ public class Player extends Observable {
      * Creates a player with the specified player's name and armies
      *
      * @param playerName A String representing the name of the player
-     * @param armies      An integer representing the number of armies of player
-     * @param countries   An ArrayList representing the list of countries that the player owns
+     * @param armies     An integer representing the number of armies of player
+     * @param countries  An ArrayList representing the list of countries that the player owns
+     * @param cards A list of cards a player owns
+     * @param infantryCount Number of infantry cards of player
+     * @param cavalryCount Number of cavalry cards of player
+     * @param cannonCount Number of cannon cards of player
      */
     public Player(String playerName, int armies, ArrayList<String> countries,
                   ArrayList<Card> cards, int infantryCount, int cavalryCount, int cannonCount) {
@@ -186,42 +191,82 @@ public class Player extends Observable {
         this.countries = countries;
     }
 
+    /**
+     * Getter method to get the list of cards of player
+     * @return list of cards that player owns
+     */
     public ArrayList<Card> getCards() {
         return cards;
     }
 
+    /**
+     * Setter method to assign a player a list of cards
+     * @param cards list of cards
+     */
     public void setCards(ArrayList<Card> cards) {
         this.cards = cards;
     }
 
+    /**
+     * Getter method to set the instance of current player
+     * @return instance of current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }
 
+    /**
+     * Setter method to set the instance of current player
+     * @param currentPlayer instance of current player
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Getter method to return the number of infantry cards of player
+     * @return number of infantry cards the player owns
+     */
     public int getInfantryCount() {
         return infantryCount;
     }
 
+    /**
+     * Setter method to assign the number of infantry cards of a player
+     * @param infantryCount number of infantry cards
+     */
     public void setInfantryCount(int infantryCount) {
         this.infantryCount = infantryCount;
     }
 
+    /**
+     * Getter method to return the number of cavalry cards of player
+     * @return number of cavalry cards the player owns
+     */
     public int getCavalryCount() {
         return cavalryCount;
     }
 
+    /**
+     * Setter method to assign the number of cavalry cards of a player
+     * @param cavalryCount number of cavalry cards
+     */
     public void setCavalryCount(int cavalryCount) {
         this.cavalryCount = cavalryCount;
     }
 
+    /**
+     * Getter method to return the number of cannon cards of player
+     * @return number of cannon cards the player owns
+     */
     public int getCannonCount() {
         return cannonCount;
     }
 
+    /**
+     * Setter method to assign the number of cannon cards of a player
+     * @param cannonCount number of cannon cards
+     */
     public void setCannonCount(int cannonCount) {
         this.cannonCount = cannonCount;
     }
@@ -252,6 +297,12 @@ public class Player extends Observable {
 
     }
 
+    /**
+     * Method to set the reinforcement armies by assigning control values for players depending on the continents they control
+     * @param player instance of player
+     * @param playerCountries list of countries a player controls
+     * @param playerArmies number of armies of player
+     */
     private void setArmiesForContinentsControlled(Player player, ArrayList<String> playerCountries, int playerArmies) {
         ArrayList<String> playerContinents = map.continentsControlledByPlayer(playerCountries);
         if (!playerContinents.isEmpty()) {
@@ -329,13 +380,18 @@ public class Player extends Observable {
      * @param playerCountriesCount total number of countries that a player owns
      * @return number of reinforcement armies
      */
-    public static int calculateReinforcementArmies(int playerCountriesCount) {
+    static int calculateReinforcementArmies(int playerCountriesCount) {
         return (int) Math.floor(playerCountriesCount / 3.0);
     }
 
 
+    /**
+     * Method to let player assign all his armies to the countries he owns
+     * @param player instance of player
+     * @param mapInstance instance of map
+     */
     public void deployArmies(Player player, RiskMap mapInstance) {
-
+        map=mapInstance;
         int playerArmies = player.getArmies();
         ArrayList<String> playerCountries = player.getCountries();
         System.out.println("\nNo of armies to place: " + playerArmies);
@@ -385,10 +441,12 @@ public class Player extends Observable {
     }
 
     /**
-     * Implementation of reinforcement phase of the game
+     * This method defines the reinforcement phase process
+     * @param player instance of player
+     * @param mapInstance instance of map
      */
     public void reinforcement(Player player, RiskMap mapInstance) {
-        //calculate reinforcement armies
+        map=mapInstance;
         setReinforcementArmies(player, mapInstance.getCountries());
         setArmiesForContinentsControlled(player, player.getCountries(), player.getArmies());
         currentPlayer = player;
@@ -401,12 +459,12 @@ public class Player extends Observable {
     }
 
     /**
-     * Implementation of attack phase of game
-     *
-     * @param mapInstance
+     * This method defines the process of attack phase of game
+     * @param player instance of player
+     * @param mapInstance instance of map
      */
     public void attack(Player player, RiskMap mapInstance) {
-
+        map=mapInstance;
         attackcontinue:
         while (true) {
             ArrayList<Country> countriescopy = mapInstance.getCountries();
@@ -692,6 +750,10 @@ public class Player extends Observable {
     }
 
 
+    /**
+     * Method to display all the cards the player owns
+     * @param player instance of player
+     */
     public void displayPlayerCards(Player player) {
         int cardCount = player.getInfantryCount() + player.getCannonCount() + player.getCannonCount();
         if (cardCount > 0) {
@@ -715,11 +777,14 @@ public class Player extends Observable {
 
 
     /**
-     * Implementation of fortification phase of game
+     * This method implements the fortification phase of game
+     * @param player instance of player
+     * @param mapInstance instance of map
      */
-    public void fortification(Player player) {
+    public void fortification(Player player, RiskMap mapInstance) {
+        map = mapInstance;
         ArrayList<String> playerCountries = player.getCountries();
-        ArrayList<Country> countries = map.getCountries();
+        ArrayList<Country> countries = mapInstance.getCountries();
         System.out.println("\nCountries you own: " + playerCountries);
         for (Country country : countries) {
             if (playerCountries.contains(country.getCountryName())) {
@@ -735,7 +800,7 @@ public class Player extends Observable {
                     if (playerCountries.contains(moveArmiesFrom)) {
                         if (containsCountriesAsNeighbours(moveArmiesFrom, player)) {
                             playerFromCountryFlag = true;
-                            LinkedHashMap<String, ArrayList<String>> allCountriesWithNeighbours = map.getAdjCountries();
+                            LinkedHashMap<String, ArrayList<String>> allCountriesWithNeighbours = mapInstance.getAdjCountries();
                             ArrayList<String> selectedCountryNeighbours = allCountriesWithNeighbours.get(moveArmiesFrom);
                             System.out.println("Neighbours to " + moveArmiesFrom + " : " + selectedCountryNeighbours);
                             System.out.println("Enter the country to which you want to move armies to: ");
@@ -811,7 +876,7 @@ public class Player extends Observable {
      * @param countryName name of the country
      * @return number of armies in the country
      */
-    public int noOfArmiesInCountry(String countryName) {
+    int noOfArmiesInCountry(String countryName) {
 
         ArrayList<Country> countries = map.getCountries();
         for (Country country : countries) {
@@ -826,10 +891,10 @@ public class Player extends Observable {
      * Checks if player contains neighbor countries that are owned by a different player
      *
      * @param countryName name of country
-     * @param player       player instance
+     * @param player      player instance
      * @return true if at least one neighbour country is owned by a different player, else false
      */
-    public boolean containsCountriesAsNeighbours(String countryName, Player player) {
+    private boolean containsCountriesAsNeighbours(String countryName, Player player) {
         LinkedHashMap<String, ArrayList<String>> allCountriesWithNeighbours = map.getAdjCountries();
         ArrayList<String> neighbours = allCountriesWithNeighbours.get(countryName);
         for (String neighbour : neighbours) {
@@ -840,6 +905,10 @@ public class Player extends Observable {
         return false;
     }
 
+    /**
+     * Assigns a random card to winner of a round in attack phase
+     * @param winner instance of player who won a round in attack phase
+     */
     private void assignCardsToWinner(Player winner) {
         ArrayList<Card> cards = winner.cards;
         int cardTypeValue = Util.randInt(1, 3);
@@ -862,6 +931,11 @@ public class Player extends Observable {
 
     }
 
+    /**
+     * Method to return the instance of player by searching by passing a name
+     * @param name name
+     * @return instance of player
+     */
     private Player getPlayerInstanceByName(String name) {
         for (Player player : players) {
             if (player.getPlayerName().equals(name)) {
@@ -871,6 +945,11 @@ public class Player extends Observable {
         return null;
     }
 
+    /**
+     * Method to check if player contains at least one country in the whole map
+     * @param player instance of player
+     * @return true if player contains at least one country in the map, else false
+     */
     private boolean doesPlayerOwnAtLeastOneCountry(Player player) {
         return player.getCountries().size() != 0;
     }

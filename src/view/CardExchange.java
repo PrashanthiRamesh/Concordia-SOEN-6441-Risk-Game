@@ -9,7 +9,8 @@ import java.util.Scanner;
 /**
  * CardExchange represents the observer pattern of card exchange during reinforcement phase
  *
- * @author Manasa
+ * @author Prashanthi
+ * @author Mutesham
  * @version 1.1
  * @since 1.1
  */

@@ -27,10 +27,7 @@ public class Country {
 	/**
 	 * Creates a country
 	 */
-	public Country()
-	{
-		
-	}
+	public Country() { }
 
 	/**
 	 * Creates a country with a specified country name, player name and number of armies
@@ -47,7 +44,7 @@ public class Country {
 	 * Getter method to get the name of the country
 	 * @return country name
 	 */
-	public String getCountryName() {
+	String getCountryName() {
 		return countryName;
 	}
 
@@ -63,7 +60,7 @@ public class Country {
 	 * Getter method to get the name of player who owns the country
 	 * @return player name
 	 */
-	public String getBelongsTo() {
+	String getBelongsTo() {
 		return belongsTo;
 	}
 
@@ -71,7 +68,7 @@ public class Country {
 	 * Setter method to assign a string value to the player who owns the country
 	 * @param belongsTo player name
 	 */
-	public void setBelongsTo(String belongsTo) {
+	void setBelongsTo(String belongsTo) {
 		this.belongsTo = belongsTo;
 	}
 
