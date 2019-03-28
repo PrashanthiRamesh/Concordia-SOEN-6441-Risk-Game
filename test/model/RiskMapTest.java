@@ -60,15 +60,7 @@ public class RiskMapTest {
         assertEquals("AB", map.loadMap("input.txt"));
     }
 
-    @Test
-    public void randomInteger() {
-        int[] arr = {0, 1, 2, 3};
 
-        int x = Arrays.binarySearch(arr, Util.randInt(0, 4));
-
-        //assertEquals( 1, x);
-
-    }
 
 
     @Test

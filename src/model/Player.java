@@ -413,7 +413,7 @@ public class Player extends Observable {
                                 System.out.println("Placing " + noOfArmiesToPlace + " armies in country " + countryName);
                                 ArrayList<Country> countries = mapInstance.getCountries();
                                 for (Country country : countries) {
-                                    if (country.getCountryName().equals(countryName)) {
+                                    if (isCountryNameEquals(countryName, country)) {
                                         int countryNoArmies = country.getArmies();
                                         country.setArmies(countryNoArmies + noOfArmiesToPlace);
                                         System.out.println("Placed Successfully! Number of Armies in Country " + countryName + " is " + country.getArmies() + "\n");
@@ -498,14 +498,14 @@ public class Player extends Observable {
                 }
 
                 for (int p = 0; p < countriescopy.size(); p++) {
-                    if (countriescopy.get(p).getCountryName().equals(playerCountries.get(i))) {
+                    if (isCountryNameEquals(playerCountries.get(i), countriescopy.get(p))) {
                         System.out.print(playerCountries.get(i) + "-" + countriescopy.get(p).getArmies());
                     }
                 }
                 System.out.print("------> [");
                 for (int m = 0; m < store.size(); m++) {
                     for (int p = 0; p < countriescopy.size(); p++) {
-                        if (countriescopy.get(p).getCountryName().equals(store.get(m))) {
+                        if (isCountryNameEquals(store.get(m), countriescopy.get(p))) {
                             System.out.print(store.get(m) + "-" + countriescopy.get(p).getArmies());
                             if (m != store.size() - 1) {
                                 System.out.print(",");
@@ -546,7 +546,7 @@ public class Player extends Observable {
                     continue ZeroArmy;
                 }
                 for (int i = 0; i < countriescopy.size(); i++) {
-                    if (countriescopy.get(i).getCountryName().equals(attackingcountry)) {
+                    if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
                         attackerArmies = countriescopy.get(i).getArmies();
                         if (countriescopy.get(i).getArmies() == 0) {
 
@@ -559,7 +559,7 @@ public class Player extends Observable {
             }
 
             for (int i = 0; i < countriescopy.size(); i++) {
-                if (countriescopy.get(i).getCountryName().equals(defendingcountry)) {
+                if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
                     defenderArmies = countriescopy.get(i).getArmies();
                 }
             }
@@ -586,8 +586,8 @@ public class Player extends Observable {
                 }
 
 
-                Integer attackerRandomNumbers[] = new Integer[attackerDice];
-                Integer defenderRandomNumbers[] = new Integer[defenderDice];
+                Integer[] attackerRandomNumbers = new Integer[attackerDice];
+                Integer[] defenderRandomNumbers = new Integer[defenderDice];
 
                 for (int i = 0; i < attackerDice; i++) {
                     attackerRandomNumbers[i] = Util.randInt(1, 6);
@@ -632,7 +632,7 @@ public class Player extends Observable {
 
                     assignCardsToWinner(getPlayerInstanceByName(attacker));
                     for (int i = 0; i < countriescopy.size(); i++) {
-                        if (countriescopy.get(i).getCountryName().equals(defendingcountry)) {
+                        if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
                             mapInstance.countries.get(i).setArmies(defenderArmies);
 
 
@@ -640,7 +640,7 @@ public class Player extends Observable {
                     }
 
                     for (int i = 0; i < countriescopy.size(); i++) {
-                        if (countriescopy.get(i).getCountryName().equals(attackingcountry)) {
+                        if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
                             mapInstance.countries.get(i).setArmies(0);
 
                         }
@@ -656,7 +656,7 @@ public class Player extends Observable {
                         System.out.println("Enter the Number of armies you want to leave behind from the territory you came");
                         int temp = scan.nextInt();
                         for (int i = 0; i < countriescopy.size(); i++) {
-                            if (countriescopy.get(i).getCountryName().equals(attackingcountry)) {
+                            if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
                                 mapInstance.countries.get(i).setArmies(temp);
                                 mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
                                 break;
@@ -664,7 +664,7 @@ public class Player extends Observable {
                         }
 
                         for (int i = 0; i < countriescopy.size(); i++) {
-                            if (countriescopy.get(i).getCountryName().equals(defendingcountry)) {
+                            if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
                                 mapInstance.countries.get(i).setArmies(attackerArmies - temp);
                                 mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
                                 playerCountries.add(defendingcountry);
@@ -675,14 +675,14 @@ public class Player extends Observable {
 
                     } else if (attackerArmies == 1) {
                         for (int i = 0; i < countriescopy.size(); i++) {
-                            if (countriescopy.get(i).getCountryName().equals(defendingcountry)) {
+                            if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
                                 mapInstance.countries.get(i).setArmies(1);
                                 mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
                             }
                         }
 
                         for (int i = 0; i < countriescopy.size(); i++) {
-                            if (countriescopy.get(i).getCountryName().equals(attackingcountry)) {
+                            if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
                                 mapInstance.countries.get(i).setArmies(0);
                                 mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
 
@@ -690,13 +690,13 @@ public class Player extends Observable {
                         }
                     } else {
                         for (int i = 0; i < countriescopy.size(); i++) {
-                            if (countriescopy.get(i).getCountryName().equals(defendingcountry)) {
+                            if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
                                 mapInstance.countries.get(i).setArmies(0);
                                 mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
                             }
                         }
                         for (int i = 0; i < countriescopy.size(); i++) {
-                            if (countriescopy.get(i).getCountryName().equals(attackingcountry)) {
+                            if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
                                 mapInstance.countries.get(i).setArmies(0);
                                 mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
                             }
@@ -823,10 +823,10 @@ public class Player extends Observable {
                                                     System.out.println("No of armies in country " + moveArmiesFrom + " (from): " + noOfArmiesInCountry(moveArmiesFrom));
                                                     System.out.println("No of armies in country " + moveArmiesTo + " (to): " + noOfArmiesInCountry(moveArmiesTo));
                                                     for (Country country : countries) {
-                                                        if (country.getCountryName().equals(moveArmiesFrom)) {
+                                                        if (isCountryNameEquals(moveArmiesFrom, country)) {
                                                             country.setArmies(country.getArmies() - noOfArmiesToMove);
                                                         }
-                                                        if (country.getCountryName().equals(moveArmiesTo)) {
+                                                        if (isCountryNameEquals(moveArmiesTo, country)) {
                                                             country.setArmies(country.getArmies() + noOfArmiesToMove);
                                                         }
                                                     }
@@ -880,11 +880,21 @@ public class Player extends Observable {
 
         ArrayList<Country> countries = map.getCountries();
         for (Country country : countries) {
-            if (country.getCountryName().equals(countryName)) {
+            if (isCountryNameEquals(countryName, country)) {
                 return country.getArmies();
             }
         }
         return -1;
+    }
+
+    /**
+     * Refactored method- To find if country name is equal to the country instance's country name
+     * @param countryName name of the country
+     * @param country country instance
+     * @return true if the string is equal to the name of the country, else false
+     */
+    private boolean isCountryNameEquals(String countryName, Country country) {
+        return country.getCountryName().equals(countryName);
     }
 
     /**
