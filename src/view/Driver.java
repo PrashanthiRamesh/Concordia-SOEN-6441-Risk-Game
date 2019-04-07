@@ -173,7 +173,7 @@ public class Driver {
                         ArrayList<Card> cards=new ArrayList<>();
                         System.out.println("Enter player " + (i + 1) + " name: ");
                         String playerName = scanner.next();
-                        players.add(new Player(playerName, 0,playerCountries, cards,0,0,0 ));
+                        players.add(new Player(playerName,0,playerCountries, cards,0,0,0 ));
                     }
                 } else {
                     System.out.println("Invalid no of players! Enter again [2 to 6]:");

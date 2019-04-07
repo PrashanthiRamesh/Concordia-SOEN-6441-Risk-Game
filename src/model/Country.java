@@ -44,7 +44,7 @@ public class Country {
 	 * Getter method to get the name of the country
 	 * @return country name
 	 */
-	String getCountryName() {
+	public String getCountryName() {
 		return countryName;
 	}
 
@@ -60,7 +60,7 @@ public class Country {
 	 * Getter method to get the name of player who owns the country
 	 * @return player name
 	 */
-	String getBelongsTo() {
+	public String getBelongsTo() {
 		return belongsTo;
 	}
 

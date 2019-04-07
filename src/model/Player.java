@@ -74,8 +74,10 @@ public class Player extends Observable {
      * Instance of RiskMap
      */
     public RiskMap map = new RiskMap();
+    
+    
 
-    /**
+	/**
      * A Scanner instance to read and parse various primitive values.
      */
     private static Scanner scanner = new Scanner(System.in);

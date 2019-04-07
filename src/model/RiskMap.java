@@ -1,6 +1,6 @@
 package model;
 
-import sun.awt.image.ImageWatched;
+
 import util.Util;
 
 import java.io.*;
@@ -34,7 +34,7 @@ public class RiskMap {
     /**
      * LinkedHashMap Which Stores the Continents along with their control Values.
      */
-    private LinkedHashMap<String, Integer> continents;
+    public LinkedHashMap<String, Integer> continents;
 
     /**
      * LinkedHashMap which stores the country and the neighboring countries to it.
@@ -49,12 +49,12 @@ public class RiskMap {
     /**
      * LinkedHashMap Which stores the Continent along with the number of countries in it.
      */
-    private LinkedHashMap<String, Integer> continentWithNoOfCountries;
+    public LinkedHashMap<String, Integer> continentWithNoOfCountries;
 
     /**
      * LinkedHashMap that holds Continents and the countries in it
      */
-    private LinkedHashMap<String, ArrayList<String>> continentsWithCountries;
+    public LinkedHashMap<String, ArrayList<String>> continentsWithCountries;
 
     /**
      * Reads text from a character-input stream, buffering characters so as to provide for the efficient reading of characters, arrays, and lines
@@ -468,6 +468,7 @@ public class RiskMap {
      * @throws IOException on user input
      */
     public String loadMap(String filename) throws IOException {
+    	
         FileReader fir = new FileReader(filename);
         BufferedReader bir = new BufferedReader(fir);
         while (!bir.readLine().trim().equals("[Continents]")) {
