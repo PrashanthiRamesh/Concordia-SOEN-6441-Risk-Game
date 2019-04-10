@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Observable;
 import java.util.Scanner;
 
+import player.Strategy;
 import util.Util;
 
 /**
@@ -69,6 +70,11 @@ public class Player extends Observable {
      * Number of cannon cards of player
      */
     private int cannonCount;
+    
+    /*
+     * Instance of player's strategy depending on their behaviour/personality
+     */
+    public Strategy playerStrategy;
 
     /**
      * Instance of RiskMap
@@ -273,8 +279,17 @@ public class Player extends Observable {
         this.cannonCount = cannonCount;
     }
 
+    
+    
+    public Strategy getPlayerStrategy() {
+		return playerStrategy;
+	}
 
-    /**
+	public void setPlayerStrategy(Strategy playerStrategy) {
+		this.playerStrategy = playerStrategy;
+	}
+
+	/**
      * Calculation of correct number of reinforcement armies according to the Risk rules.
      *
      * @param player    A Player in the game
