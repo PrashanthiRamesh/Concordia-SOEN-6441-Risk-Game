@@ -467,6 +467,7 @@ public class Player extends Observable {
      */
     public void attack(Player player, RiskMap mapInstance) {
         map=mapInstance;
+        int attackerWinCount=0;
         attackcontinue:
         while (true) {
             ArrayList<Country> countriescopy = mapInstance.getCountries();
@@ -614,8 +615,6 @@ public class Player extends Observable {
 
                 if (attackerArmies == 0) {
                     System.out.println("Defender has Won");
-
-                    assignCardsToWinner(getPlayerInstanceByName(attacker));
                     for (int i = 0; i < countriescopy.size(); i++) {
                         if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
                             mapInstance.countries.get(i).setArmies(defenderArmies);
@@ -672,9 +671,10 @@ public class Player extends Observable {
                         }
                     }
 
-                    assignCardsToWinner(player);
+                    attackerWinCount++;
                     break;
                 }
+              
 
 
             }
@@ -708,6 +708,9 @@ public class Player extends Observable {
                 break attackcontinue;
             }
 
+        }
+        if(attackerWinCount>0) {
+        	assignCardsToWinner(player);
         }
 
 

@@ -592,7 +592,7 @@ public class GamePlay extends Observable {
      */
     private void setPlayerDetailsForPhase(Player player) {
         currentPlayer = player.getPlayerName();
-        percentageMap = (float) play.map.noOfCountriesPlayerOwns(player.getPlayerName()) / play.map.adjCountries.size();
+        percentageMap = ((float) play.map.noOfCountriesPlayerOwns(player.getPlayerName()) / play.map.adjCountries.size())*100;
         totalArmies = player.getArmies();
         continentsControlled = play.map.continentsControlledByPlayer(player.getCountries());
         setChanged();
