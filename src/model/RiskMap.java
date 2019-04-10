@@ -199,6 +199,7 @@ public class RiskMap {
      */
     public RiskMap() {
         continents = new LinkedHashMap<String, Integer>();
+        countries=new ArrayList<Country>();
         adjCountries = new LinkedHashMap<String, ArrayList<String>>();
         continentWithNoOfCountries = new LinkedHashMap<String, Integer>();
         continentsWithCountries =new LinkedHashMap<>();
