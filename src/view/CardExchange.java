@@ -1,6 +1,8 @@
 package view;
 
 import model.Player;
+import player.Human;
+
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Scanner;
@@ -26,15 +28,21 @@ public class CardExchange implements Observer {
      */
     private Player player;
 
-    /**
+    
+    
+    public CardExchange(Player player) {
+		super();
+		this.player = player;
+	}
+
+	/**
      * This method is called every time the observed instance player changes in reinforcement phase
      * @param observable An instance of Observable class
      * @param object An instance of Object class used in this method
      */
     public void update(Observable observable, Object object) {
-        System.out.println("\n**Card Exchange**\n");
-        Player player=((Player) observable).getCurrentPlayer();
-        setArmiesForCards(player);
+        System.out.println("\n**Card Exchange**\n"); 
+        setArmiesForCards();
 
     }
 
@@ -42,8 +50,7 @@ public class CardExchange implements Observer {
      * This method assigns armies to player depending on the number and type of cards the player owns
      * @param player The instance of the current player
      */
-    private void setArmiesForCards(Player player) {
-        this.player=player;
+    private void setArmiesForCards() {
         (new Player()).displayPlayerCards(this.player);
         int numberOfPlayerCards = player.getInfantryCount()+player.getCavalryCount()+player.getCannonCount();
         if (numberOfPlayerCards >= 5) {

@@ -68,7 +68,7 @@ public class Country {
 	 * Setter method to assign a string value to the player who owns the country
 	 * @param belongsTo player name
 	 */
-	void setBelongsTo(String belongsTo) {
+	public void setBelongsTo(String belongsTo) {
 		this.belongsTo = belongsTo;
 	}
 

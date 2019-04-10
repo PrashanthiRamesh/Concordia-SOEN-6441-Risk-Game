@@ -12,7 +12,7 @@ public class Random implements Strategy {
 	}
 
 	@Override
-	public Player attack(Player player, RiskMap map) {
+	public Player attack(Player player, Player mapPlayer) {
 		// TODO Auto-generated method stub
 		return null;
 	}

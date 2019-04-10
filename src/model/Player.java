@@ -296,7 +296,7 @@ public class Player extends Observable {
      * @param player    A Player in the game
      * @param countries List of countries in the game
      */
-    private static void setReinforcementArmies(Player player, ArrayList<Country> countries) {
+    public void setReinforcementArmies(Player player, ArrayList<Country> countries) {
 
         int playerCountriesCount = 0;
         ArrayList<String> playerCountries = new ArrayList<>();
@@ -402,335 +402,6 @@ public class Player extends Observable {
         return (int) Math.floor(playerCountriesCount / 3.0);
     }
 
-
-    /**
-     * Method to let player assign all his armies to the countries he owns
-     * @param player instance of player
-     * @param mapInstance instance of map
-     */
-    public void deployArmies(Player player, RiskMap mapInstance) {
-        map=mapInstance;
-        int playerArmies = player.getArmies();
-        ArrayList<String> playerCountries = player.getCountries();
-        System.out.println("\nNo of armies to place: " + playerArmies);
-        System.out.println("Countries you own: " + playerCountries);
-        while (playerArmies > 0) {
-            System.out.println("Enter the name of the country to place armies in: ");
-            boolean countryNameFlag = false;
-            while (!countryNameFlag) {
-                String countryName = scanner.next();
-                if (playerCountries.contains(countryName)) {
-                    countryNameFlag = true;
-                    System.out.println("Enter the number of armies you want to place in this country: ");
-                    boolean noOfArmiesFlag = false;
-                    while (!noOfArmiesFlag) {
-                        if (scanner.hasNextInt()) {
-                            int noOfArmiesToPlace = scanner.nextInt();
-                            if (noOfArmiesToPlace <= playerArmies && noOfArmiesToPlace > 0) {
-                                noOfArmiesFlag = true;
-                                System.out.println("Placing " + noOfArmiesToPlace + " armies in country " + countryName);
-                                ArrayList<Country> countries = mapInstance.getCountries();
-                                for (Country country : countries) {
-                                    if (isCountryNameEquals(countryName, country)) {
-                                        int countryNoArmies = country.getArmies();
-                                        country.setArmies(countryNoArmies + noOfArmiesToPlace);
-                                        System.out.println("Placed Successfully! Number of Armies in Country " + countryName + " is " + country.getArmies() + "\n");
-                                    }
-                                }
-                                playerArmies = playerArmies - noOfArmiesToPlace;
-                                player.setArmies(playerArmies);
-                                System.out.println("Remaining armies to place: " + playerArmies);
-                            } else {
-                                System.out.println("Ops Invalid! You don't have enough armies: Armies you own: " + playerArmies + "\nEnter again: ");
-                            }
-
-                        } else {
-                            System.out.println("Invalid characters! Enter numbers only: ");
-                            scanner.next();
-                        }
-                    }
-                } else {
-                    System.out.println("Invalid! You don't own the entered country! Please enter again: ");
-                }
-            }
-        }
-        System.out.println("You have successfully placed all armies in your countries!");
-        System.out.println(map.getCountries());
-    }
-
-    /**
-     * This method defines the reinforcement phase process
-     * @param player instance of player
-     * @param mapInstance instance of map
-     */
-    public void reinforcement(Player player, RiskMap mapInstance) {
-        map=mapInstance;
-        setReinforcementArmies(player, mapInstance.getCountries());
-        setArmiesForContinentsControlled(player, player.getCountries(), player.getArmies());
-        currentPlayer = player;
-        setChanged();
-        notifyObservers(this);
-        System.out.println("\nAfter Card Exchange View");
-        displayPlayerCards(player);
-        System.out.println("Player armies: " + player.getArmies());
-        deployArmies(player, mapInstance);
-    }
-
-    /**
-     * This method defines the process of attack phase of game
-     * @param player instance of player
-     * @param mapInstance instance of map
-     */
-    public void attack(Player player, RiskMap mapInstance) {
-        map=mapInstance;
-        int attackerWinCount=0;
-        attackcontinue:
-        while (true) {
-            ArrayList<Country> countriescopy = mapInstance.getCountries();
-            Scanner scan = new Scanner(System.in);
-            System.out.println("Select Player to Attack From the List");
-            int count = 0;
-            for (int i = 0; i < players.size(); i++) {
-                if (!players.get(i).getPlayerName().equals(player.getPlayerName())) {
-                    System.out.println(players.get(i).getPlayerName());
-                }
-            }
-            String attacker = scan.next();
-
-            System.out.println("The Countries You Can Attack of the Player " + attacker + " are :");
-            ArrayList<String> playerCountries = player.getCountries();
-            ArrayList<String> store = new ArrayList<String>();
-            for (int i = 0; i < playerCountries.size(); i++) {
-                ArrayList<String> adjcont = map.adjCountries.get(playerCountries.get(i));
-
-
-                for (int j = 0; j < adjcont.size(); j++) {
-                    for (int k = 0; k < countriescopy.size(); k++) {
-                        if (adjcont.get(j).equals(countriescopy.get(k).getCountryName())) {
-
-                            if (countriescopy.get(k).getBelongsTo().equals(attacker)) {
-                                store.add(countriescopy.get(k).getCountryName());
-
-                            }
-                        }
-                    }
-                }
-
-                for (int p = 0; p < countriescopy.size(); p++) {
-                    if (isCountryNameEquals(playerCountries.get(i), countriescopy.get(p))) {
-                        System.out.print(playerCountries.get(i) + "-" + countriescopy.get(p).getArmies());
-                    }
-                }
-                System.out.print("------> [");
-                for (int m = 0; m < store.size(); m++) {
-                    for (int p = 0; p < countriescopy.size(); p++) {
-                        if (isCountryNameEquals(store.get(m), countriescopy.get(p))) {
-                            System.out.print(store.get(m) + "-" + countriescopy.get(p).getArmies());
-                            if (m != store.size() - 1) {
-                                System.out.print(",");
-                            }
-                        }
-
-                    }
-                }
-                System.out.print("]");
-                System.out.println();
-                store.clear();
-            }
-            int attackerArmies = 0;
-            int defenderArmies = 0;
-            String defendingcountry;
-            String attackingcountry;
-            int attackerDice = 0;
-            int defenderDice = 0;
-            ZeroArmy:
-            while (true) {
-
-                System.out.println("Select the Country you want to Attack");
-                defendingcountry = scan.next();
-                System.out.println("Select Your country To attack");
-                attackingcountry = scan.next();
-
-                boolean check = false;
-                for (int i = 0; i < map.adjCountries.get(attackingcountry).size(); i++) {
-                    if (map.adjCountries.get(attackingcountry).get(i).equals(defendingcountry)) {
-
-                        check = true;
-                    }
-
-                }
-
-                if (check == false) {
-                    System.out.println("It is not a Neighbouring country Please check and enter again");
-                    continue ZeroArmy;
-                }
-                for (int i = 0; i < countriescopy.size(); i++) {
-                    if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
-                        attackerArmies = countriescopy.get(i).getArmies();
-                        if (countriescopy.get(i).getArmies() == 0) {
-
-                            System.out.println("You have no armies in the selected country");
-                            continue ZeroArmy;
-                        } else
-                            break ZeroArmy;
-                    }
-                }
-            }
-
-            for (int i = 0; i < countriescopy.size(); i++) {
-                if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
-                    defenderArmies = countriescopy.get(i).getArmies();
-                }
-            }
-
-            while (true) {
-
-                defenderDice = getDefenderDice(defenderArmies);
-                attackerDice = getAttackerDice(attackerArmies);
-
-                Integer[] attackerRandomNumbers = new Integer[attackerDice];
-                Integer[] defenderRandomNumbers = new Integer[defenderDice];
-
-                for (int i = 0; i < attackerDice; i++) {
-                    attackerRandomNumbers[i] = Util.randInt(1, 6);
-                }
-                for (int i = 0; i < defenderDice; i++) {
-                    defenderRandomNumbers[i] = Util.randInt(1, 6);
-                }
-                Arrays.sort(attackerRandomNumbers, Collections.reverseOrder());
-                Arrays.sort(defenderRandomNumbers, Collections.reverseOrder());
-
-                System.out.println("Dice Rolled!!!");
-                System.out.println("Attacker's Dice");
-                for (int i = 0; i < attackerDice; i++) {
-                    System.out.print(attackerRandomNumbers[i] + " ");
-                }
-                System.out.println();
-                System.out.println("Defenders Dice");
-                for (int i = 0; i < defenderDice; i++) {
-                    System.out.print(defenderRandomNumbers[i] + " ");
-                }
-                System.out.println();
-                if (attackerDice < defenderDice) {
-                    for (int i = 0; i < attackerDice; i++) {
-                        if (attackerRandomNumbers[i] <= defenderRandomNumbers[i]) {
-                            attackerArmies--;
-                        } else {
-                            defenderArmies--;
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < defenderDice; i++) {
-                        if (attackerRandomNumbers[i] <= defenderRandomNumbers[i]) {
-                            attackerArmies--;
-                        } else {
-                            defenderArmies--;
-                        }
-                    }
-                }
-
-                if (attackerArmies == 0) {
-                    System.out.println("Defender has Won");
-                    for (int i = 0; i < countriescopy.size(); i++) {
-                        if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
-                            mapInstance.countries.get(i).setArmies(defenderArmies);
-
-
-                        }
-                    }
-
-                    for (int i = 0; i < countriescopy.size(); i++) {
-                        if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
-                            mapInstance.countries.get(i).setArmies(0);
-
-                        }
-                    }
-
-                    break;
-                } else if (defenderArmies == -1) {
-                    System.out.println("You Won");
-                    attackerArmies--;
-
-                    if (attackerArmies > 1) {
-                        System.out.println("You Have " + attackerArmies + " Left");
-                        System.out.println("Enter the Number of armies you want to leave behind from the territory you came");
-                        int armiesToLeaveBehind = scan.nextInt();
-                        moveAfterConquering(player, mapInstance, countriescopy, playerCountries, attackerArmies, defendingcountry, attackingcountry, armiesToLeaveBehind);
-
-                    } else if (attackerArmies == 1) {
-                        for (int i = 0; i < countriescopy.size(); i++) {
-                            if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
-                                mapInstance.countries.get(i).setArmies(1);
-                                mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
-                            }
-                        }
-
-                        for (int i = 0; i < countriescopy.size(); i++) {
-                            if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
-                                mapInstance.countries.get(i).setArmies(0);
-                                mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
-
-                            }
-                        }
-                    } else {
-                        for (int i = 0; i < countriescopy.size(); i++) {
-                            if (isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
-                                mapInstance.countries.get(i).setArmies(0);
-                                mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
-                            }
-                        }
-                        for (int i = 0; i < countriescopy.size(); i++) {
-                            if (isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
-                                mapInstance.countries.get(i).setArmies(0);
-                                mapInstance.countries.get(i).setBelongsTo(player.getPlayerName());
-                            }
-                        }
-                    }
-
-                    attackerWinCount++;
-                    break;
-                }
-              
-
-
-            }
-
-            int armiesLeft = 0;
-            for (int i = 0; i < countriescopy.size(); i++) {
-                if (countriescopy.get(i).getBelongsTo().equals(player.getPlayerName())) {
-                    armiesLeft++;
-                }
-            }
-            if (countriescopy.size() == armiesLeft) {
-                System.out.println("You Won Please the collect the reward from the TA :)");
-                System.exit(0);
-            }
-
-            armiesLeft = 0;
-            armiesLeft = getArmiesLeftForPlayer(player, countriescopy, armiesLeft);
-            if (armiesLeft < 1) {
-                System.out.println("Attack Not Possible No Armies Left");
-
-                break attackcontinue;
-            }
-
-            System.out.println("Do You Want to Continue the Attack \n Yes or No ?");
-
-            String response = scan.next();
-
-            if (response.equals("Yes")) {
-                continue attackcontinue;
-            } else if (response.equals("No")) {
-                break attackcontinue;
-            }
-
-        }
-        if(attackerWinCount>0) {
-        	assignCardsToWinner(player);
-        }
-
-
-    }
 
     /**
      * Method to calculate the number of armies left for a player
@@ -868,9 +539,9 @@ public class Player extends Observable {
         while (!playerFromCountryFlag) {
             String moveArmiesFrom = scanner.next();
             if (!moveArmiesFrom.toLowerCase().equals("exit")) {
-                if (noOfArmiesInCountry(moveArmiesFrom) > 0) {
+                if (noOfArmiesInCountry(moveArmiesFrom, null) > 0) {
                     if (playerCountries.contains(moveArmiesFrom)) {
-                        if (containsCountriesAsNeighbours(moveArmiesFrom, player)) {
+                        if (containsCountriesAsNeighbours(moveArmiesFrom, player, null)) {
                             playerFromCountryFlag = true;
                             LinkedHashMap<String, ArrayList<String>> allCountriesWithNeighbours = mapInstance.getAdjCountries();
                             ArrayList<String> selectedCountryNeighbours = allCountriesWithNeighbours.get(moveArmiesFrom);
@@ -882,7 +553,7 @@ public class Player extends Observable {
                                 if (selectedCountryNeighbours.contains(moveArmiesTo)) {
                                     if (playerCountries.contains(moveArmiesTo)) {
                                         playerToCountryFlag = true;
-                                        int noOfArmiesFrom = noOfArmiesInCountry(moveArmiesFrom);
+                                        int noOfArmiesFrom = noOfArmiesInCountry(moveArmiesFrom, null);
                                         System.out.println("No of armies in your country " + moveArmiesFrom + " : " + noOfArmiesFrom);
                                         System.out.println("Enter the number of armies to move: ");
                                         boolean noOfArmiesFlag = false;
@@ -892,8 +563,8 @@ public class Player extends Observable {
                                                 if (noOfArmiesToMove <= noOfArmiesFrom && noOfArmiesToMove > 0) {
                                                     noOfArmiesFlag = true;
                                                     System.out.println("** Before moving armies **\n");
-                                                    System.out.println("No of armies in country " + moveArmiesFrom + " (from): " + noOfArmiesInCountry(moveArmiesFrom));
-                                                    System.out.println("No of armies in country " + moveArmiesTo + " (to): " + noOfArmiesInCountry(moveArmiesTo));
+                                                    System.out.println("No of armies in country " + moveArmiesFrom + " (from): " + noOfArmiesInCountry(moveArmiesFrom, null));
+                                                    System.out.println("No of armies in country " + moveArmiesTo + " (to): " + noOfArmiesInCountry(moveArmiesTo, null));
                                                     for (Country country : countries) {
                                                         if (isCountryNameEquals(moveArmiesFrom, country)) {
                                                             country.setArmies(country.getArmies() - noOfArmiesToMove);
@@ -903,8 +574,8 @@ public class Player extends Observable {
                                                         }
                                                     }
                                                     System.out.println("** After moving armies **\n");
-                                                    System.out.println("No of armies in country " + moveArmiesFrom + " (from): " + noOfArmiesInCountry(moveArmiesFrom));
-                                                    System.out.println("No of armies in country " + moveArmiesTo + " (to): " + noOfArmiesInCountry(moveArmiesTo));
+                                                    System.out.println("No of armies in country " + moveArmiesFrom + " (from): " + noOfArmiesInCountry(moveArmiesFrom, null));
+                                                    System.out.println("No of armies in country " + moveArmiesTo + " (to): " + noOfArmiesInCountry(moveArmiesTo, null));
 
                                                 } else {
                                                     System.out.println("Invalid! Enter again: ");
@@ -945,7 +616,7 @@ public class Player extends Observable {
      * @param player instance of player
      * @return true if the player is removed
      */
-    boolean removePlayerIfZeroCountriesOwned(Player player) {
+    public boolean removePlayerIfZeroCountriesOwned(Player player) {
         if (!doesPlayerOwnAtLeastOneCountry(player)) {
             players.remove(player);
         }
@@ -956,9 +627,10 @@ public class Player extends Observable {
      * Calculate the number of armies that a country has at a particular time in the game
      *
      * @param countryName name of the country
+     * @param map TODO
      * @return number of armies in the country
      */
-    int noOfArmiesInCountry(String countryName) {
+    public int noOfArmiesInCountry(String countryName, RiskMap map) {
 
         ArrayList<Country> countries = map.getCountries();
         for (Country country : countries) {
@@ -984,9 +656,10 @@ public class Player extends Observable {
      *
      * @param countryName name of country
      * @param player      player instance
+     * @param map TODO
      * @return true if at least one neighbour country is owned by a different player, else false
      */
-    private boolean containsCountriesAsNeighbours(String countryName, Player player) {
+    public boolean containsCountriesAsNeighbours(String countryName, Player player, RiskMap map) {
         LinkedHashMap<String, ArrayList<String>> allCountriesWithNeighbours = map.getAdjCountries();
         ArrayList<String> neighbours = allCountriesWithNeighbours.get(countryName);
         for (String neighbour : neighbours) {
@@ -1001,7 +674,7 @@ public class Player extends Observable {
      * Assigns a random card to winner of a round in attack phase
      * @param winner instance of player who won a round in attack phase
      */
-    private void assignCardsToWinner(Player winner) {
+    public void assignCardsToWinner(Player winner) {
         ArrayList<Card> cards = winner.cards;
         int cardTypeValue = Util.randInt(1, 3);
         String cardName = Card.getNameByTypeNumber(cardTypeValue);
@@ -1051,8 +724,8 @@ public class Player extends Observable {
 	 * 
 	 * @param player player object
 	 */
-	public void executeAttack(Player player, RiskMap map) {
-		this.playerStrategy.attack(player, map);
+	public void executeAttack(Player player, Player mapPlayer) {
+		this.playerStrategy.attack(player, mapPlayer);
 	}
 
 	/**

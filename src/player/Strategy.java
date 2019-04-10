@@ -24,7 +24,7 @@ public interface Strategy {
 	 * @param player We pass the player object who is currently playing the game.
 	 * @return enriched player object is returned
 	 */
-	public Player attack(Player player, RiskMap map);
+	public Player attack(Player player, Player mapPlayer);
 
 	/**
 	 * This the abstract method for which implementation will be provided in the
