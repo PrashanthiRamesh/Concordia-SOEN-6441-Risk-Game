@@ -156,7 +156,7 @@ public class GamePlay extends Observable {
     /**
      * Instance of player
      */
-    private Player play;
+    private Player play=new Player();
 
     /**
      * Instance of RiskMap
@@ -188,6 +188,7 @@ public class GamePlay extends Observable {
      */
     public void start(GamePlay gamePlay) throws IOException {
         System.out.println("\n**** Game has started ****");
+        
         currentPlayer = null;
         Phase phaseView = new Phase();
         boolean initialGameFlag = true;
@@ -202,6 +203,7 @@ public class GamePlay extends Observable {
         while (!gameOver) {
 
             for (Player player : play.players) {
+            	
                 System.out.println("\n**** New Round Begins ****");
                 
                 System.out.println("Enter Yes if u Want to save the Map At this Moment");
@@ -211,13 +213,13 @@ public class GamePlay extends Observable {
                 {
                 saveMap();
                 }
-                
-                System.out.println("Select Yes if u want to Load the Map from Last Saved Map");
-                String temp2= scanner.next();
-                if(temp2.equals("Yes"))
-                {
-                 retrieveMap();
-                }
+//                
+//                System.out.println("Select Yes if u want to Load the Map from Last Saved Map");
+//                String temp2= scanner.next();
+//                if(temp2.equals("Yes"))
+//                {
+//                 retrieveMap();
+//                }
                 
                 /*
                  * Reinforcement Phase
@@ -246,7 +248,13 @@ public class GamePlay extends Observable {
 
                 setPlayerDetailsForPhase(player);
                 play.attack(player, play.map); //after leaving behind, country should belong to winner
-
+                System.out.println("Enter Yes if u Want to save the Map At this Moment");
+                
+                String temp2= scanner.next();
+                if(temp2.equals("Yes"))
+                {
+                saveMap();
+                }
 
                 /*
                  * Fortification Phase
@@ -257,7 +265,15 @@ public class GamePlay extends Observable {
                 phase = 4;
                 setPlayerDetailsForPhase(player);
                 play.fortification(player, play.map);
-
+                 
+                System.out.println("Enter Yes if u Want to save the Map At this Moment");
+                
+                String temp3= scanner.next();
+                if(temp3.equals("Yes"))
+                {
+                saveMap();
+                }
+                
             }
             System.out.println("\nContinue the game?\nYes\nNo");
             boolean continueGameFlag = false;
@@ -279,12 +295,15 @@ public class GamePlay extends Observable {
     
     public void retrieveMap() throws IOException
     {
-    	 play.map.continents.clear();
-    	 play.map.continentsWithCountries.clear();
-    	 play.map.adjCountries.clear();
-    	 play.map. continentsWithCountriesAndNeighbours.clear();
-    	 play.map.countries.clear();
-    	 play.players.clear();
+//    	 play.map.continents.clear();
+//    	 play.map.continentsWithCountries.clear();
+//    	 play.map.adjCountries.clear();
+//    	 play.map. continentsWithCountriesAndNeighbours.clear();
+//    	 play.map.countries.clear();
+//    	 play.players.clear();
+    	 
+    	 
+    	 
     	 FileReader fir = new FileReader("savedMap.txt");
          BufferedReader bir = new BufferedReader(fir);
          while (!bir.readLine().trim().equals("[Continents]")) {
@@ -330,6 +349,8 @@ public class GamePlay extends Observable {
         	 }
          }
          
+         System.out.println("before countires");
+         
          while (!bir.readLine().trim().equals("[Countries]")) {
         	 
          }
@@ -350,6 +371,8 @@ public class GamePlay extends Observable {
         		 play.map.countries.add(new Country(pName,belongs,armies));
         	 }
          }
+         
+         
          
          while (!bir.readLine().trim().equals("[Player]")) {
         	 
@@ -374,6 +397,7 @@ public class GamePlay extends Observable {
         	 }
          }
          
+         System.out.println("before player countries");
         while (!bir.readLine().trim().equals("[PlayerCountries]")) {
         	 
          }
@@ -407,16 +431,22 @@ public class GamePlay extends Observable {
        	 }
         }
         
+        System.out.println("before player cards");
         while (!bir.readLine().trim().equals("[PlayerCards]")) {
        	 
         }
         
         String line = bir.readLine();
+        
+        System.out.println(line);
         while(line!=null)
         {
-             line = bir.readLine();
+        	System.out.println("inside while");
+            
        	 
              String[] temp = line.split(","); 
+              
+             
              
              if(temp.length>1)
              {
@@ -428,7 +458,7 @@ public class GamePlay extends Observable {
            		 {
            			 if(play.players.get(i).getPlayerName().equals(temp[0]))
            			 {
-           				if(play.players.get(i).getCards().size()==0)
+           				if(play.players.get(i).getCards()==null)
            				{
            					ArrayList<Card> cd=new ArrayList<Card>();
            					cd.add(card);
@@ -436,14 +466,15 @@ public class GamePlay extends Observable {
            				}
            				else
            				{
-           					ArrayList<Card> cd=play.players.get(i).getCards();
+           					ArrayList<Card> cd=new ArrayList<Card>();
+           					cd=play.players.get(i).getCards();
            					cd.add(card);
            					play.players.get(i).setCards(cd);
            				}
            			 }
            		 }
              }
-               
+             line = bir.readLine();  
         }
         
         
@@ -540,7 +571,8 @@ public class GamePlay extends Observable {
         
         for(int j=0;j<play.players.get(i).getCards().size();j++)
         {
-        	pw.write(play.players.get(i).getCards().get(j).getName()+" "+
+        	pw.write(play.players.get(i).getPlayerName()+",");
+        	pw.write(play.players.get(i).getCards().get(j).getName()+","+
         			play.players.get(i).getCards().get(j).getTypeNumber()
         			);
         	pw.println();

@@ -24,7 +24,7 @@ public class Driver {
     /**
      * Holds all the players in the game
      */
-    private static ArrayList<Player> players = null;
+    private static ArrayList<Player> players = new ArrayList<Player>();
 
     /**
      * A RiskMap instance
@@ -36,6 +36,8 @@ public class Driver {
      */
     private static Scanner scanner = new Scanner(System.in);
 
+    
+    public static GamePlay gamePlay;
 
     /**
      * Initiates the game
@@ -53,6 +55,21 @@ public class Driver {
             boolean mapFlag=false;
             while (!mapFlag){
                 map = new RiskMap();
+                
+                System.out.println("Select 1 if u want to Load the Map from Last Saved Map , 2 to continue a new Game");
+                int ch=scanner.nextInt();
+                if(ch==1)
+                {
+                	gamePlay=new GamePlay(players,map);
+                	
+                	gamePlay.retrieveMap();
+                	
+                	System.out.println("after retrieve");
+                    gamePlay.addObserver(new PlayerWorldDomination());
+                    gamePlay.start(gamePlay);
+                	
+                }
+                else {
                 getMapInput();
                 boolean editMapFlag=false;
                 while(!editMapFlag){
@@ -81,7 +98,7 @@ public class Driver {
                                  * 2. Player World Domination View to display the % of map controlled by every player,
                                  *    continents controlled by every player, total number of armies owned by every player
                                  */
-                                GamePlay gamePlay  =new GamePlay(players,map);
+                                gamePlay  =new GamePlay(players,map);
                                 gamePlay.addObserver(new PlayerWorldDomination());
                                 gamePlay.start(gamePlay);
                             } else {
@@ -99,12 +116,14 @@ public class Driver {
                     }
                 }
             }
+            }
         }catch (Exception ex){
             System.out.println("Unhandled Exception: "+ex);
             System.out.println("Start Again");
             startGame();
         }
 
+        
     }
 
     /**
@@ -113,8 +132,12 @@ public class Driver {
      */
     private static void getMapInput() throws IOException {
         System.out.println("Get Ready to play Conquest!\n");
+      
         System.out.println("1.Create RiskMap From Console \n2.Load from a File");
-
+        
+       
+        
+        
         boolean choiceFlag = false;
         while (!choiceFlag) {
             if (scanner.hasNextInt()) {
@@ -154,6 +177,9 @@ public class Driver {
             }
         }
     }
+    
+    
+    
 
     /**
      * User chooses the number of players, then all countries are randomly assigned to players.
