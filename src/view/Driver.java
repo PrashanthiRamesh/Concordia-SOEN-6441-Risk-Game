@@ -221,18 +221,23 @@ public class Driver {
 								switch (playerStrategy) {
 									case 1:
 										newPlayer.setPlayerStrategy(new Human());
+										newPlayer.setHuman(true);
 										break;
 									case 2:
 										newPlayer.setPlayerStrategy(new Aggressive());
+										newPlayer.setHuman(false);
 										break;
 									case 3:
 										newPlayer.setPlayerStrategy(new Benevolent());
+										newPlayer.setHuman(false);
 										break;
 									case 4:
 										newPlayer.setPlayerStrategy(new Random());
+										newPlayer.setHuman(false);
 										break;
 									case 5:
 										newPlayer.setPlayerStrategy(new Cheater());
+										newPlayer.setHuman(false);
 										break;
 									default:
 										System.out.println("Invalid choice! Enter a value from 1-5:");
@@ -261,8 +266,7 @@ public class Driver {
 		System.out.println(map.getCountries());
 
 		System.out.println("\n** Assigning Initial Armies to Players based on the number of players in the game **\n");
-		Player player = new Player();
-		players = player.setInitialArmies(this.players, map.getCountries());
+		players = (new Player()).setInitialArmies(this.players, map.getCountries());
 	}
 
 }

@@ -76,6 +76,9 @@ public class Player extends Observable {
      * Instance of player's strategy depending on their behaviour/personality
      */
     public Strategy playerStrategy;
+    
+    
+    private boolean isHuman;
 
     /**
      * Instance of RiskMap
@@ -288,6 +291,15 @@ public class Player extends Observable {
 
 	public void setPlayerStrategy(Strategy playerStrategy) {
 		this.playerStrategy = playerStrategy;
+	}
+
+	
+	public boolean isHuman() {
+		return isHuman;
+	}
+
+	public void setHuman(boolean isHuman) {
+		this.isHuman = isHuman;
 	}
 
 	/**

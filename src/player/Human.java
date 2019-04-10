@@ -69,7 +69,6 @@ public class Human extends Observable implements Strategy {
 
 	                            if (countriescopy.get(k).getBelongsTo().equals(attacker)) {
 	                                store.add(countriescopy.get(k).getCountryName());
-
 	                            }
 	                        }
 	                    }
