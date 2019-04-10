@@ -1,11 +1,9 @@
 package model;
 
-
 import util.Util;
 
 import java.io.*;
 import java.util.*;
-
 
 /**
  * RiskMap Class Loads the maps form the Console and from the file.

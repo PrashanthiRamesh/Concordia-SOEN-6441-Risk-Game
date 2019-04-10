@@ -142,11 +142,23 @@ public class Human extends Observable implements Strategy {
 	                }
 	            }
 
+	        	System.out.println("Select 1 for allout mode, 2 for manual mode");
+            	
+            	int alloutch=scan.nextInt();
+            	
+            	boolean tempBool=false;
+            	
+            	if(alloutch==1)
+            		tempBool=true;
+	            
 	            while (true) {
 
+	            	
+	            
+	            	
 	                defenderDice = player.getDefenderDice(defenderArmies);
-	                attackerDice = player.getAttackerDice(attackerArmies);
-
+	                attackerDice = player.getAttackerDice(attackerArmies,tempBool);
+            
 	                Integer[] attackerRandomNumbers = new Integer[attackerDice];
 	                Integer[] defenderRandomNumbers = new Integer[defenderDice];
 

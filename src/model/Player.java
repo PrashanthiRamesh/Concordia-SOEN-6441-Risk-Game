@@ -474,8 +474,11 @@ public class Player extends Observable {
      * @param attackerArmies number of attacking armies
      * @return number of roll of dice for attacker
      */
-    public int getAttackerDice(int attackerArmies) {
-        int attackerDice;
+    public int getAttackerDice(int attackerArmies,boolean attackmode) {
+        
+    	if(!attackmode)
+    	{
+    	int attackerDice;
         Dice dice = new Dice();
         if (attackerArmies >= 3) {
             System.out.println("You Can Roll Atmost 3 dice");
@@ -490,6 +493,16 @@ public class Player extends Observable {
             attackerDice = 1;
         }
         return attackerDice;
+    	}
+    	else
+    	{
+    		if(attackerArmies>=3)
+    			return 3;
+    		else if(attackerArmies==2)
+    			return 2;
+    		else
+    			return 1;
+    	}
     }
 
 
