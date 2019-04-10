@@ -36,4 +36,15 @@ public interface Strategy {
 	 */
 	public Player fortification(Player player, RiskMap map);
 	
+	
+	/**
+	 * This the abstract method for which implementation will be provided in the
+	 * classes which implement this interface. This method is for the deploying armies
+	 * in the startup and reinforcement phases
+	 * 
+	 * @param player We pass the player object who is currently playing the game.
+	 * @return enriched player object is returned
+	 */
+	public Player deployArmies(Player player, RiskMap map);
+	
 }

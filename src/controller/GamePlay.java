@@ -184,9 +184,9 @@ public class GamePlay extends Observable {
     /**
      * Driver method to initiate the game phases in a round robin fashion for every player
      * @param gamePlay instance of game
-     * @throws IOException 
+     * @throws Exception 
      */
-    public void start(GamePlay gamePlay) throws IOException {
+    public void start(GamePlay gamePlay) throws Exception {
         System.out.println("\n**** Game has started ****");
         
         currentPlayer = null;
@@ -197,7 +197,8 @@ public class GamePlay extends Observable {
         for (Player player : play.players) {
             phase = 1;
             setPlayerDetailsForPhase(player);
-            play.deployArmies(player, play.map);
+            //play.deployArmies(player, play.map);
+            player.playerStrategy.deployArmies(player, play.map);
         }
         boolean gameOver = false;
         while (!gameOver) {
@@ -213,13 +214,6 @@ public class GamePlay extends Observable {
                 {
                 saveMap();
                 }
-//                
-//                System.out.println("Select Yes if u want to Load the Map from Last Saved Map");
-//                String temp2= scanner.next();
-//                if(temp2.equals("Yes"))
-//                {
-//                 retrieveMap();
-//                }
                 
                 /*
                  * Reinforcement Phase
@@ -232,7 +226,8 @@ public class GamePlay extends Observable {
                     CardExchange cardExchange = new CardExchange();
                     play.addObserver(cardExchange);
                     setPlayerDetailsForPhase(player);
-                    play.reinforcement(player, play.map);        //send play.map for map object
+                    //play.reinforcement(player, play.map);        //send play.map for map object
+                    player.playerStrategy.reinforcement(player, play.map);
                     play.deleteObserver(cardExchange);
 
 
@@ -247,7 +242,8 @@ public class GamePlay extends Observable {
                 phase = 3;
 
                 setPlayerDetailsForPhase(player);
-                play.attack(player, play.map); //after leaving behind, country should belong to winner
+               //play.attack(player, play.map); //after leaving behind, country should belong to winner
+                player.playerStrategy.attack(player, play.map);
                 System.out.println("Enter Yes if u Want to save the Map At this Moment");
                 
                 String temp2= scanner.next();
@@ -264,8 +260,8 @@ public class GamePlay extends Observable {
 
                 phase = 4;
                 setPlayerDetailsForPhase(player);
-                play.fortification(player, play.map);
-                 
+                //play.fortification(player, play.map);
+                player.playerStrategy.fortification(player, play.map);
                 System.out.println("Enter Yes if u Want to save the Map At this Moment");
                 
                 String temp3= scanner.next();
@@ -302,6 +298,7 @@ public class GamePlay extends Observable {
 //    	 play.map.countries.clear();
 //    	 play.players.clear();
     	 
+    	//TODO save player strategy
     	 
     	 
     	 FileReader fir = new FileReader("savedMap.txt");

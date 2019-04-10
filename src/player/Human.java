@@ -23,6 +23,12 @@ public class Human implements Strategy {
 		return null;
 	}
 
+	@Override
+	public Player deployArmies(Player player, RiskMap map) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 }

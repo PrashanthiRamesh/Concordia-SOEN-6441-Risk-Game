@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.Observable;
 import java.util.Scanner;
 
+
 import player.Strategy;
 import util.Util;
 
@@ -1044,6 +1045,36 @@ public class Player extends Observable {
     private boolean doesPlayerOwnAtLeastOneCountry(Player player) {
         return player.getCountries().size() != 0;
     }
+    
+    /**
+	 * This method will execute the attack method from the PlayerStrategy interface
+	 * 
+	 * @param player player object
+	 */
+	public void executeAttack(Player player, RiskMap map) {
+		this.playerStrategy.attack(player, map);
+	}
+
+	/**
+	 * This method will execute the reinforce method from the PlayerStrategy
+	 * interface
+	 * 
+	 * @param player object of Player class
+	 * @throws Exception if there is an error
+	 */
+	public void executeReinforcement(Player player, RiskMap map) throws Exception {
+		this.playerStrategy.reinforcement(player, map);
+	}
+
+	/**
+	 * This method will execute the fortification method from the PlayerStrategy
+	 * interface
+	 * 
+	 * @param player object of Player class
+	 */
+	public void executeFortification(Player player) {
+		this.playerStrategy.fortification(player, map);
+	}
 
 
 }
