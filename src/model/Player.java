@@ -975,7 +975,7 @@ public class Player extends Observable {
      * @param country country instance
      * @return true if the string is equal to the name of the country, else false
      */
-    private boolean isCountryNameEquals(String countryName, Country country) {
+    public boolean isCountryNameEquals(String countryName, Country country) {
         return country.getCountryName().equals(countryName);
     }
 
