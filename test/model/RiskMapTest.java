@@ -137,7 +137,7 @@ public class RiskMapTest {
         al.add(c);
         gamePlay.map.setCountries(al);
 
-        assertEquals(5, gamePlay.noOfArmiesInCountry("India"));
+        assertEquals(5, gamePlay.noOfArmiesInCountry("India", gamePlay.map));
 
     }
 

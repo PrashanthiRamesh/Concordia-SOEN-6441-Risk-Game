@@ -157,8 +157,8 @@ public class PlayerTest {
 
     @Test
     public void testAttacker() {
-        assertEquals(1, player.getAttackerDice(1));
-        assertNotEquals(10, player.getAttackerDice(1));
+        assertEquals(1, player.getAttackerDice(1, false));
+        assertNotEquals(10, player.getAttackerDice(1, false));
 
     }
 

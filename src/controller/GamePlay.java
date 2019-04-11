@@ -303,7 +303,7 @@ public class GamePlay extends Observable {
 		System.out.println("\n***Game Over***\n");
 	}
 
-	public void retrieveMap() throws IOException {
+	public Player retrieveMap() throws IOException {
 		FileReader fir = new FileReader("savedMap.txt");
 		BufferedReader bir = new BufferedReader(fir);
 		while (!bir.readLine().trim().equals("[Continents]")) {
@@ -472,6 +472,8 @@ public class GamePlay extends Observable {
 			}
 			line = bir.readLine();
 		}
+		
+		return play;
 
 		// System.out.println(play.map.countries.size());
 	}
@@ -501,7 +503,7 @@ public class GamePlay extends Observable {
 		}
 	}
 
-	public void saveMap() throws IOException {
+	public boolean saveMap() throws IOException {
 		FileWriter fw = new FileWriter("savedMap.txt");
 		PrintWriter pw = new PrintWriter(fw);
 
@@ -562,9 +564,11 @@ public class GamePlay extends Observable {
 		}
 		
 		
-
+		
 		fw.close();
 		pw.close();
+		
+		return true;
 
 	}
 
