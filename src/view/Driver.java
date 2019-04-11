@@ -54,26 +54,36 @@ public class Driver {
 	 * 
 	 * @param args
 	 *            command line arguments
+	 * @throws Exception 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		(new Driver()).startGame();
 	}
 
 	/**
 	 * Implements the game phases according to the Risk rules
+	 * @throws Exception 
 	 */
-	private void startGame() {
+	private void startGame() throws Exception {
+		System.out.println("\n\n#### Team 23 Conquest Game ####\n\n1.Normal Mode\n2.Tournament Mode\nEnter:");
+		int ch = scanner.nextInt();
+		if (ch == 1) {
+			normalMode();
+		}else {
+			(new TournamentDriver()).startGame();
+		}
+	}
+	
+	private void normalMode() throws Exception {
 		try {
 			boolean mapFlag = false;
 			while (!mapFlag) {
 				map = new RiskMap();
-
 				System.out.println("Select 1 if u want to Load the Map from Last Saved Map , 2 to continue a new Game");
 				int ch = scanner.nextInt();
 				if (ch == 1) {
 					gamePlay = new GamePlay(this.players, map);
 					gamePlay.retrieveMap();
-					System.out.println("after retrieve");
 					gamePlay.addObserver(new PlayerWorldDomination());
 					gamePlay.start(gamePlay);
 

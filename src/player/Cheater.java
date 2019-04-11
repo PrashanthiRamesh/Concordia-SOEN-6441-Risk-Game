@@ -58,7 +58,21 @@ public class Cheater extends Observable implements Strategy {
 
 	@Override
 	public Player fortification(Player player, RiskMap map) {
-		
+		System.out.println("Player armies will be doubled in all the countries they own in which there are neighbours that is owned by different player");
+		this.map = map;
+		this.player=player;
+		for(String playerCountryName:this.player.getCountries()) {
+			ArrayList<String> neighbours = this.map.adjCountries.get(playerCountryName);
+			for (int i = 0; i < neighbours.size() - 1; i++) {
+				//int neighbourArmies = getPlayerCountry(neighbours.get(i), this.map.countries).getArmies();
+				if (!isNeighbourCountryOwnedByPlayer(neighbours.get(i))) {
+					Country country=getPlayerCountry(playerCountryName, this.map.countries);
+					System.out.print(playerCountryName+" armies increased from "+country.getArmies()+" to ");
+					country.setArmies(country.getArmies()*2);
+					System.out.println(country.getArmies());
+				}
+			}
+		}
 		return null;
 	}
 
@@ -101,6 +115,7 @@ public class Cheater extends Observable implements Strategy {
 				String attackerName=this.player.getPlayerName();
 				String lostPlayerName=toConquerCountry.getBelongsTo();
 				toConquerCountry.setBelongsTo(attackerName);
+			
 				Player lostPlayer=getPlayerByPlayerName(lostPlayerName);
 			}
 			

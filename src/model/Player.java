@@ -855,5 +855,24 @@ public class Player extends Observable {
 		}
 		return stategy;
 	}
+	
+	public String getStrategyName(int stratNumber) {
+		String stategy="";
+		switch (stratNumber) {
+			case 1:
+				stategy= "Aggressive";
+				break;
+			case 2:
+				stategy= "Benevolent";
+				break;
+			case 3:
+				stategy= "Random";
+				break;
+			case 4:
+				stategy= "Cheater";
+				break;
+		}
+		return stategy;
+	}
 
 }
