@@ -114,11 +114,16 @@ public class Benevolent extends Observable implements Strategy {
 				countryToPlaceArmies = armyCountry;
 			}
 		}
-		int countryNoArmies = countryToPlaceArmies.getArmies();
-		countryToPlaceArmies.setArmies(countryNoArmies + playerArmies);
-		System.out.println("You have successfully placed armies and reinforced your weakest country= "+countryToPlaceArmies.getCountryName());
-		System.out.println(map.getCountries());
-		player.setArmies(0);
+		if(countryToPlaceArmies!=null) {
+			int countryNoArmies = countryToPlaceArmies.getArmies();
+			countryToPlaceArmies.setArmies(countryNoArmies + playerArmies);
+			System.out.println("You have successfully placed armies and reinforced your weakest country= "+countryToPlaceArmies.getCountryName());
+			System.out.println(map.getCountries());
+			player.setArmies(0);
+		}else {
+			System.out.println("No Valid Reinforcement move!");
+		}
+		
 		return null;
 	}
 

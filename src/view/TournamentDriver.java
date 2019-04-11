@@ -73,13 +73,13 @@ public class TournamentDriver {
 			int strategyNumber = scanner.nextInt();
 			stategyNumbers.add(strategyNumber);
 		}
-		System.out.println("Enter number of games to be placed in each map[1-5]:");
+		System.out.println("Enter number of games to be played in each map[1-5]:");
 		int G = scanner.nextInt();
 		System.out.println("Enter number of turns for each player in a game[10-50]:");
 		int D = scanner.nextInt();
 
 		System.out.println("\n#### Tournament Begins ####\n");
-
+		tournaments=new ArrayList<Tournament>();
 		// maps
 		for (int m = 0; m < M; m++) {
 			// parse map from RiskMap
@@ -135,7 +135,7 @@ public class TournamentDriver {
 						"\n** Assigning Initial Armies to Players based on the number of players in the game **\n");
 				this.players = (new Player()).setInitialArmies(this.players, this.map.getCountries());
 				gamePlay = new TournamentGamePlay(this.players, this.map);
-				gamePlay.addObserver(new PlayerWorldDomination());
+				gamePlay.addObserver(new TournamentPlayerWorldDomination());
 				gamePlay.start(gamePlay, D);
 				//from gamePlay instance check which player won / draw and save it in some variable
 				if(gamePlay.isDraw()) {

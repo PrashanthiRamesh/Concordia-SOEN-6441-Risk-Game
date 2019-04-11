@@ -21,6 +21,7 @@ import player.Human;
 import player.Random;
 import view.CardExchange;
 import view.Phase;
+import view.TournamentPhase;
 
 /**
  * GamePlay Class represents a game
@@ -232,7 +233,7 @@ public class TournamentGamePlay extends Observable {
 	public void start(TournamentGamePlay gamePlay, int maxTurns) throws Exception {
 		System.out.println("\n**** Game has started ****");
 		currentPlayer = null;
-		Phase phaseView = new Phase();
+		TournamentPhase phaseView = new TournamentPhase();
 		boolean initialGameFlag = true;
 		gamePlay.deleteObserver(phaseView);
 		gamePlay.addObserver(phaseView);
@@ -243,50 +244,53 @@ public class TournamentGamePlay extends Observable {
 		}
 		boolean gameOver = false;
 		int maxTurnsCount=0;
-		while (!gameOver || maxTurnsCount<maxTurns) {
-	
-			for (Player player : play.players) {
-				System.out.println("\n**** New Round Begins ****");
-				maxTurnsCount++;
-				/*
-				 * Reinforcement Phase
-				 */
-				if (!initialGameFlag) {
+		if(gameOver || maxTurnsCount<maxTurns) {
+			while (!gameOver || maxTurnsCount<maxTurns) {
+				
+				for (Player player : play.players) {
+					System.out.println("\n**** New Round Begins ****");
+					maxTurnsCount++;
+					/*
+					 * Reinforcement Phase
+					 */
+					if (!initialGameFlag) {
+						gamePlay.deleteObserver(phaseView);
+						gamePlay.addObserver(phaseView);
+						phase = 2;
+						setPlayerDetailsForPhase(player);
+						player.playerStrategy.reinforcement(player, play.map);
+
+					}
+					initialGameFlag = false;
+					/*
+					 * Attack Phase
+					 */
 					gamePlay.deleteObserver(phaseView);
 					gamePlay.addObserver(phaseView);
-					phase = 2;
+					phase = 3;
 					setPlayerDetailsForPhase(player);
-					player.playerStrategy.reinforcement(player, play.map);
+					player.playerStrategy.attack(player, play);
+					//check if player won
+					if(player.isWinner()) {
+						System.out.println("\n\n$$$$$$$ "+player.getStrategyName(player.getPlayerStrategyCharacter())+" Player "+player.getPlayerName()+ " won the game $$$$$$\n ");
+						gameOver=true;
+						gamePlay.setWinner(player);
+						break;
+					}
+					/*
+					 * Fortification Phase
+					 */
+					gamePlay.deleteObserver(phaseView);
+					gamePlay.addObserver(phaseView);
+					phase = 4;
+					setPlayerDetailsForPhase(player);
+					// play.fortification(player, play.map);
+					player.playerStrategy.fortification(player, play.map);
 
 				}
-				initialGameFlag = false;
-				/*
-				 * Attack Phase
-				 */
-				gamePlay.deleteObserver(phaseView);
-				gamePlay.addObserver(phaseView);
-				phase = 3;
-				setPlayerDetailsForPhase(player);
-				player.playerStrategy.attack(player, play);
-				//check if player won
-				if(player.isWinner()) {
-					System.out.println("\n\n$$$$$$$ "+player.getStrategyName(player.getPlayerStrategyCharacter())+" Player "+player.getPlayerName()+ " won the game $$$$$$\n ");
-					gameOver=true;
-					gamePlay.setWinner(player);
-					break;
-				}
-				/*
-				 * Fortification Phase
-				 */
-				gamePlay.deleteObserver(phaseView);
-				gamePlay.addObserver(phaseView);
-				phase = 4;
-				setPlayerDetailsForPhase(player);
-				// play.fortification(player, play.map);
-				player.playerStrategy.fortification(player, play.map);
-
 			}
 		}
+
 		if(maxTurns>=maxTurnsCount) {
 			gamePlay.setDraw(true);
 		}

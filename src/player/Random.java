@@ -51,42 +51,55 @@ public class Random extends Observable implements Strategy {
 		String sourceCountryName="";
 		boolean forfeit = false;
 		System.out.println("\nCountries you own: " + playerCountries);
+		boolean canForfeit=false;
+		int c=0;
 		for (Country country : countries) {
 			if (playerCountries.contains(country.getCountryName())) {
 				System.out.println("Country " + country.getCountryName() + " has " + country.getArmies() + " armies");
+				if(country.getArmies()>0) {
+					c++;
+				}
 			}
 		}
-		while(!forfeit){
-			int randomDescCountryIndex=Util.randInt(0, playerCountries.size()-1);
-			String destinationCountryName=playerCountries.get(randomDescCountryIndex);
-			for(int i=0;i<playerCountries.size();i++) {
-				sourceCountryName = getSourceCountry(destinationCountryName);
-				Country desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
-				if (sourceCountryName != "" && desCountry.getArmies() > -1) {
-					Country sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
-					int toSetForSourceCountry = 0;
-					int toSetForDesCountry = sourceCountry.getArmies() + desCountry.getArmies();
-					System.out.println("** Before moving armies **\n");
-					System.out.println(
-							"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
-					System.out.println(
-							"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
-					forfeit(destinationCountryName, sourceCountryName, toSetForDesCountry, toSetForSourceCountry);
-					sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
-					desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
-					System.out.println("** After moving armies **\n");
-					System.out.println(
-							"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
-					System.out.println(
-							"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
-					forfeit = true;
+		if(c>=2) {
+			canForfeit=true;
+		}
+		if(canForfeit) {
+			while(!forfeit){
+				int randomDescCountryIndex=Util.randInt(0, playerCountries.size()-1);
+				String destinationCountryName=playerCountries.get(randomDescCountryIndex);
+				for(int i=0;i<playerCountries.size();i++) {
+					sourceCountryName = getSourceCountry(destinationCountryName);
+					Country desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
+					if (sourceCountryName != "" && desCountry.getArmies() > -1) {
+						Country sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
+						int toSetForSourceCountry = 0;
+						int toSetForDesCountry = sourceCountry.getArmies() + desCountry.getArmies();
+						System.out.println("** Before moving armies **\n");
+						System.out.println(
+								"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
+						System.out.println(
+								"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
+						forfeit(destinationCountryName, sourceCountryName, toSetForDesCountry, toSetForSourceCountry);
+						sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
+						desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
+						System.out.println("** After moving armies **\n");
+						System.out.println(
+								"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
+						System.out.println(
+								"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
+						forfeit = true;
+						break;
+					}
+				}
+				if(forfeit) {
 					break;
 				}
 			}
-			if(forfeit) {
-				break;
-			}
+		}else {
+			System.out.println("\n## No Valid move for the random player ##\n");
 		}
+	
 		
 		
 		if (!forfeit) {
@@ -103,14 +116,19 @@ public class Random extends Observable implements Strategy {
 		ArrayList<String> playerCountries = player.getCountries();
 		ArrayList<Country> countries = map.getCountries();
 
-		int randomCountryIndex = Util.randInt(0, playerCountries.size() - 1);
-		Country countryToPlaceArmies = getPlayerCountry(playerCountries.get(randomCountryIndex), this.map.countries);
-		int countryNoArmies = countryToPlaceArmies.getArmies();
-		countryToPlaceArmies.setArmies(countryNoArmies + playerArmies);
-		System.out.println("You have successfully placed armies and reinforced a random country= "
-				+ countryToPlaceArmies.getCountryName());
-		System.out.println(map.getCountries());
-		player.setArmies(0);
+		if(playerCountries.size()>=1) {
+			int randomCountryIndex = Util.randInt(0, playerCountries.size() - 1);
+			Country countryToPlaceArmies = getPlayerCountry(playerCountries.get(randomCountryIndex), this.map.countries);
+			int countryNoArmies = countryToPlaceArmies.getArmies();
+			countryToPlaceArmies.setArmies(countryNoArmies + playerArmies);
+			System.out.println("You have successfully placed armies and reinforced a random country= "
+					+ countryToPlaceArmies.getCountryName());
+			System.out.println(map.getCountries());
+			player.setArmies(0);
+		}else {
+			System.out.println("No valid reinforcement");
+		}
+		
 		return null;
 	}
 
