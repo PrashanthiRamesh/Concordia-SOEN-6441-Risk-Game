@@ -72,11 +72,15 @@ public class Player extends Observable {
      */
     private int cannonCount;
     
-    /*
+    /**
      * Instance of player's strategy depending on their behaviour/personality
      */
     public Strategy playerStrategy;
     
+    /**
+     * player strategy name
+     */
+    private String playerStrategyCharacter;
     
     private boolean isHuman;
 
@@ -300,6 +304,16 @@ public class Player extends Observable {
 
 	public void setHuman(boolean isHuman) {
 		this.isHuman = isHuman;
+	}
+	
+	
+
+	public String getPlayerStrategyCharacter() {
+		return playerStrategyCharacter;
+	}
+
+	public void setPlayerStrategyCharacter(String playerStrategyCharacter) {
+		this.playerStrategyCharacter = playerStrategyCharacter;
 	}
 
 	/**

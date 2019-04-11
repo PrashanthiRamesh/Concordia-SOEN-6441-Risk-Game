@@ -14,7 +14,11 @@ import model.Card;
 import model.Country;
 import model.Player;
 import model.RiskMap;
+import player.Aggressive;
+import player.Benevolent;
+import player.Cheater;
 import player.Human;
+import player.Random;
 import view.CardExchange;
 import view.Phase;
 
@@ -332,7 +336,7 @@ public class GamePlay extends Observable {
 			}
 		}
 
-		System.out.println("before countires");
+	//	System.out.println("before countires");
 
 		while (!bir.readLine().trim().equals("[Countries]")) {
 
@@ -370,11 +374,30 @@ public class GamePlay extends Observable {
 				int CannonCount = Integer.parseInt(temp[2]);
 				int CavalryCount = Integer.parseInt(temp[3]);
 				int InfantryCount = Integer.parseInt(temp[4]);
-				play.players.add(new Player(pName, armies, null, null, CannonCount, CavalryCount, InfantryCount));
+				Player oldPlayer=new Player(pName, armies, null, null, CannonCount, CavalryCount, InfantryCount);
+				switch(temp[5]) {
+					case "h":
+						oldPlayer.setPlayerStrategy(new Human());
+						break;
+					case "a":
+						oldPlayer.setPlayerStrategy(new Aggressive());
+						break;
+					case "b":
+						oldPlayer.setPlayerStrategy(new Benevolent());
+						break;
+					case "r":
+						oldPlayer.setPlayerStrategy(new Random());
+						break;
+					case "c":
+						oldPlayer.setPlayerStrategy(new Cheater());
+						break;
+				}
+				play.players.add(oldPlayer);
+				
 			}
 		}
 
-		System.out.println("before player countries");
+	//	System.out.println("before player countries");
 		while (!bir.readLine().trim().equals("[PlayerCountries]")) {
 
 		}
@@ -403,14 +426,13 @@ public class GamePlay extends Observable {
 			}
 		}
 
-		System.out.println("before player cards");
+	//	System.out.println("before player cards");
 		while (!bir.readLine().trim().equals("[PlayerCards]")) {
 
 		}
 
 		String line = bir.readLine();
 
-		System.out.println(line);
 		while (line != null) {
 			System.out.println("inside while");
 
@@ -500,7 +522,7 @@ public class GamePlay extends Observable {
 		for (int i = 0; i < play.players.size(); i++) {
 			pw.write(play.players.get(i).getPlayerName() + "," + play.players.get(i).getArmies() + ","
 					+ play.players.get(i).getCannonCount() + "," + play.players.get(i).getCavalryCount() + ","
-					+ play.players.get(i).getInfantryCount() + ",");
+					+ play.players.get(i).getInfantryCount() + ","+play.players.get(i).getPlayerStrategyCharacter());
 			pw.println();
 		}
 		pw.println();
@@ -526,6 +548,8 @@ public class GamePlay extends Observable {
 			}
 
 		}
+		
+		
 
 		fw.close();
 		pw.close();

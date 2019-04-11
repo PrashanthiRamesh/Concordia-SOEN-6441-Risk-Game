@@ -220,22 +220,27 @@ public class Driver {
 									case 1:
 										newPlayer.setPlayerStrategy(new Human());
 										newPlayer.setHuman(true);
+										newPlayer.setPlayerStrategyCharacter("h");
 										break;
 									case 2:
 										newPlayer.setPlayerStrategy(new Aggressive());
 										newPlayer.setHuman(false);
+										newPlayer.setPlayerStrategyCharacter("a");
 										break;
 									case 3:
 										newPlayer.setPlayerStrategy(new Benevolent());
 										newPlayer.setHuman(false);
+										newPlayer.setPlayerStrategyCharacter("b");
 										break;
 									case 4:
 										newPlayer.setPlayerStrategy(new Random());
 										newPlayer.setHuman(false);
+										newPlayer.setPlayerStrategyCharacter("r");
 										break;
 									case 5:
 										newPlayer.setPlayerStrategy(new Cheater());
 										newPlayer.setHuman(false);
+										newPlayer.setPlayerStrategyCharacter("c");
 										break;
 									default:
 										System.out.println("Invalid choice! Enter a value from 1-5:");
