@@ -264,6 +264,8 @@ public class GamePlay extends Observable {
 				String temp3 = scanner.next();
 				if (temp3.equals("Yes")) {
 					saveMap();
+					
+					
 				}
 
 			}

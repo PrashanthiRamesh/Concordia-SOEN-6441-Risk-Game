@@ -72,9 +72,7 @@ public class Driver {
 				int ch = scanner.nextInt();
 				if (ch == 1) {
 					gamePlay = new GamePlay(this.players, map);
-
 					gamePlay.retrieveMap();
-
 					System.out.println("after retrieve");
 					gamePlay.addObserver(new PlayerWorldDomination());
 					gamePlay.start(gamePlay);
