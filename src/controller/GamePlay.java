@@ -247,11 +247,19 @@ public class GamePlay extends Observable {
 				phase = 3;
 				setPlayerDetailsForPhase(player);
 				player.playerStrategy.attack(player, play);
+				//check if player won
+				if(player.isWinner()) {
+					System.out.println("\n\n$$$$$$$ "+player.getStrategyName(player.getPlayerStrategyCharacter())+" Player "+player.getPlayerName()+ " won the game $$$$$$\n ");
+					gameOver=true;
+					break;
+				}
 				System.out.println("Enter Yes if u Want to save the Map At this Moment");
 				String temp2 = scanner.next();
 				if (temp2.equals("Yes")) {
 					saveMap();
 				}
+				
+				
 
 				/*
 				 * Fortification Phase
@@ -273,21 +281,25 @@ public class GamePlay extends Observable {
 				}
 
 			}
-			System.out.println("\nContinue the game?\nYes\nNo");
-			boolean continueGameFlag = false;
-			while (!continueGameFlag) {
-				String choice = scanner.next();
-				if (choice.equals("Yes")) {
-					continueGameFlag = true;
-				} else if (choice.equals("No")) {
-					continueGameFlag = true;
-					gameOver = true;
-				} else {
-					System.out.println("Invalid choice! Enter either Yes or No: ");
-					scanner.next();
+			if(play.isHuman()) {
+				System.out.println("\nContinue the game?\nYes\nNo");
+				boolean continueGameFlag = false;
+				while (!continueGameFlag) {
+					String choice = scanner.next();
+					if (choice.equals("Yes")) {
+						continueGameFlag = true;
+					} else if (choice.equals("No")) {
+						continueGameFlag = true;
+						gameOver = true;
+					} else {
+						System.out.println("Invalid choice! Enter either Yes or No: ");
+						scanner.next();
+					}
 				}
 			}
+		
 		}
+		
 		System.out.println("\n***Game Over***\n");
 	}
 

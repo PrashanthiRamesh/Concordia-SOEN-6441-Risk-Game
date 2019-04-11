@@ -1,5 +1,3 @@
-/controller/
-/model/
 /player/
-/util/
-/view/
+/model/
+/controller/

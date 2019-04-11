@@ -67,7 +67,7 @@ public class Benevolent extends Observable implements Strategy {
 			destinationCountryName = sortedPlayerCountries.get(i);
 			Country desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
 			sourceCountryName = getSourceCountry(destinationCountryName);
-			if (sourceCountryName != "" && desCountry.getArmies() > 0) {
+			if (sourceCountryName != "" && desCountry.getArmies() > -1) {
 				Country sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
 				int toSetForSourceCountry = 0;
 				int toSetForDesCountry = sourceCountry.getArmies() + desCountry.getArmies();
@@ -76,7 +76,7 @@ public class Benevolent extends Observable implements Strategy {
 						"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
 				System.out.println(
 						"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
-				forfeit(sourceCountryName, destinationCountryName, toSetForSourceCountry, toSetForDesCountry);
+				forfeit(destinationCountryName, sourceCountryName, toSetForDesCountry, toSetForSourceCountry);
 				sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
 				desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
 				System.out.println("** After moving armies **\n");
@@ -116,7 +116,7 @@ public class Benevolent extends Observable implements Strategy {
 		}
 		int countryNoArmies = countryToPlaceArmies.getArmies();
 		countryToPlaceArmies.setArmies(countryNoArmies + playerArmies);
-		System.out.println("You have successfully placed armies and reinforced your weakest country!");
+		System.out.println("You have successfully placed armies and reinforced your weakest country= "+countryToPlaceArmies.getCountryName());
 		System.out.println(map.getCountries());
 		player.setArmies(0);
 		return null;
@@ -137,12 +137,12 @@ public class Benevolent extends Observable implements Strategy {
 
 		ArrayList<String> sortedCountryList = playerCountries;
 
-		for (int i = 0; i < sortedCountryList.size() - 1; i++) {
+		for (int i = 0; i < sortedCountryList.size(); i++) {
 			int iarmies = getPlayerCountry(sortedCountryList.get(i), this.map.getCountries()).getArmies();
-			for (int j = 0; j < sortedCountryList.size() - i - 1; j++) {
-				int jarmies = getPlayerCountry(sortedCountryList.get(j + 1), this.map.getCountries()).getArmies();
+			for (int j = i+1; j < sortedCountryList.size() ; j++) {
+				int jarmies = getPlayerCountry(sortedCountryList.get(j ), this.map.getCountries()).getArmies();
 				if (jarmies < iarmies) {
-					Collections.swap(sortedCountryList, i, j + 1);
+					Collections.swap(sortedCountryList, i, j );
 				}
 			}
 		}

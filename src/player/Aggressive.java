@@ -275,7 +275,7 @@ public class Aggressive extends Observable implements Strategy {
 		}
 		int countryNoArmies = countryToPlaceArmies.getArmies();
 		countryToPlaceArmies.setArmies(countryNoArmies + playerArmies);
-		System.out.println("You have successfully placed armies and reinforced your strongest country!");
+		System.out.println("You have successfully placed armies and reinforced your strongest country= "+countryToPlaceArmies.getCountryName());
 		System.out.println(map.getCountries());
 		player.setArmies(0);
 		return null;
@@ -296,12 +296,12 @@ public class Aggressive extends Observable implements Strategy {
 
 		ArrayList<String> sortedCountryList = playerCountries;
 
-		for (int i = 0; i < sortedCountryList.size() - 1; i++) {
+		for (int i = 0; i < sortedCountryList.size() ; i++) {
 			int iarmies = getPlayerCountry(sortedCountryList.get(i), this.map.getCountries()).getArmies();
-			for (int j = 0; j < sortedCountryList.size() - i - 1; j++) {
-				int jarmies = getPlayerCountry(sortedCountryList.get(j + 1), this.map.getCountries()).getArmies();
+			for (int j = i+1; j < sortedCountryList.size() ; j++) {
+				int jarmies = getPlayerCountry(sortedCountryList.get(j), this.map.getCountries()).getArmies();
 				if (jarmies > iarmies) {
-					Collections.swap(sortedCountryList, i, j + 1);
+					Collections.swap(sortedCountryList, i, j );
 				}
 			}
 		}
