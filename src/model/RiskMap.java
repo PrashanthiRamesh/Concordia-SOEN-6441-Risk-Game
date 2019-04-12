@@ -9,7 +9,7 @@ import java.util.*;
  * RiskMap Class Loads the maps form the Console and from the file.
  *
  * @author Maqsood
- * @version 1.1
+ * @version 1.2
  * @since  1.0
  */
 public class RiskMap {

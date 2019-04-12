@@ -28,7 +28,7 @@ import view.TournamentPhase;
  *
  * @author Prashanthi
  * @author Suthakhar
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 public class TournamentGamePlay extends Observable {
@@ -226,9 +226,9 @@ public class TournamentGamePlay extends Observable {
 	 * Driver method to initiate the game phases in a round robin fashion for every
 	 * player
 	 * 
-	 * @param gamePlay
-	 *            instance of game
-	 * @throws Exception
+	 * @param gamePlay instance of game
+	 * @param maxTurns the maximum number of turns for a player
+	 * @throws Exception when an exception occurs
 	 */
 	public void start(TournamentGamePlay gamePlay, int maxTurns) throws Exception {
 		System.out.println("\n**** Game has started ****");

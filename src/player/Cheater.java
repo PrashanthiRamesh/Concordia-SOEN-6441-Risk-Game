@@ -9,14 +9,41 @@ import model.Player;
 import model.RiskMap;
 import view.ComputerCardExchange;
 
+/**
+ * Class to implement Cheater strategy for risk game
+ *
+ * @author Suthakhar
+ * @version 1.2
+ * @since 1.2
+ */
+
 public class Cheater extends Observable implements Strategy {
 
+	/**
+	 * map is an object of RiskMap
+	 */
 	RiskMap map;
 
+	/**
+	 * player is an object of Player class
+	 */
 	Player player;
-	
+
+
+	/**
+	 * players is an arraylist of Player
+	 */
 	ArrayList<Player> players;
-	
+
+
+	/**
+	 * Reinforcement phase for cheater strategy
+	 *
+	 * @param player is an object of Player
+	 * @param map loads the map editor
+	 * @return return an object of Player
+	 * @throws Exception when an exception arises
+	 */
 	@Override
 	public Player reinforcement(Player player, RiskMap map) throws Exception {
 		ComputerCardExchange cardExchange = new ComputerCardExchange(player);
@@ -34,6 +61,13 @@ public class Cheater extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Attack phase for cheater strategy
+	 *
+	 * @param player is an object Player
+	 * @param mapPlayer is an object of Player
+	 * @return an object of Player class
+	 */
 	@Override
 	public Player attack(Player player, Player mapPlayer) {
 		System.out.println("Player armies will be doubled in all the countries they own");
@@ -56,6 +90,13 @@ public class Cheater extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Fortification phase for cheater strategy
+	 *
+	 * @param player is an object of Player
+	 * @param map loads the map editor
+	 * @return a player object
+	 */
 	@Override
 	public Player fortification(Player player, RiskMap map) {
 		System.out.println("Player armies will be doubled in all the countries they own in which there are neighbours that is owned by different player");
@@ -107,6 +148,14 @@ public class Cheater extends Observable implements Strategy {
 		return null;
 	}
 
+
+	/**
+	 * Method to deploy armies in cheater strategy
+	 *
+	 * @param player is an object of Player class
+	 * @param map loads the map editor
+	 * @return a player object
+	 */
 	@Override
 	public Player deployArmies(Player player, RiskMap map) {
 		System.out.println("Player armies will be doubled in all the countries they own");
@@ -124,7 +173,14 @@ public class Cheater extends Observable implements Strategy {
 		
 		return null;
 	}
-	
+
+	/**
+	 * Method to get country a player is associated with
+	 *
+	 * @param playerCountry is a String varibale
+	 * @param mapCountries is an arraylist of countries
+	 * @return a Country object
+	 */
 	private Country getPlayerCountry(String playerCountry, ArrayList<Country> mapCountries) {
 		Country returnCountry = null;
 		for (Country country : mapCountries) {
@@ -135,7 +191,12 @@ public class Cheater extends Observable implements Strategy {
 		}
 		return returnCountry;
 	}
-	
+
+	/**
+	 *Method to conquer neighbouring countries automatically in cheater strategy
+	 *
+	 * @param playerCountryName is a String varible
+	 */
 	private void autoConquerOtherPlayersCountryThatAreNeighbours(String playerCountryName) {
 		ArrayList<String> neighbours = this.map.adjCountries.get(playerCountryName);
 		for (int i = 0; i < neighbours.size() - 1; i++) {
@@ -153,14 +214,27 @@ public class Cheater extends Observable implements Strategy {
 		}
 		
 	}
-	
+
+
+	/**
+	 * Method to check whether a neighbouring country is owned by a player
+	 *
+	 * @param neighbourCountryName is a string variable
+	 * @return boolean value regarding the ownership of neighbouring country
+	 */
 	private boolean isNeighbourCountryOwnedByPlayer(String neighbourCountryName) {
 		if (this.player.getCountries().contains(neighbourCountryName)) {
 			return true;
 		}
 		return false;
 	}
-	
+
+	/**
+	 * Method to return player name
+	 *
+	 * @param playerName is a String variable
+	 * @return a Player object
+	 */
 	private Player getPlayerByPlayerName(String playerName) {
 		for(Player player:this.players) {
 			if(player.getPlayerName().equals(playerName)) {
@@ -169,7 +243,10 @@ public class Cheater extends Observable implements Strategy {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Method to update player countries
+	 */
 	private void updatePlayerCountries() {
 		for(Player player:this.players) {
 			String playerName=player.getPlayerName();
@@ -182,7 +259,10 @@ public class Cheater extends Observable implements Strategy {
 			player.setCountries(playerCountries);
 		}
 	}
-	
+
+	/**
+	 * Method to communicate if a player wins the game
+	 */
 	private void updateIfPlayerWon() {
 		if(this.player.getCountries().size()==this.map.countries.size()) {
 			this.player.setWinner(true);

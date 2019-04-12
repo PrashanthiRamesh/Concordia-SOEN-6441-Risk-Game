@@ -4,7 +4,7 @@ package model;
  * Card Class represents a country
  *
  * @author Maqsood
- * @version 1.1
+ * @version 1.2
  * @since 1.1
  */
 public class Card {

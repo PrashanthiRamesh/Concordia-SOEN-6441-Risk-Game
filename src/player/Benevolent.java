@@ -14,14 +14,36 @@ import util.Util;
 import view.CardExchange;
 import view.ComputerCardExchange;
 
+/**
+ * Class benevolent defies the benevolent strategy of a player
+ * @author Prashanthi
+ * @version 1.2
+ * @since 1.2
+ */
+
 public class Benevolent extends Observable implements Strategy {
 
+	/**
+	 * map is an object of RiskMap
+	 */
 	RiskMap map;
 
+	/**
+	 * player is an object of Player class
+	 */
 	Player player;
+
 
 	ArrayList<Player> players;
 
+	/**
+	 * Reinforcement phase for benevolent startegy
+	 *
+	 * @param player is an object of Player
+	 * @param map is an object of RiskMap
+	 * @return Player object
+	 * @throws Exception when an exception occurs
+	 */
 	@Override
 	public Player reinforcement(Player player, RiskMap map) throws Exception {
 		ComputerCardExchange cardExchange = new ComputerCardExchange(player);
@@ -39,6 +61,13 @@ public class Benevolent extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Attack module for benevolent strategy
+	 *
+	 * @param player is an object of Player
+	 * @param mapPlayer is an object of Player
+	 * @return object of Player
+	 */
 	@Override
 	public Player attack(Player player, Player mapPlayer) {
 		System.out.println("Player armies will be doubled in all the countries they own");
@@ -52,6 +81,14 @@ public class Benevolent extends Observable implements Strategy {
 		return null;
 	}
 
+
+	/**
+	 * Fortification phase for benevolent strategy
+	 *
+	 * @param player is an obkject of Player
+	 * @param map is an object of RiskMap
+	 * @return object of Player
+	 */
 	@Override
 	public Player fortification(Player player, RiskMap map) {
 		// find country with the most armies and
@@ -135,6 +172,13 @@ public class Benevolent extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Method to deploy armies in benevolent strategy
+	 *
+	 * @param player is an object of Player
+	 * @param map is an object of RiskMap
+	 * @return an object of Player
+	 */
 	@Override
 	public Player deployArmies(Player player, RiskMap map) {
 		this.map = map;
@@ -167,6 +211,14 @@ public class Benevolent extends Observable implements Strategy {
 		return null;
 	}
 
+
+	/**
+	 * Method to return player country
+	 *
+	 * @param playerCountry is a String variable
+	 * @param mapCountries is an arraylist of Country
+	 * @return return an object of Country
+	 */
 	private Country getPlayerCountry(String playerCountry, ArrayList<Country> mapCountries) {
 		Country returnCountry = null;
 		for (Country country : mapCountries) {
@@ -178,6 +230,12 @@ public class Benevolent extends Observable implements Strategy {
 		return returnCountry;
 	}
 
+	/**
+	 * Method to return country list based on armies
+	 *
+	 * @param playerCountries is an arraylist of countries
+	 * @return sortedCountryList list of countries
+	 */
 	private ArrayList<String> getSortedCountryListBasedOnArmy(ArrayList<String> playerCountries) {
 
 		ArrayList<String> sortedCountryList = playerCountries;
@@ -195,6 +253,12 @@ public class Benevolent extends Observable implements Strategy {
 		return sortedCountryList;
 	}
 
+	/**
+	 * Method to return source country
+	 *
+	 * @param destinationCountry is a string
+	 * @return returns the source country of a player
+	 */
 	private String getSourceCountry(String destinationCountry) {
 		String sourceCountry = "";
 		ArrayList<String> neighbours = this.map.adjCountries.get(destinationCountry);
@@ -214,6 +278,14 @@ public class Benevolent extends Observable implements Strategy {
 		return sourceCountry;
 	}
 
+	/**
+	 * Method to forfeit the game
+	 *
+	 * @param sourceCountry is a string variable
+	 * @param destinationCountry is a string variable
+	 * @param sourceArmies is an integer value denoting the number of armies
+	 * @param destinationArmy is an integer value denoting the number of armies
+	 */
 	private void forfeit(String sourceCountry, String destinationCountry, int sourceArmies, int destinationArmy) {
 		int count = 0;
 		for (Country country : this.map.countries) {
@@ -231,6 +303,12 @@ public class Benevolent extends Observable implements Strategy {
 		}
 	}
 
+	/**
+	 * Method to check whether the neighbouring country is owned by a player
+	 *
+	 * @param neighbourCountryName is a string variable
+	 * @return returns a boolean value
+	 */
 	private boolean isNeighbourCountryOwnedByPlayer(String neighbourCountryName) {
 		if (this.player.getCountries().contains(neighbourCountryName)) {
 			return true;

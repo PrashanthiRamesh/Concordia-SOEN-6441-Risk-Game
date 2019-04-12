@@ -3,6 +3,12 @@ package player;
 import model.Player;
 import model.RiskMap;
 
+/** Interface that implements the different strategies of the players
+ * @author Prashanthi
+ * @version 1.2
+ * @since 1.2
+ */
+
 public interface Strategy {
 
 	/**
@@ -11,6 +17,7 @@ public interface Strategy {
 	 * of the countries owned by the player.
 	 * 
 	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass the map object where the map is loaded
 	 * @return enriched player object is returned
 	 * @throws Exception if error
 	 */
@@ -22,6 +29,7 @@ public interface Strategy {
 	 * which player may decide to attack neighboring countries or not
 	 * 
 	 * @param player We pass the player object who is currently playing the game.
+	 * @param mapPlayer We pass the mapPlayer object
 	 * @return enriched player object is returned
 	 */
 	public Player attack(Player player, Player mapPlayer);
@@ -32,6 +40,7 @@ public interface Strategy {
 	 * in which
 	 * 
 	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass the map object where the map is loaded
 	 * @return enriched player object is returned
 	 */
 	public Player fortification(Player player, RiskMap map);
@@ -43,6 +52,7 @@ public interface Strategy {
 	 * in the startup and reinforcement phases
 	 * 
 	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass the map object where the map is loaded
 	 * @return enriched player object is returned
 	 */
 	public Player deployArmies(Player player, RiskMap map);

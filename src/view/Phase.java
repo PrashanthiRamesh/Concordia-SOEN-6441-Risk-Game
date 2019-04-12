@@ -9,7 +9,7 @@ import java.util.Observer;
  * Phase represents the observer pattern of phases of the Game
  *
  * @author Maqsood
- * @version 1.1
+ * @version 1.2
  * @since 1.1
  */
 public class Phase implements Observer {

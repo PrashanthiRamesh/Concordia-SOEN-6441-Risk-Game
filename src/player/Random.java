@@ -11,6 +11,13 @@ import model.RiskMap;
 import util.Util;
 import view.ComputerCardExchange;
 
+/**
+ * Class Random defines the Random strategy of the player
+ * @author Mutesham
+ * @author Manasa
+ * @version 1.2
+ * @since 1.2
+ */
 public class Random extends Observable implements Strategy {
 
 	RiskMap map;
@@ -19,6 +26,13 @@ public class Random extends Observable implements Strategy {
 
 	ArrayList<Player> players;
 
+	/**
+	 * Reinforcement method for Random strategy
+	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass the map object where the map is loaded
+	 * @return null
+	 * @throws Exception if an exception occurred
+	 */
 	@Override
 	public Player reinforcement(Player player, RiskMap map) throws Exception {
 		ComputerCardExchange cardExchange = new ComputerCardExchange(player);
@@ -36,6 +50,12 @@ public class Random extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Attack phase method for Random strategy
+	 * @param player We pass the player object who is currently playing the game.
+	 * @param mapPlayer We pass the mapPlayer object
+	 * @return null
+	 */
 	@Override
 	public Player attack(Player player, Player mapPlayer) {
 		System.out.println("Player will always attack with a random country until it cannot attack anymore");
@@ -148,6 +168,12 @@ public class Random extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Fortification phase method for Random strategy
+	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass th map object where the map is loaded
+	 * @return null
+	 */
 	@Override
 	public Player fortification(Player player, RiskMap map) {
 		// iterate tru get player countries
@@ -227,6 +253,12 @@ public class Random extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Method is foe deploying the armies in the players countries
+	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass the map object where the map is loaded
+	 * @return null
+	 */
 	@Override
 	public Player deployArmies(Player player, RiskMap map) {
 		this.map = map;
@@ -251,6 +283,13 @@ public class Random extends Observable implements Strategy {
 		return null;
 	}
 
+
+	/**
+	 * Method to get the country of the player
+	 * @param playerCountry We pass playerCountry as a string
+	 * @param mapCountries List of countries in map
+	 * @return returnCountry returning the country name
+	 */
 	private Country getPlayerCountry(String playerCountry, ArrayList<Country> mapCountries) {
 		Country returnCountry = null;
 		for (Country country : mapCountries) {
@@ -262,6 +301,12 @@ public class Random extends Observable implements Strategy {
 		return returnCountry;
 	}
 
+
+	/**
+	 * Method to check the neighbouring country owned by the player
+	 * @param neighbourCountryName name of the neighbour country
+	 * @return false boolean value false is returned if the player's country list does not contain the neighbouring country
+	 */
 	private boolean isNeighbourCountryOwnedByPlayer(String neighbourCountryName) {
 		if (this.player.getCountries().contains(neighbourCountryName)) {
 			return true;
@@ -269,6 +314,12 @@ public class Random extends Observable implements Strategy {
 		return false;
 	}
 
+
+	/**
+	 * Method to get the source country
+	 * @param destinationCountry name of the destination country
+	 * @return sourceCountry name of the source country is returned
+	 */
 	private String getSourceCountry(String destinationCountry) {
 		String sourceCountry = "";
 		ArrayList<String> neighbours = this.map.adjCountries.get(destinationCountry);
@@ -288,6 +339,14 @@ public class Random extends Observable implements Strategy {
 		return sourceCountry;
 	}
 
+
+	/**
+	 * 	Method for forfeit technique
+	 * @param sourceCountry name of the source country
+	 * @param destinationCountry name of the destination country
+	 * @param sourceArmies number of source country armies
+	 * @param destinationArmy number of destination country armies
+	 */
 	private void forfeit(String sourceCountry, String destinationCountry, int sourceArmies, int destinationArmy) {
 		int count = 0;
 		for (Country country : this.map.countries) {

@@ -14,15 +14,39 @@ import util.Util;
 import view.CardExchange;
 import view.ComputerCardExchange;
 
+
+/**
+ * Class Aggressive defines the strategy for aggressive player
+ *
+ * @author Maqsood
+ * @version 1.2
+ * @since 1.2
+ */
+
 public class Aggressive extends Observable implements Strategy {
 
+	/**
+	 * map is an object ofm RiskMap class
+	 */
 	RiskMap map;
 
+
+	/**
+	 * player is an object of Player class
+	 */
 	Player player;
 	
 
 	ArrayList<Player> players;
 
+	/**
+	 * Reinforcement method for aggressive strategy
+	 *
+	 * @param player is an object of Player class
+	 * @param map loads the map editor
+	 * @return an object of Player class
+	 * @throws  Exception if an exception occurs
+	 */
 	@Override
 	public Player reinforcement(Player player, RiskMap map) throws Exception {
 		ComputerCardExchange cardExchange = new ComputerCardExchange(player);
@@ -40,6 +64,13 @@ public class Aggressive extends Observable implements Strategy {
 		return null;
 	}
 
+
+	/**
+	 * Attack method for aggressive strategy
+	 * @param player is an object of Player class
+	 * @param mapPlayer is an object of Player
+	 * @return an object of Player
+	 */
 	@Override
 	public Player attack(Player player, Player mapPlayer) {
 		System.out.println("Player will always attack with their strongest country until it cannot attack anymore");
@@ -146,6 +177,13 @@ public class Aggressive extends Observable implements Strategy {
 		return null;
 	}
 
+	/***
+	 * Fortification method for aggressive strategy
+	 *
+	 * @param player is an object of Player class
+	 * @param map is an object of RiskMap
+	 * @return an object of Player
+	 */
 	@Override
 	public Player fortification(Player player, RiskMap map) {
 		// find country with the most armies and
@@ -199,6 +237,14 @@ public class Aggressive extends Observable implements Strategy {
 		return null;
 	}
 
+
+	/**
+	 * DeployArmies method for aggressive strategy
+	 *
+	 * @param player is an object of Player
+	 * @param map loads the map editor
+	 * @return an object of Player
+	 */
 	@Override
 	public Player deployArmies(Player player, RiskMap map) {
 		this.map = map;
@@ -232,6 +278,13 @@ public class Aggressive extends Observable implements Strategy {
 
 	}
 
+	/**
+	 * Method to retrieve the country the player is associated with.
+	 *
+	 * @param playerCountry is an object of Country
+	 * @param mapCountries is an arraylist for Country
+	 * @return an object of Country
+	 */
 	private Country getPlayerCountry(String playerCountry, ArrayList<Country> mapCountries) {
 		Country returnCountry = null;
 		for (Country country : mapCountries) {
@@ -243,6 +296,12 @@ public class Aggressive extends Observable implements Strategy {
 		return returnCountry;
 	}
 
+	/**
+	 * Method to retrieve the country based on army
+	 *
+	 * @param playerCountries is an arraylist of countries
+	 * @return an arraylist of countries owned by player
+	 */
 	private ArrayList<String> getSortedCountryListBasedOnArmy(ArrayList<String> playerCountries) {
 
 		ArrayList<String> sortedCountryList = playerCountries;
@@ -260,6 +319,12 @@ public class Aggressive extends Observable implements Strategy {
 		return sortedCountryList;
 	}
 
+	/**
+	 * Method to get source country
+	 *
+	 * @param destinationCountry is a String varible
+	 * @return the source country of the player
+	 */
 	private String getSourceCountry(String destinationCountry) {
 		String sourceCountry = "";
 		ArrayList<String> neighbours = this.map.adjCountries.get(destinationCountry);
@@ -282,6 +347,13 @@ public class Aggressive extends Observable implements Strategy {
 		return sourceCountry;
 	}
 
+	/**
+	 * Method used to implement forfeit technique
+	 * @param sourceCountry is a string variable
+	 * @param destinationCountry is a string variable
+	 * @param sourceArmies is an inetger value denoting the number of armies a player owns
+	 * @param destinationArmy is an integer value denoting the number of armies a player moves
+	 */
 	private void forfeit(String sourceCountry, String destinationCountry, int sourceArmies, int destinationArmy) {
 		int count = 0;
 		for (Country country : this.map.countries) {
@@ -299,6 +371,12 @@ public class Aggressive extends Observable implements Strategy {
 		}
 	}
 
+	/**
+	 * Method to check whether a neighbouring country is owned by a player
+	 *
+	 * @param neighbourCountryName is a String variable
+	 * @return a boolean value denoting the ownership of neighbouring country
+	 */
 	private boolean isNeighbourCountryOwnedByPlayer(String neighbourCountryName) {
 		if (this.player.getCountries().contains(neighbourCountryName)) {
 			return true;
