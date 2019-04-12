@@ -244,8 +244,8 @@ public class TournamentGamePlay extends Observable {
 		}
 		boolean gameOver = false;
 		int maxTurnsCount=0;
-		if(gameOver || maxTurnsCount<maxTurns) {
-			while (!gameOver || maxTurnsCount<maxTurns) {
+		if(!gameOver && maxTurnsCount<maxTurns) {
+			while (!gameOver && maxTurnsCount<maxTurns) {
 				
 				for (Player player : play.players) {
 					System.out.println("\n**** New Round Begins ****");
@@ -288,10 +288,13 @@ public class TournamentGamePlay extends Observable {
 					player.playerStrategy.fortification(player, play.map);
 
 				}
+				if(gameOver==true) {
+					break;
+				}
 			}
 		}
 
-		if(maxTurns>=maxTurnsCount) {
+		if(maxTurns<maxTurnsCount) {
 			gamePlay.setDraw(true);
 		}
 		

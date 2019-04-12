@@ -12,7 +12,6 @@ public class Tournament {
 	
 	String mapName;
 	
-	
 
 	public Tournament(int gameNumber, boolean isDraw, Player winner, String mapName) {
 		super();

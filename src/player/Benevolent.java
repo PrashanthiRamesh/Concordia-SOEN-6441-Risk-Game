@@ -20,6 +20,8 @@ public class Benevolent extends Observable implements Strategy {
 
 	Player player;
 
+	ArrayList<Player> players;
+
 	@Override
 	public Player reinforcement(Player player, RiskMap map) throws Exception {
 		ComputerCardExchange cardExchange = new ComputerCardExchange(player);
@@ -39,7 +41,14 @@ public class Benevolent extends Observable implements Strategy {
 
 	@Override
 	public Player attack(Player player, Player mapPlayer) {
+		System.out.println("Player armies will be doubled in all the countries they own");
+		this.map = mapPlayer.map;
+		this.player = player;
+		this.players = mapPlayer.players;
+		int playerArmies = player.getArmies();
+		ArrayList<Country> countries = map.getCountries();
 		System.out.println("\n***** Benevolent Player- I don't attack *****\n");
+		updateIfPlayerWon();
 		return null;
 	}
 
@@ -51,47 +60,77 @@ public class Benevolent extends Observable implements Strategy {
 		int playerArmies = player.getArmies();
 		ArrayList<String> playerCountries = player.getCountries();
 		ArrayList<Country> countries = map.getCountries();
-
-		// sort player countries in ascending order
-		ArrayList<String> sortedPlayerCountries = getSortedCountryListBasedOnArmy(playerCountries);
-		String destinationCountryName = "";
-		String sourceCountryName = "";
-		boolean forfeit = false;
+		int c = 0;
+		
 		System.out.println("\nCountries you own: " + playerCountries);
-		for (Country country : countries) {
-			if (playerCountries.contains(country.getCountryName())) {
-				System.out.println("Country " + country.getCountryName() + " has " + country.getArmies() + " armies");
+		boolean canForfeit = false;
+		// TODO
+		// iterate tru player countries and find neighbours
+		// check if neighbouts are his and is armies are >0
+		// increment counter
+
+		for (String playerCountryName : playerCountries) {
+			Country playerCountry = getPlayerCountry(playerCountryName, this.map.getCountries());
+			ArrayList<String> neighbours = this.map.adjCountries.get(playerCountryName);
+			for (String neighbour : neighbours) {
+				if (getPlayerCountry(neighbour, this.map.getCountries()).getArmies() > 0
+						&& isNeighbourCountryOwnedByPlayer(neighbour)) {
+					c++;
+				}
 			}
-		}
-		for (int i = 0; i < sortedPlayerCountries.size() - 1; i++) {
-			destinationCountryName = sortedPlayerCountries.get(i);
-			Country desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
-			sourceCountryName = getSourceCountry(destinationCountryName);
-			if (sourceCountryName != "" && desCountry.getArmies() > -1) {
-				Country sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
-				int toSetForSourceCountry = 0;
-				int toSetForDesCountry = sourceCountry.getArmies() + desCountry.getArmies();
-				System.out.println("** Before moving armies **\n");
-				System.out.println(
-						"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
-				System.out.println(
-						"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
-				forfeit(destinationCountryName, sourceCountryName, toSetForDesCountry, toSetForSourceCountry);
-				sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
-				desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
-				System.out.println("** After moving armies **\n");
-				System.out.println(
-						"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
-				System.out.println(
-						"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
-				forfeit = true;
+			if (c > 2) {
 				break;
 			}
-		}
-		if (!forfeit) {
-			System.out.println("\n## No Valid move for the benevolent player ##\n");
-		}
 
+		}
+		if (c >= 2) {
+			canForfeit = true;
+		}
+		if (canForfeit) {
+			// sort player countries in ascending order
+			ArrayList<String> sortedPlayerCountries = getSortedCountryListBasedOnArmy(playerCountries);
+			String destinationCountryName = "";
+			String sourceCountryName = "";
+			boolean forfeit = false;
+			System.out.println("\nCountries you own: " + playerCountries);
+			for (Country country : countries) {
+				if (playerCountries.contains(country.getCountryName())) {
+					System.out
+							.println("Country " + country.getCountryName() + " has " + country.getArmies() + " armies");
+				}
+			}
+			for (int i = 0; i < sortedPlayerCountries.size() - 1; i++) {
+				destinationCountryName = sortedPlayerCountries.get(i);
+				Country desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
+				sourceCountryName = getSourceCountry(destinationCountryName);
+				if (sourceCountryName != "" && desCountry.getArmies() > -1) {
+					Country sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
+					int toSetForSourceCountry = 0;
+					int toSetForDesCountry = sourceCountry.getArmies() + desCountry.getArmies();
+					System.out.println("** Before moving armies **\n");
+					System.out.println(
+							"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
+					System.out.println(
+							"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
+					forfeit(destinationCountryName, sourceCountryName, toSetForDesCountry, toSetForSourceCountry);
+					sourceCountry = getPlayerCountry(sourceCountryName, this.map.countries);
+					desCountry = getPlayerCountry(destinationCountryName, this.map.countries);
+					System.out.println("** After moving armies **\n");
+					System.out.println(
+							"No of armies in country " + sourceCountryName + " (from): " + sourceCountry.getArmies());
+					System.out.println(
+							"No of armies in country " + destinationCountryName + " (to): " + desCountry.getArmies());
+					forfeit = true;
+					break;
+				}
+			}
+			if (!forfeit) {
+				System.out.println("\n## No Valid move for the benevolent player ##\n");
+			}
+		}else {
+			System.out.println("\n## No Valid move for the benevolent player ##\n");
+			
+		}
 		// do the opposite for benevolent
 		return null;
 	}
@@ -114,16 +153,17 @@ public class Benevolent extends Observable implements Strategy {
 				countryToPlaceArmies = armyCountry;
 			}
 		}
-		if(countryToPlaceArmies!=null) {
+		if (countryToPlaceArmies != null) {
 			int countryNoArmies = countryToPlaceArmies.getArmies();
 			countryToPlaceArmies.setArmies(countryNoArmies + playerArmies);
-			System.out.println("You have successfully placed armies and reinforced your weakest country= "+countryToPlaceArmies.getCountryName());
+			System.out.println("You have successfully placed armies and reinforced your weakest country= "
+					+ countryToPlaceArmies.getCountryName());
 			System.out.println(map.getCountries());
 			player.setArmies(0);
-		}else {
+		} else {
 			System.out.println("No Valid Reinforcement move!");
 		}
-		
+
 		return null;
 	}
 
@@ -144,10 +184,10 @@ public class Benevolent extends Observable implements Strategy {
 
 		for (int i = 0; i < sortedCountryList.size(); i++) {
 			int iarmies = getPlayerCountry(sortedCountryList.get(i), this.map.getCountries()).getArmies();
-			for (int j = i+1; j < sortedCountryList.size() ; j++) {
-				int jarmies = getPlayerCountry(sortedCountryList.get(j ), this.map.getCountries()).getArmies();
+			for (int j = i + 1; j < sortedCountryList.size(); j++) {
+				int jarmies = getPlayerCountry(sortedCountryList.get(j), this.map.getCountries()).getArmies();
 				if (jarmies < iarmies) {
-					Collections.swap(sortedCountryList, i, j );
+					Collections.swap(sortedCountryList, i, j);
 				}
 			}
 		}
@@ -198,4 +238,9 @@ public class Benevolent extends Observable implements Strategy {
 		return false;
 	}
 
+	private void updateIfPlayerWon() {
+		if (this.player.getCountries().size() == this.map.countries.size()) {
+			this.player.setWinner(true);
+		}
+	}
 }

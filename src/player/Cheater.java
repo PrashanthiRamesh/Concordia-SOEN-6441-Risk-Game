@@ -61,18 +61,49 @@ public class Cheater extends Observable implements Strategy {
 		System.out.println("Player armies will be doubled in all the countries they own in which there are neighbours that is owned by different player");
 		this.map = map;
 		this.player=player;
-		for(String playerCountryName:this.player.getCountries()) {
+		int c = 0;
+		ArrayList<String> playerCountries=player.getCountries();
+		
+		System.out.println("\nCountries you own: " + playerCountries);
+		boolean canForfeit = false;
+		//TODO
+		//iterate tru player countries and find neighbours 
+		// check if neighbouts are his and is armies are >0 
+		//increment counter
+		
+		for(String playerCountryName:playerCountries) {
+			Country playerCountry=getPlayerCountry(playerCountryName, this.map.getCountries());
 			ArrayList<String> neighbours = this.map.adjCountries.get(playerCountryName);
-			for (int i = 0; i < neighbours.size() - 1; i++) {
-				//int neighbourArmies = getPlayerCountry(neighbours.get(i), this.map.countries).getArmies();
-				if (!isNeighbourCountryOwnedByPlayer(neighbours.get(i))) {
-					Country country=getPlayerCountry(playerCountryName, this.map.countries);
-					System.out.print(playerCountryName+" armies increased from "+country.getArmies()+" to ");
-					country.setArmies(country.getArmies()*2);
-					System.out.println(country.getArmies());
+			for(String neighbour:neighbours) {
+				if(getPlayerCountry(neighbour, this.map.getCountries()).getArmies()>0 && isNeighbourCountryOwnedByPlayer(neighbour)) {
+					c++;
 				}
 			}
+			if(c>2) {
+				break;
+			}
+			
 		}
+		if (c >= 2) {
+			canForfeit = true;
+		}
+		if(canForfeit) {
+			for(String playerCountryName:this.player.getCountries()) {
+				ArrayList<String> neighbours = this.map.adjCountries.get(playerCountryName);
+				for (int i = 0; i < neighbours.size() - 1; i++) {
+					//int neighbourArmies = getPlayerCountry(neighbours.get(i), this.map.countries).getArmies();
+					if (!isNeighbourCountryOwnedByPlayer(neighbours.get(i))) {
+						Country country=getPlayerCountry(playerCountryName, this.map.countries);
+						System.out.print(playerCountryName+" armies increased from "+country.getArmies()+" to ");
+						country.setArmies(country.getArmies()*2);
+						System.out.println(country.getArmies());
+					}
+				}
+			}
+		}else {
+			System.out.println("Cheater cannot forfeit anymore!");
+		}
+		
 		return null;
 	}
 

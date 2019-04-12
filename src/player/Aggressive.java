@@ -19,6 +19,9 @@ public class Aggressive extends Observable implements Strategy {
 	RiskMap map;
 
 	Player player;
+	
+
+	ArrayList<Player> players;
 
 	@Override
 	public Player reinforcement(Player player, RiskMap map) throws Exception {
@@ -39,167 +42,108 @@ public class Aggressive extends Observable implements Strategy {
 
 	@Override
 	public Player attack(Player player, Player mapPlayer) {
-//		this.map=mapPlayer.map;
-//        int attackerWinCount=0;
-//        attackcontinue:
-//        while (true) {
-//        	ArrayList<Country> countriescopy = mapPlayer.map.getCountries();
-//        	 ArrayList<String> playerCountries = player.getCountries();
-//            int attackerArmies = 0;
-//            int defenderArmies = 0;
-//            String defendingcountry;
-//            String attackingcountry;
-//            int attackerDice = 0;
-//            int defenderDice = 0;
-//            ZeroArmy:
-//            while (true) {
-//        	boolean tempBool=true;
-//           
-//        	while (true) {
-//
-//                defenderDice = player.getDefenderDice(defenderArmies);
-//                attackerDice = player.getAttackerDice(attackerArmies,tempBool);
-//        
-//                Integer[] attackerRandomNumbers = new Integer[attackerDice];
-//                Integer[] defenderRandomNumbers = new Integer[defenderDice];
-//
-//                for (int i = 0; i < attackerDice; i++) {
-//                    attackerRandomNumbers[i] = Util.randInt(1, 6);
-//                }
-//                for (int i = 0; i < defenderDice; i++) {
-//                    defenderRandomNumbers[i] = Util.randInt(1, 6);
-//                }
-//                Arrays.sort(attackerRandomNumbers, Collections.reverseOrder());
-//                Arrays.sort(defenderRandomNumbers, Collections.reverseOrder());
-//
-//                System.out.println("Dice Rolled!!!");
-//                System.out.println("Attacker's Dice");
-//                for (int i = 0; i < attackerDice; i++) {
-//                    System.out.print(attackerRandomNumbers[i] + " ");
-//                }
-//                System.out.println();
-//                System.out.println("Defenders Dice");
-//                for (int i = 0; i < defenderDice; i++) {
-//                    System.out.print(defenderRandomNumbers[i] + " ");
-//                }
-//                System.out.println();
-//                if (attackerDice < defenderDice) {
-//                    for (int i = 0; i < attackerDice; i++) {
-//                        if (attackerRandomNumbers[i] <= defenderRandomNumbers[i]) {
-//                            attackerArmies--;
-//                        } else {
-//                            defenderArmies--;
-//                        }
-//                    }
-//                } else {
-//                    for (int i = 0; i < defenderDice; i++) {
-//                        if (attackerRandomNumbers[i] <= defenderRandomNumbers[i]) {
-//                            attackerArmies--;
-//                        } else {
-//                            defenderArmies--;
-//                        }
-//                    }
-//                }
-//
-//                if (attackerArmies == 0) {
-//                    System.out.println("Defender has Won");
-//                    for (int i = 0; i < countriescopy.size(); i++) {
-//                        if (player.isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
-//                            mapPlayer.map.getCountries().get(i).setArmies(defenderArmies);
-//
-//
-//                        }
-//                    }
-//
-//                    for (int i = 0; i < countriescopy.size(); i++) {
-//                        if (player.isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
-//                            mapPlayer.map.countries.get(i).setArmies(0);
-//
-//                        }
-//                    }
-//
-//                    break;
-//                } else if (defenderArmies == -1) {
-//                    System.out.println("You Won");
-//                    attackerArmies--;
-//
-//                    if (attackerArmies > 1) {
-//                        System.out.println("You Have " + attackerArmies + " Left");
-//                        System.out.println("Enter the Number of armies you want to leave behind from the territory you came");
-//                        player.moveAfterConquering(player, mapPlayer.map, countriescopy, playerCountries, attackerArmies, defendingcountry, attackingcountry, attackerArmies);
-//
-//                    } else if (attackerArmies == 1) {
-//                        for (int i = 0; i < countriescopy.size(); i++) {
-//                            if (player.isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
-//                                mapPlayer.map.countries.get(i).setArmies(1);
-//                                mapPlayer.map.countries.get(i).setBelongsTo(player.getPlayerName());
-//                            }
-//                        }
-//
-//                        for (int i = 0; i < countriescopy.size(); i++) {
-//                            if (player.isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
-//                                mapPlayer.map.countries.get(i).setArmies(0);
-//                                mapPlayer.map.countries.get(i).setBelongsTo(player.getPlayerName());
-//
-//                            }
-//                        }
-//                    } else {
-//                        for (int i = 0; i < countriescopy.size(); i++) {
-//                            if (player.isCountryNameEquals(defendingcountry, countriescopy.get(i))) {
-//                                mapPlayer.map.countries.get(i).setArmies(0);
-//                                mapPlayer.map.countries.get(i).setBelongsTo(player.getPlayerName());
-//                            }
-//                        }
-//                        for (int i = 0; i < countriescopy.size(); i++) {
-//                            if (player.isCountryNameEquals(attackingcountry, countriescopy.get(i))) {
-//                                mapPlayer.map.countries.get(i).setArmies(0);
-//                                mapPlayer.map.countries.get(i).setBelongsTo(player.getPlayerName());
-//                            }
-//                        }
-//                    }
-//
-//                    attackerWinCount++;
-//                    break;
-//                }
-//              
-//
-//
-//            }
-//
-//            int armiesLeft = 0;
-//            for (int i = 0; i < countriescopy.size(); i++) {
-//                if (countriescopy.get(i).getBelongsTo().equals(player.getPlayerName())) {
-//                    armiesLeft++;
-//                }
-//            }
-//            if (countriescopy.size() == armiesLeft) {
-//                System.out.println("You Won Please the collect the reward from the TA :)");
-//                System.exit(0);
-//            }
-//
-//            armiesLeft = 0;
-//            armiesLeft = player.getArmiesLeftForPlayer(player, countriescopy, armiesLeft);
-//            if (armiesLeft < 1) {
-//                System.out.println("Attack Not Possible No Armies Left");
-//
-//                break attackcontinue;
-//            }
-//
-//            System.out.println("Do You Want to Continue the Attack \n Yes or No ?");
-//
-//            //if(there are neighbours that are not his then continue)
-//            if (response.equals("Yes")) {
-//                continue attackcontinue;
-//            } else if (response.equals("No")) {
-//                break attackcontinue;
-//            }
-//
-//        }
-//        if(attackerWinCount>0) {
-//        	player.assignCardsToWinner(player);
-//        }
-//        }
-	return null;
+		System.out.println("Player will always attack with their strongest country until it cannot attack anymore");
+		this.map = mapPlayer.map;
+		this.player=player;
+		this.players=mapPlayer.players;
+		int playerArmies = player.getArmies();
+		ArrayList<Country> countries = map.getCountries();
+		
+		//get strongest country
+		ArrayList<String> sortedPlayerCountries = getSortedCountryListBasedOnArmy(player.getCountries());
+		Country strongestCountry=getPlayerCountry(sortedPlayerCountries.get(0), this.map.getCountries());
+		//get neighbours of strongest country that are not the player's
+		ArrayList<String> neighbours = this.map.adjCountries.get(strongestCountry.getCountryName());
+		ArrayList<String> strongestCountryNeighbours=new ArrayList<String>();
+		for(String neighbour:neighbours) {
+			if(!isNeighbourCountryOwnedByPlayer(neighbour)) {
+				strongestCountryNeighbours.add(neighbour);
+			}
+		}
+		 int attackerWinCount=0;
+		for(String strongCountryNeighbour:strongestCountryNeighbours) {
+			int defenderArmies= (getPlayerCountry(strongCountryNeighbour, this.map.countries)).getArmies();
+			int attackerArmies=(strongestCountry).getArmies();
+			
+			while (true) {
+				ArrayList<Country> countriescopy=this.map.getCountries();
+				int defenderDice = player.getDefenderDice(defenderArmies);
+				int attackerDice = player.getAttackerDice(attackerArmies, true);
+
+				Integer[] attackerRandomNumbers = new Integer[attackerDice];
+				Integer[] defenderRandomNumbers = new Integer[defenderDice];
+
+				for (int i = 0; i < attackerDice; i++) {
+					attackerRandomNumbers[i] = Util.randInt(1, 6);
+				}
+				for (int i = 0; i < defenderDice; i++) {
+					defenderRandomNumbers[i] = Util.randInt(1, 6);
+				}
+				Arrays.sort(attackerRandomNumbers, Collections.reverseOrder());
+				Arrays.sort(defenderRandomNumbers, Collections.reverseOrder());
+
+				System.out.println("Dice Rolled!!!");
+				System.out.println("Attacker's Dice");
+				for (int i = 0; i < attackerDice; i++) {
+					System.out.print(attackerRandomNumbers[i] + " ");
+				}
+				System.out.println();
+				System.out.println("Defenders Dice");
+				for (int i = 0; i < defenderDice; i++) {
+					System.out.print(defenderRandomNumbers[i] + " ");
+				}
+				System.out.println();
+				if (attackerDice < defenderDice) {
+					for (int i = 0; i < attackerDice; i++) {
+						if (attackerRandomNumbers[i] <= defenderRandomNumbers[i]) {
+							attackerArmies--;
+						} else {
+							defenderArmies--;
+						}
+					}
+				} else {
+					for (int i = 0; i < defenderDice; i++) {
+						if (attackerRandomNumbers[i] <= defenderRandomNumbers[i]) {
+							attackerArmies--;
+						} else {
+							defenderArmies--;
+						}
+					}
+				}
+
+				if (attackerArmies == 0) {
+					System.out.println("Defender has Won");
+					for (int i = 0; i < countriescopy.size(); i++) {
+						if (player.isCountryNameEquals(strongCountryNeighbour, countriescopy.get(i))) {
+							if(defenderArmies<0) {
+								defenderArmies=0;
+							}
+							mapPlayer.map.getCountries().get(i).setArmies(defenderArmies);
+
+						}
+					}
+
+					for (int i = 0; i < countriescopy.size(); i++) {
+						if (player.isCountryNameEquals(strongestCountry.getCountryName(), countriescopy.get(i))) {
+							mapPlayer.map.countries.get(i).setArmies(0);
+
+						}
+					}
+
+					break;
+				} else if (defenderArmies == -1) {
+					System.out.println("You Won");
+					attackerArmies--;
+					attackerWinCount++;
+					break;
+				}
+			}
+		}
+		if(attackerWinCount>0) {
+        	player.assignCardsToWinner(player);
+        }
+		updateIfPlayerWon();
+		return null;
 	}
 
 	@Override
@@ -211,7 +155,7 @@ public class Aggressive extends Observable implements Strategy {
 		ArrayList<String> playerCountries = player.getCountries();
 		ArrayList<Country> countries = map.getCountries();
 
-		// sort player countries in ascending order
+		// sort player countries in descending order
 		ArrayList<String> sortedPlayerCountries = getSortedCountryListBasedOnArmy(playerCountries);
 		String destinationCountryName = "";
 		String sourceCountryName = "";
@@ -273,18 +217,19 @@ public class Aggressive extends Observable implements Strategy {
 				countryToPlaceArmies = armyCountry;
 			}
 		}
-		if(countryToPlaceArmies!=null) {
+		if (countryToPlaceArmies != null) {
 			int countryNoArmies = countryToPlaceArmies.getArmies();
 			countryToPlaceArmies.setArmies(countryNoArmies + playerArmies);
-			System.out.println("You have successfully placed armies and reinforced your strongest country= "+countryToPlaceArmies.getCountryName());
+			System.out.println("You have successfully placed armies and reinforced your strongest country= "
+					+ countryToPlaceArmies.getCountryName());
 			System.out.println(map.getCountries());
 			player.setArmies(0);
 			return null;
-		}else {
+		} else {
 			System.out.println("No Valid Reinforcement move!");
 		}
 		return null;
-		
+
 	}
 
 	private Country getPlayerCountry(String playerCountry, ArrayList<Country> mapCountries) {
@@ -302,12 +247,12 @@ public class Aggressive extends Observable implements Strategy {
 
 		ArrayList<String> sortedCountryList = playerCountries;
 
-		for (int i = 0; i < sortedCountryList.size() ; i++) {
+		for (int i = 0; i < sortedCountryList.size(); i++) {
 			int iarmies = getPlayerCountry(sortedCountryList.get(i), this.map.getCountries()).getArmies();
-			for (int j = i+1; j < sortedCountryList.size() ; j++) {
+			for (int j = i + 1; j < sortedCountryList.size(); j++) {
 				int jarmies = getPlayerCountry(sortedCountryList.get(j), this.map.getCountries()).getArmies();
 				if (jarmies > iarmies) {
-					Collections.swap(sortedCountryList, i, j );
+					Collections.swap(sortedCountryList, i, j);
 				}
 			}
 		}
@@ -319,18 +264,21 @@ public class Aggressive extends Observable implements Strategy {
 		String sourceCountry = "";
 		ArrayList<String> neighbours = this.map.adjCountries.get(destinationCountry);
 		boolean hasNeighbourArmies = false;
-		for (int i = 0; i < neighbours.size() - 1; i++) {
-			int sourceArmies = getPlayerCountry(neighbours.get(i), this.map.countries).getArmies();
-			if (sourceArmies > 0 && isNeighbourCountryOwnedByPlayer(neighbours.get(i))) {
-				sourceCountry = neighbours.get(i);
-				for (int j = 0; j < neighbours.size() - i - 1; j++) {
-					if (getPlayerCountry(neighbours.get(j + 1), this.map.countries).getArmies() > sourceArmies) {
-						sourceCountry = neighbours.get(j + 1);
+		if (neighbours.size() > 0) {
+			for (int i = 0; i < neighbours.size() - 1; i++) {
+				int sourceArmies = getPlayerCountry(neighbours.get(i), this.map.countries).getArmies();
+				if (sourceArmies > 0 && isNeighbourCountryOwnedByPlayer(neighbours.get(i))) {
+					sourceCountry = neighbours.get(i);
+					for (int j = 0; j < neighbours.size() - i - 1; j++) {
+						if (getPlayerCountry(neighbours.get(j + 1), this.map.countries).getArmies() > sourceArmies) {
+							sourceCountry = neighbours.get(j + 1);
+						}
 					}
+					break;
 				}
-				break;
 			}
 		}
+
 		return sourceCountry;
 	}
 
@@ -356,6 +304,12 @@ public class Aggressive extends Observable implements Strategy {
 			return true;
 		}
 		return false;
+	}
+	
+	private void updateIfPlayerWon() {
+		if(this.player.getCountries().size()==this.map.countries.size()) {
+			this.player.setWinner(true);
+		}
 	}
 
 }
