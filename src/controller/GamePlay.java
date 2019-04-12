@@ -27,7 +27,7 @@ import view.Phase;
  *
  * @author Prashanthi
  * @author Suthakhar
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 public class GamePlay extends Observable {
@@ -201,7 +201,7 @@ public class GamePlay extends Observable {
 	 * 
 	 * @param gamePlay
 	 *            instance of game
-	 * @throws Exception
+	 * @throws Exception when an exception occurs
 	 */
 	public void start(GamePlay gamePlay) throws Exception {
 		System.out.println("\n**** Game has started ****");

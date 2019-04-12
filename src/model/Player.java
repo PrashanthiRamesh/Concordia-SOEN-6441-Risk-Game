@@ -20,7 +20,7 @@ import util.Util;
  * Player Class represents a player
  *
  * @author Manasa
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 public class Player extends Observable {
@@ -529,6 +529,7 @@ public class Player extends Observable {
 	 * armies he owns in the country
 	 * 
 	 * @param attackerArmies number of attacking armies
+     * @param attackmode the mode of attack
 	 * @return number of roll of dice for attacker
 	 */
 	public int getAttackerDice(int attackerArmies, boolean attackmode) {
@@ -808,6 +809,7 @@ public class Player extends Observable {
 	 * This method will execute the attack method from the PlayerStrategy interface
 	 * 
 	 * @param player player object
+     * @param mapPlayer mapPlayer object
 	 */
 	public void executeAttack(Player player, Player mapPlayer) {
 		this.playerStrategy.attack(player, mapPlayer);
@@ -818,6 +820,7 @@ public class Player extends Observable {
 	 * interface
 	 * 
 	 * @param player object of Player class
+	 * @param map object of RiskMap class
 	 * @throws Exception if there is an error
 	 */
 	public void executeReinforcement(Player player, RiskMap map) throws Exception {

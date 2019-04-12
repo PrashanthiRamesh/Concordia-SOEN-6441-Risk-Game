@@ -13,7 +13,7 @@ import java.util.Scanner;
  *
  * @author Prashanthi
  * @author Mutesham
- * @version 1.1
+ * @version 1.2
  * @since 1.1
  */
 public class CardExchange implements Observer {

@@ -18,7 +18,7 @@ import java.util.Scanner;
  * Driver Class to initiate the game
  *
  * @author Prashanthi
- * @version 1.1
+ * @version 1.2
  * @since 1.0
  */
 public class Driver {
@@ -54,7 +54,7 @@ public class Driver {
 	 * 
 	 * @param args
 	 *            command line arguments
-	 * @throws Exception 
+	 * @throws Exception when exception occurs
 	 */
 	public static void main(String[] args) throws Exception {
 		(new Driver()).startGame();

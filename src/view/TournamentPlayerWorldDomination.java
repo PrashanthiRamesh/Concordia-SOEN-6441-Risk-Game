@@ -11,7 +11,7 @@ import java.util.Observer;
  * CardExchange represents the observer pattern of card exchange during reinforcement phase
  *
  * @author Prashanthi
- * @version 1.1
+ * @version 1.2
  * @since 1.1
  */
 public class TournamentPlayerWorldDomination implements Observer {

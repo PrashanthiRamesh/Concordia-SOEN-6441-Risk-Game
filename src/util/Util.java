@@ -7,7 +7,7 @@ import java.util.Random;
  * Utilities Class to hold common static method(s) for easy access
  *
  * @author Suthakhar
- * @version 1.1
+ * @version 1.2
  * @since 1.1
  */
 public class Util {

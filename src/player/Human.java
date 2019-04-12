@@ -12,6 +12,13 @@ import model.Player;
 import model.RiskMap;
 import util.Util;
 import view.CardExchange;
+/**
+ * Class Human defines the strategy for Human player
+ *
+ * @author Manasa
+ * @version 1.2
+ * @since 1.2
+ */
 
 public class Human extends Observable implements Strategy {
 	
@@ -22,6 +29,13 @@ public class Human extends Observable implements Strategy {
      */
     private static Scanner scanner = new Scanner(System.in);
 
+	/**
+	 * Reinforcement phase for human strategy
+	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass the map object where the map is loaded
+	 * @return null
+	 * @throws Exception when an exception occurs
+	 */
 	@Override
 	public Player reinforcement(Player player, RiskMap map) throws Exception {
 	    CardExchange cardExchange=new CardExchange(player);
@@ -39,6 +53,12 @@ public class Human extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Attack phase for human strategy
+	 * @param player We pass the player object who is currently playing the game.
+	 * @param mapPlayer We pass the mapPlayer object
+	 * @return null
+	 */
 	@Override
 	public Player attack(Player player, Player mapPlayer) {
 		 	this.map=mapPlayer.map;
@@ -302,6 +322,12 @@ public class Human extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Fortification phase for the human strategy
+	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass the map object in which map is loaded
+	 * @return null
+	 */
 	@Override
 	public Player fortification(Player player, RiskMap map) {
 		    this.map = map;
@@ -390,6 +416,12 @@ public class Human extends Observable implements Strategy {
 		return null;
 	}
 
+	/**
+	 * Method where the armies are deployed for the player's countries
+	 * @param player We pass the player object who is currently playing the game.
+	 * @param map We pass the map object in which map is loaded
+	 * @return null
+	 */
 	@Override
 	public Player deployArmies(Player player, RiskMap map) {
 		    this.map=map;
